@@ -1,0 +1,11 @@
+<div class="sideBar">
+    <div *ngFor="let option of options">
+        <h3>
+            <a [title]="option.name + 'details'"
+            [routerLink]="['/mainMenu']">
+                {{ option.name }}
+            </a>
+        </h3>
+    </div>
+
+</div>

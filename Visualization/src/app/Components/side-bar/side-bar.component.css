@@ -1,0 +1,30 @@
+app-side-bar {
+    width: 185px;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.sideBar {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(190, 190, 190);
+    height: 95vh;
+    padding: 16px;
+    width: 169px;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
