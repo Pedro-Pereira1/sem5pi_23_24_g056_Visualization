@@ -1,15 +1,23 @@
-.title {
-    justify-content: center;
-    display: block;
-    background-color: #e63946;
-    padding: 6px 24px;
-}
-
 .site {
-    height: 85vh;
+    height: 100vh;
 }
 
-.page{
+.title {
+    height: 5%;
+    background-color: #e63946;
+    padding: 6px;
+    padding-bottom: 10px;
+}
+
+.page {
     display: flex;
     height: 100%;
+}
+
+.sideBar {
+    height: 100%;
+}
+
+.content {
+    width: 100vw;
 }

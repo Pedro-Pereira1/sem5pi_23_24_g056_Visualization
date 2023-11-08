@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainMenuComponent } from './Component/main-menu/main-menu.component';
 
 const routes: Routes = [
-  {path: '', component: MainMenuComponent},
+
 ];
 
 @NgModule({
