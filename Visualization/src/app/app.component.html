@@ -1,17 +1,5 @@
-<div class="site">
-    <div class=" title">
-        <h1>RobDroneGo</h1>
-    </div>
-
-    <div class="page">
-        <div class="sideBar">
-            <app-side-bar></app-side-bar>
-        </div>
-
-        <div class="content">
-            <app-main-menu></app-main-menu>
-        </div>
-    </div>
-</div>
-
-<router-outlet></router-outlet>
+<app-sidenav>(onToggleSideNav)="onToggleSideNav($event)"</app-sidenav>
+><app-body>
+    [collapsed]="isSideNavCollapsed"
+    [screenWidth]="screenWidth"
+</app-body>
