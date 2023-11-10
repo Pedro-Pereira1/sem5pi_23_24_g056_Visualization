@@ -14,6 +14,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { ElevatorsComponent } from './elevators/elevators.component';
 import { RobotTypesComponent } from './robot-types/robot-types.component';
 import { View3dComponent } from './view3d/view3d.component';
+import { ShortestPathComponent } from './shortest-path/shortest-path.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { View3dComponent } from './view3d/view3d.component';
     RoomsComponent,
     ElevatorsComponent,
     RobotTypesComponent,
-    View3dComponent
+    View3dComponent,
+    ShortestPathComponent
   ],
   imports: [
     BrowserModule,

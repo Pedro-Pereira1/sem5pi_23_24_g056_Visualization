@@ -56,4 +56,9 @@ export const navbarData: INavbarData[] = [
         icon: 'fal fa-cubes',
         label: '3D View'
     },
+    {
+        routerLink: 'shortest-path',
+        icon: 'fal fa-ruler',
+        label: 'Shortest Path'
+    }
 ];
