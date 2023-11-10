@@ -18,6 +18,14 @@ export const navbarData: INavbarData[] = [
         {
             routerLink: 'buildings/editBuilding',
             label: 'Edit Building'
+        },
+        {
+            routerLink: 'buildings/listAllBuildings',
+            label: 'List All Buildings'
+        },
+        {
+            routerLink: 'buildings/listBuildingsMaxMinFloors',
+            label: 'List Buildings by Max Min Floors'
         }
         ]
     },
