@@ -51,4 +51,9 @@ export const navbarData: INavbarData[] = [
         icon: 'fal fa-robot',
         label: 'Robots'
     },
+    {
+        routerLink: 'view3d',
+        icon: 'fal fa-cubes',
+        label: '3D View'
+    },
 ];

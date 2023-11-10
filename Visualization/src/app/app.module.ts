@@ -13,6 +13,7 @@ import { PassagewaysComponent } from './passageways/passageways.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { ElevatorsComponent } from './elevators/elevators.component';
 import { RobotTypesComponent } from './robot-types/robot-types.component';
+import { View3dComponent } from './view3d/view3d.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RobotTypesComponent } from './robot-types/robot-types.component';
     PassagewaysComponent,
     RoomsComponent,
     ElevatorsComponent,
-    RobotTypesComponent
+    RobotTypesComponent,
+    View3dComponent
   ],
   imports: [
     BrowserModule,

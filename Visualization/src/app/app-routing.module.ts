@@ -8,6 +8,7 @@ import { FloorsComponent } from './floors/floors.component';
 import { PassagewaysComponent } from './passageways/passageways.component';
 import { ElevatorsComponent } from './elevators/elevators.component';
 import { RoomsComponent } from './rooms/rooms.component';
+import { View3dComponent } from './view3d/view3d.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: 'elevators',component:ElevatorsComponent},
   {path: 'rooms',component:RoomsComponent},
   {path: 'robot-types',component: RobotTypesComponent},
-  {path: 'robots', component: RobotsComponent}
+  {path: 'robots', component: RobotsComponent},
+  {path: 'view3d', component: View3dComponent}
 ];
 
 @NgModule({
