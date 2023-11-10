@@ -16,8 +16,8 @@ export const navbarData: INavbarData[] = [
             label: 'Create Building'
         },
         {
-            routerLink: 'buildings/buildingList',
-            label: 'Building List'
+            routerLink: 'buildings/editBuilding',
+            label: 'Edit Building'
         }
         ]
     },

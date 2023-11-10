@@ -2,6 +2,7 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
 import { navbarData } from './nav-data';
 import { trigger, transition, style, animate, keyframes } from '@angular/animations';
 import { INavbarData, fadeInOut } from './helper';
+import { Router } from '@angular/router';
 
 
 interface SideNavToggle{
@@ -37,14 +38,15 @@ export class SidenavComponent implements OnInit{
   multiple:boolean = false;
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
+  onResize(event: any){
     this.screenWidth = window.innerWidth;
     if (this.screenWidth <= 768) {
       this.collapsed = false;
       this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
     }
-    
   }
+
+  constructor(public router: Router) { }
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
@@ -61,7 +63,6 @@ export class SidenavComponent implements OnInit{
   }
 
   handleClick(item: INavbarData): void {
-    console.log(item);
     if(!this.multiple){
       for(let modelItem of this.navData){
         if(item !== modelItem && modelItem.expanded){
@@ -70,5 +71,11 @@ export class SidenavComponent implements OnInit{
       }
     }
     item.expanded = !item.expanded;
+  }
+
+
+
+  getActiveClass(data: INavbarData): string {
+    return this.router.url.includes(data.routerLink) ? 'active' : '';
   }
 }
