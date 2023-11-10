@@ -6,7 +6,8 @@
             <i class="fal fa-times close-icon"></i>
         </button>
     </div>    
-    <ul class="sidenav-nav">
+    <div class="scrollwrap scrollwrap_delayed">
+        <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData">
             <a class="sidenav-nav-link" (click)="handleClick(data)"
                 [routerLink]="[data.routerLink]"
@@ -40,6 +41,6 @@
                 ></app-sublevel-menu>
             </div>            
         </li>
-    </ul>
-
+        </ul>
+    </div>
 </div>
