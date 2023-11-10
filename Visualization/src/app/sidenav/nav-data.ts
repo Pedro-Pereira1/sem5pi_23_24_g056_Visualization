@@ -32,7 +32,25 @@ export const navbarData: INavbarData[] = [
     {
         routerLink: 'floors',
         icon: 'fal fa-map',
-        label: 'Floors'
+        label: 'Floors',
+        items: [
+            {
+                routerLink: 'floors/createFloor',
+                label: 'Create Floor'
+            },
+            {
+                routerLink: 'floors/editFloor',
+                label: 'Edit Floor'
+            },
+            {
+                routerLink: 'floors/listAllFloorsOfBuilding',
+                label: 'List All Floors of Building'
+            },
+            {
+                routerLink: 'floors/listFloorsPassageways',
+                label: 'List Floors Passageways'
+            }
+            ]
     },
     {
         routerLink: 'passageways',
