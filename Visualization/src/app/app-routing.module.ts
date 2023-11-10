@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { RobotTypesComponent } from './robot-types/robot-types.component';
 import { FloorsComponent } from './floors/floors.component';
 import { PassagewaysComponent } from './passageways/passageways.component';
+import { ElevatorsComponent } from './elevators/elevators.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -15,6 +16,7 @@ const routes: Routes = [
   },
   {path: 'floors',component:FloorsComponent},
   {path: 'passageways',component:PassagewaysComponent},
+  {path: 'elevators',component:ElevatorsComponent},
   {path: 'robot-types',component: RobotTypesComponent},
   {path: 'robots', component: RobotsComponent}
 ];
