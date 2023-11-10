@@ -55,7 +55,21 @@ export const navbarData: INavbarData[] = [
     {
         routerLink: 'passageways',
         icon: 'fal fa-road',
-        label: 'Passageways'
+        label: 'Passageways',
+        items: [
+            {
+                routerLink: 'passageways/createPassageway',
+                label: 'Create Passageway'
+            },
+            {
+                routerLink: 'passageways/editPassageway',
+                label: 'Edit Passageway'
+            },
+            {
+                routerLink: 'passageways/list',
+                label: 'List Passageways'
+            }
+            ]
     },
     {
         routerLink: 'elevators',
