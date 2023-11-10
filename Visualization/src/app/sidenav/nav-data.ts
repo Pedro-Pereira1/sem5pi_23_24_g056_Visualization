@@ -22,6 +22,11 @@ export const navbarData: INavbarData[] = [
         ]
     },
     {
+        routerLink: 'robot-types',
+        icon: 'fal fa-wrench',
+        label: 'Robot Types',
+    },
+    {
         routerLink: 'robots',
         icon: 'fal fa-robot',
         label: 'Robots'

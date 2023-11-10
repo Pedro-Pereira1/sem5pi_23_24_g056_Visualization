@@ -8,6 +8,11 @@ import { RobotsComponent } from './robots/robots.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
+import { FloorsComponent } from './floors/floors.component';
+import { PassagewaysComponent } from './passageways/passageways.component';
+import { RoomsComponent } from './rooms/rooms.component';
+import { ElevatorsComponent } from './elevators/elevators.component';
+import { RobotTypesComponent } from './robot-types/robot-types.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +21,12 @@ import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
     SidenavComponent,
     RobotsComponent,
     HomeComponent,
-    SublevelMenuComponent
+    SublevelMenuComponent,
+    FloorsComponent,
+    PassagewaysComponent,
+    RoomsComponent,
+    ElevatorsComponent,
+    RobotTypesComponent
   ],
   imports: [
     BrowserModule,
