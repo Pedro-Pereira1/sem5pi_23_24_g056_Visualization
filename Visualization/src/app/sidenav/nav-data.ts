@@ -93,7 +93,14 @@ export const navbarData: INavbarData[] = [
     {
         routerLink: 'rooms',
         icon: 'fal fa-door-closed',
-        label: 'Rooms'
+        label: 'Rooms',
+        items: [
+            {
+                routerLink: 'rooms/createRoom',
+                label: 'Create Room'
+            }
+            ]
+        
     },
     {
         routerLink: 'robot-types',
