@@ -74,7 +74,21 @@ export const navbarData: INavbarData[] = [
     {
         routerLink: 'elevators',
         icon: 'fal fa-sort-numeric-up-alt',
-        label: 'Elevatrors'
+        label: 'Elevatrors',
+        items: [
+            {
+                routerLink: 'elevators/create',
+                label: 'Create Elevator'
+            },
+            {
+                routerLink: 'elevators/edit',
+                label: 'Edit Elevator'
+            },
+            {
+                routerLink: 'elevators/listInBuilding',
+                label: 'List Elevators'
+            }
+            ]
     },
     {
         routerLink: 'rooms',
