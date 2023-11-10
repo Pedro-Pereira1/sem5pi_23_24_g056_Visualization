@@ -116,7 +116,21 @@ export const navbarData: INavbarData[] = [
     {
         routerLink: 'robots',
         icon: 'fal fa-robot',
-        label: 'Robots'
+        label: 'Robots',
+        items: [
+            {
+                routerLink: 'robots/createRobot',
+                label: 'Create Robot'
+            },
+            {
+                routerLink: 'robots/inhibitRobot',
+                label: 'Inhibit Robot'
+            },
+            {
+                routerLink: 'robots/listAll',
+                label: 'List All Robots'
+            }
+            ]
     },
     {
         routerLink: 'view3d',
