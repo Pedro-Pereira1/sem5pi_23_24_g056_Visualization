@@ -4,6 +4,7 @@ import { BuildingsComponent } from './buildings/buildings.component';
 import { RobotsComponent } from './robots/robots.component';
 import { HomeComponent } from './home/home.component';
 import { RobotTypesComponent } from './robot-types/robot-types.component';
+import { FloorsComponent } from './floors/floors.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'buildings',
     loadChildren: () => import('./buildings/buildings.module').then(m => m.BuildingsModule)
   },
+  {path: 'floors',component:FloorsComponent},
   {path: 'robot-types',component: RobotTypesComponent},
   {path: 'robots', component: RobotsComponent}
 ];
