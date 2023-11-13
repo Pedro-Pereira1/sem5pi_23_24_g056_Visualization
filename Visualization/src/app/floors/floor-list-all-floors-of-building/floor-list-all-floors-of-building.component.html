@@ -1,1 +1,26 @@
 <h1>List All Floors</h1>
+<select [(ngModel)]="id">
+    <option value="">Select a building</option>
+    <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+  </select>
+<button (click)="listAllFloors()">Search</button>
+<div>
+    <table>
+        <thead>
+        <tr class="table100-head">
+        <th class="column1">ID</th>
+        <th class="column2">Number</th>
+        <th class="column3">Description</th>
+        <th class="column4">Map</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let floor of floors">
+            <td class="column1">{{ floor.floorId }}</td>
+            <td class="column2">{{ floor.floorNumber }}</td>
+            <td class="column3">{{ floor.floorDescription }}</td>
+            <td class="column4">{{ floor.floorMap }}</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
