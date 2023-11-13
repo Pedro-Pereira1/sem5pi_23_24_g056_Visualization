@@ -9,6 +9,8 @@ import { HomeComponent } from './home/home.component';
 import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
 import { View3dComponent } from './view3d/view3d.component';
 import { ShortestPathComponent } from './shortest-path/shortest-path.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,7 @@ import { ShortestPathComponent } from './shortest-path/shortest-path.component';
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

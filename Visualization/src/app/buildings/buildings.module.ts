@@ -5,6 +5,10 @@ import { BuildingsComponent } from './buildings.component';
 import { BuildingEditComponent } from './building-edit/building-edit.component';
 import { BuildingListAllComponent } from './building-list-all/building-list-all.component';
 import { BuildingListMaxMinComponent } from './building-list-max-min/building-list-max-min.component';
+import { HttpClientModule } from '@angular/common/http';
+import { BuildingService } from '../services/building.service';
+import { FormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -16,7 +20,10 @@ import { BuildingListMaxMinComponent } from './building-list-max-min/building-li
   ],
   imports: [
     CommonModule,
-    BuildingsRoutingModule
-  ]
+    BuildingsRoutingModule,
+    HttpClientModule,
+    FormsModule
+  ],
+  providers: [BuildingService]
 })
 export class BuildingsModule { }
