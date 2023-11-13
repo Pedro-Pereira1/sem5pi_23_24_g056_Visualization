@@ -5,6 +5,9 @@ import { FloorsComponent } from './floors.component';
 import { FloorEditComponent } from './floor-edit/floor-edit.component';
 import { FloorListAllFloorsOfBuildingComponent } from './floor-list-all-floors-of-building/floor-list-all-floors-of-building.component';
 import { FloorListFloorsPassagewaysComponent } from './floor-list-floors-passageways/floor-list-floors-passageways.component';
+import { FloorService } from '../services/floor.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,7 +19,10 @@ import { FloorListFloorsPassagewaysComponent } from './floor-list-floors-passage
   ],
   imports: [
     CommonModule,
-    FloorsRoutingModule
-  ]
+    FloorsRoutingModule,
+    HttpClientModule,
+    FormsModule
+  ],
+  providers: [FloorService]
 })
 export class FloorsModule { }
