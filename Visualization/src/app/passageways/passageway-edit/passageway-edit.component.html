@@ -1,16 +1,21 @@
 <h1>Edit Passageways</h1>
+
+<form [formGroup]="createForm" (ngSubmit)="onEdit()">
+
 <div class="form__group field">
-  <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-  <label for="name" class="form__label">PassagewayID</label>
+  <input type="number" class="form__field" id='passagewayId' formControlName="passagewayId" required />
+  <label for="passagewayId" class="form__label">PassagewayID</label>
 </div>
 <div class="form__group field">
-  <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-  <label for="name" class="form__label">Floor1ID</label>
+  <input type="number" class="form__field" id='floor1Id' formControlName="floor1Id" required />
+  <label for="floor1Id" class="form__label">Floor1ID</label>
 </div>
+
 <div class="form__group field">
-  <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-  <label for="name" class="form__label">Floor2ID</label>
+  <input type="number" class="form__field" id='floor2Id' formControlName="floor2Id" required />
+  <label for="floor2Id" class="form__label">Floor2ID</label>
 </div>
 <div>
   <button>Edit</button>
 </div>
+</form>
