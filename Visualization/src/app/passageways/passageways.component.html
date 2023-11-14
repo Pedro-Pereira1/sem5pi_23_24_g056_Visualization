@@ -1,1 +1,33 @@
-<h1>Passageways</h1>
+<h1>Create Passageways</h1>
+
+<form [formGroup]="createForm" (ngSubmit)="onCreate()">
+
+  <div class="form__group field">
+    <input type="number" class="form__field" id='passagewayId' formControlName="passagewayId" required />
+    <label for="passagewayId" class="form__label">PassagewayID</label>
+  </div>
+
+  <div class="form__group field">
+    <input type="text" class="form__field" id='building1Id' formControlName="building1Id" required />
+    <label for="building1Id" class="form__label">Building1ID</label>
+  </div>
+
+  <div class="form__group field">
+    <input type="number" class="form__field" id='floor1Id' formControlName="floor1Id" required />
+    <label for="floor1Id" class="form__label">Floor1ID</label>
+  </div>
+
+  <div class="form__group field">
+    <input type="text" class="form__field" id='building2Id' formControlName="building2Id" required />
+    <label for="building2Id" class="form__label">Building2ID</label>
+  </div>
+
+  <div class="form__group field">
+    <input type="number" class="form__field" id='floor2Id' formControlName="floor2Id" required />
+    <label for="floor2Id" class="form__label">Floor2ID</label>
+  </div>
+
+  <div>
+    <button>Create</button>
+  </div>
+</form>
