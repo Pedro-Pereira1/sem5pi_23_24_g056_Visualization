@@ -35,9 +35,10 @@ export class BuildingService {
     )
   }
 
-  public listAll() {
+  public listAll(): Observable<Building[]> {
     const url = this.buildingsUrl + "/" + "listAllBuildings";
-    return this.http.get<Building>(url)
+
+    return this.http.get<Building[]>(url)
     .pipe(
       catchError(this.handleError)
     )
