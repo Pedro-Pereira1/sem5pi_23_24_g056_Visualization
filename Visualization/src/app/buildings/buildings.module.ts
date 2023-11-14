@@ -8,6 +8,7 @@ import { BuildingListMaxMinComponent } from './building-list-max-min/building-li
 import { HttpClientModule } from '@angular/common/http';
 import { BuildingService } from '../services/building.service';
 import { FormsModule } from '@angular/forms';
+import { BuildingCreateComponent } from './building-create/building-create.component';
 
 
 
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     BuildingsComponent,
     BuildingEditComponent,
     BuildingListAllComponent,
-    BuildingListMaxMinComponent
+    BuildingListMaxMinComponent,
+    BuildingCreateComponent
   ],
   imports: [
     CommonModule,

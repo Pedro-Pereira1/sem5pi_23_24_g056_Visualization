@@ -4,11 +4,12 @@ import { BuildingsComponent } from './buildings.component';
 import { BuildingEditComponent } from './building-edit/building-edit.component';
 import { BuildingListAllComponent } from './building-list-all/building-list-all.component';
 import { BuildingListMaxMinComponent } from './building-list-max-min/building-list-max-min.component';
+import { BuildingCreateComponent } from './building-create/building-create.component';
 
 const routes: Routes = [
   {
     path: 'createBuilding',
-    component: BuildingsComponent 
+    component: BuildingCreateComponent
   },
   {
     path: 'editBuilding',
