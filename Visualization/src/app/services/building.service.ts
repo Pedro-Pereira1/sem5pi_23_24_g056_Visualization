@@ -9,7 +9,6 @@ import { Building } from '../domain/building/Building';
   providedIn: 'root'
 })
 export class BuildingService {
-
   private buildingsUrl = "http://localhost:4000/api/buildings"
 
   constructor(private http: HttpClient) { }
@@ -28,20 +27,30 @@ export class BuildingService {
 
   public createBuilding(buildingToCreate: BuildingCreate): Observable<Building> {
     const url = this.buildingsUrl + "/" + "createBuilding";
-    
+
     return this.http.post<Building>(url, buildingToCreate)
-    .pipe(
-      catchError(this.handleError)
-    )
+      .pipe(
+        catchError(this.handleError)
+      )
   }
+
+  public editBuilding(building: Building) {
+    const url = this.buildingsUrl + "/" + "editBuilding";
+
+    return this.http.put<Building>(url, building)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
 
   public listAll(): Observable<Building[]> {
     const url = this.buildingsUrl + "/" + "listAllBuildings";
 
     return this.http.get<Building[]>(url)
-    .pipe(
-      catchError(this.handleError)
-    )
+      .pipe(
+        catchError(this.handleError)
+      )
   }
 
   listBuildingMaxMinFloors(max: number, min: number) {
