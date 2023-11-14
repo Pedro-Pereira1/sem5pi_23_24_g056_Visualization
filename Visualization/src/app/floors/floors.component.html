@@ -1,21 +1,22 @@
 <h1>Create Floor</h1>
 <div class="form__group field">
-    <input type="number" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">FloorID</label>
+    <input type="number" class="form__field" placeholder="FloorID" name="FloorID" id='FloorID' required [(ngModel)]="floorID"/>
+    <label for="FloorID" class="form__label">FloorID</label>
 </div>
 <div class="form__group field">
-    <input type="number" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">FloorNumber</label>
+    <input type="number" class="form__field" placeholder="FloorNumber" name="FloorNumber" id='FloorNumber' required [(ngModel)]="FloorNumber"/>
+    <label for="FloorNumber" class="form__label">FloorNumber</label>
 </div>
 <div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Description</label>
+    <input type="text" class="form__field" placeholder="Description" name="Description" id='Description'  [(ngModel)]="FloorDescription"/>
+    <label for="Description" class="form__label">Description</label>
 </div>
 <div class="form__group field">
-    <select class="form_select">
+    <select class="form_select" [(ngModel)]="buildingCode">
         <option value="">Select a building</option>
+        <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
     </select>
 </div>
 <div>
-    <button>Create</button>
+    <button (click)="createFloor()">Create</button>
 </div>
