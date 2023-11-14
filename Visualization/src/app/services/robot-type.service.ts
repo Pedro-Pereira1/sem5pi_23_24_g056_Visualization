@@ -19,4 +19,9 @@ export class RobotTypeService {
     return this.http.post<RobotType>(url, robotTypeToCreate);
   }
 
+  listAll(){
+    const url = this.floorsUrl + "/" + "listAllRobotTypes";
+    return this.http.get<RobotType[]>(url);
+  }
+
 }
