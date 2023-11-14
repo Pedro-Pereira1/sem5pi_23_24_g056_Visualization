@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {PassagewayService} from "../../services/passageway.service";
 
 @Component({
   selector: 'app-passageway-edit',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./passageway-edit.component.css']
 })
 export class PassagewayEditComponent {
+
+  constructor(private passagewayService: PassagewayService) { }
+
+  editPassageway(){
+
+  }
 
 }
