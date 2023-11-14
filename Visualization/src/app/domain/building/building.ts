@@ -4,4 +4,5 @@ export interface Building {
     description: string;
     length: number;
     width: number;
+    floors: number[];
 }
