@@ -1,1 +1,27 @@
 <h1>List All Robots</h1>
+<button (click)="listAllRobots()">Search</button>
+
+<div>
+<table>
+    <thead>
+    <tr class="table100-head">
+    <th class="column1">Code</th>
+    <th class="column2">Nickname</th>
+    <th class="column3">Type</th>
+    <th class="column4">Serial Number</th>
+    <th class="column5">Description</th>
+    <th class="column6">Operation Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let robot of robots">
+        <td class="column1">{{ robot.code }}</td>
+        <td class="column2">{{ robot.nickname }}</td>
+        <td class="column3">{{ robot.type }}</td>
+        <td class="column4">{{ robot.serialNumber }}</td>
+        <td class="column5">{{ robot.description }}</td>
+        <td class="column6">{{ robot.operationStatus }}</td>
+    </tr>
+    </tbody>
+</table>
+</div>
