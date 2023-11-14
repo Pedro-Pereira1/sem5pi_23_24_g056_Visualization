@@ -17,8 +17,4 @@ export class FloorService {
     return this.http.get(url);
   }
 
-  listAllBuildings() {
-    const url = "http://localhost:4000/api/buildings/listAllBuildings"
-    return this.http.get(url);
-  }
 }
