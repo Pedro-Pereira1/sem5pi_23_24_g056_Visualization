@@ -1,21 +1,29 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { PassagewaysRoutingModule } from './passageways-routing.module';
-import { PassagewayEditComponent } from './passageway-edit/passageway-edit.component';
-import { PassagewayListPassagewaysBetweenBuildingsComponent } from './passageway-list-passageways-between-buildings/passageway-list-passageways-between-buildings.component';
-import {FormsModule} from "@angular/forms";
+import {PassagewaysRoutingModule} from './passageways-routing.module';
+import {PassagewayEditComponent} from './passageway-edit/passageway-edit.component';
+import {
+  PassagewayListPassagewaysBetweenBuildingsComponent
+} from './passageway-list-passageways-between-buildings/passageway-list-passageways-between-buildings.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {PassagewaysComponent} from "./passageways.component";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
   declarations: [
+    PassagewaysComponent,
     PassagewayEditComponent,
     PassagewayListPassagewaysBetweenBuildingsComponent
   ],
-    imports: [
-        CommonModule,
-        PassagewaysRoutingModule,
-        FormsModule
-    ]
+  imports: [
+    CommonModule,
+    PassagewaysRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
+  ]
 })
-export class PassagewaysModule { }
+export class PassagewaysModule {
+}
