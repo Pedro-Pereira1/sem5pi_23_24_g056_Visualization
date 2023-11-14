@@ -1,26 +1,32 @@
 <h1>Create Building</h1>
 
-<div class="form__group field">
-    <input type="number" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Building Code</label>
-</div>
-<div class="form__group field">
-    <input type="number" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Name</label>
-</div>
-<div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Description</label>
-</div>
-<div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Length</label>
-</div>
-<div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Width</label>
-</div>
+<form [formGroup]="createForm" (ngSubmit)="onSubmint()">
 
-<div>
-    <button>Create</button>
-</div>
+    <div class="form__group field">
+        <input type="text" class="form__field" id='code' formControlName="code" required />
+        <label for="code" class="form__label">Building Code</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='name' formControlName="name" required />
+        <label for="name" class="form__label">Name</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='description' formControlName="description" required />
+        <label for="description" class="form__label">Description</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='length' formControlName="length" required />
+        <label for="length" class="form__label">Length</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='width' formControlName="width" required />
+        <label for="width" class="form__label">Width</label>
+    </div>
+
+
+    <button>Submit</button>
+</form>
