@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BuildingService } from 'src/app/services/building.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { BuildingCreate } from 'src/app/domain/building/BuildingCreate';
 
 @Component({
   selector: 'app-building-create',
@@ -26,13 +27,15 @@ export class BuildingCreateComponent {
 
 
   onSubmint() {
-    const buildign = {
-      code: this.createForm.value.code,
-      name: this.createForm.value.name,
-      description: this.createForm.value.description,
-      length: this.createForm.value.length,
-      width: this.createForm.value.width
+    const buildign: BuildingCreate = {
+      code: this.createForm.value.code!,
+      name: this.createForm.value.name!,
+      description: this.createForm.value.description!,
+      length: this.createForm.value.length!,
+      width: this.createForm.value.width!
     }
+
+    this.buildingService.createBuilding(buildign).subscribe()
 
     this.createForm.reset();
   }
