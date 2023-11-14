@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { BuildingService } from 'src/app/services/building.service';
 import { FloorService } from 'src/app/services/floor.service';
 
 @Component({
   selector: 'app-floor-list-all-floors-of-building',
   templateUrl: './floor-list-all-floors-of-building.component.html',
   styleUrls: ['./floor-list-all-floors-of-building.component.css'],
-  providers: [FloorService]
+  providers: [FloorService,BuildingService]
 })
 export class FloorListAllFloorsOfBuildingComponent implements OnInit {
-
+  constructor(private floorService: FloorService, private buildingService:BuildingService) { }
+  id: string = "";
   floors: any[] = [];
   buildings: any[] = [];
 
   ngOnInit(): void {
-    this.floorService.listAllBuildings().subscribe(
+    this.buildingService.listAll().subscribe(
       (data: any) => {
         this.buildings = data;
       },
@@ -23,9 +25,6 @@ export class FloorListAllFloorsOfBuildingComponent implements OnInit {
       }
     );
   }
-
-  constructor(private floorService: FloorService) { }
-  id: string = "";
 
   listAllFloors(){
     this.floorService.listAllFloors(this.id).subscribe(

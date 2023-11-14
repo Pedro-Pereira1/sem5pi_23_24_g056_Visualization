@@ -8,6 +8,7 @@ import { FloorListFloorsPassagewaysComponent } from './floor-list-floors-passage
 import { FloorService } from '../services/floor.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { BuildingService } from '../services/building.service';
 
 
 @NgModule({
@@ -23,6 +24,6 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [FloorService]
+  providers: [FloorService,BuildingService]
 })
 export class FloorsModule { }
