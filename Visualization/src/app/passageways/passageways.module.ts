@@ -9,6 +9,7 @@ import {
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PassagewaysComponent} from "./passageways.component";
 import {HttpClientModule} from "@angular/common/http";
+import {PassagewayService} from "../services/passageway.service";
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import {HttpClientModule} from "@angular/common/http";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
+  providers: [PassagewayService]
 })
+
 export class PassagewaysModule {
 }
