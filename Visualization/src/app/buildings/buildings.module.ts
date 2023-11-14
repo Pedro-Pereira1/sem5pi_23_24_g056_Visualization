@@ -7,7 +7,9 @@ import { BuildingListAllComponent } from './building-list-all/building-list-all.
 import { BuildingListMaxMinComponent } from './building-list-max-min/building-list-max-min.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BuildingService } from '../services/building.service';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { BuildingCreateComponent } from './building-create/building-create.component';
 
 
 
@@ -16,13 +18,15 @@ import { FormsModule } from '@angular/forms';
     BuildingsComponent,
     BuildingEditComponent,
     BuildingListAllComponent,
-    BuildingListMaxMinComponent
+    BuildingListMaxMinComponent,
+    BuildingCreateComponent
   ],
   imports: [
     CommonModule,
     BuildingsRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [BuildingService]
 })
