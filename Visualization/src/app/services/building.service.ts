@@ -17,4 +17,9 @@ export class BuildingService {
     return this.http.get(url);
   }
 
+  listAll() {
+    const url = this.buildingsUrl + "/" + "listAllBuildings";
+    return this.http.get(url);
+  }
+
 }
