@@ -35,14 +35,18 @@ export class BuildingService {
     )
   }
 
+  public listAll() {
+    const url = this.buildingsUrl + "/" + "listAllBuildings";
+    return this.http.get<Building>(url)
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
+
   listBuildingMaxMinFloors(max: number, min: number) {
     const url = this.buildingsUrl + "/" + "listBuildingsMaxMinFloors" + "/" + max + "/" + min;
     return this.http.get(url);
   }
 
-  listAll() {
-    const url = this.buildingsUrl + "/" + "listAllBuildings";
-    return this.http.get(url);
-  }
 
 }
