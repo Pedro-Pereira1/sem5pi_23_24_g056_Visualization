@@ -27,5 +27,8 @@ export class RobotListAllComponent implements OnInit{
       }
     );
 
+    if (this.robots.length == 0) {
+      window.alert('No robots found!');
+    }
   }
 }

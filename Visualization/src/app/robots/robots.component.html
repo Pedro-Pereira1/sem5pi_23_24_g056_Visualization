@@ -1,25 +1,26 @@
 <h1>Create Robot</h1>
 <div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Code</label>
+    <input type="text" class="form__field" placeholder="Code" name="Code" id='Code' required  [(ngModel)]="code"/>
+    <label for="Code" class="form__label">Code</label>
 </div>
 <div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Nickname</label>
+    <input type="text" class="form__field" placeholder="Nickname" name="Nickname" id='Nickname' required  [(ngModel)]="nickname"/>
+    <label for="Nickname" class="form__label">Nickname</label>
 </div>
 <div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Serial Number</label>
+    <input type="text" class="form__field" placeholder="SerialNumber" name="SerialNumber" id='SerialNumber' required  [(ngModel)]="serialNumber"/>
+    <label for="SerialNumber" class="form__label">Serial Number</label>
 </div>
 <div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Description</label>
+    <input type="text" class="form__field" placeholder="Description" name="Description" id='Description' required  [(ngModel)]="description"/>
+    <label for="Description" class="form__label">Description</label>
 </div>
 <div class="form__group field">
-    <select class="form_select">
+    <select class="form_select" [(ngModel)]="robotTypeID">
         <option value="">Select a robot type</option>
+        <option *ngFor="let type of robotTypes" [value]="type.robotTypeID">{{ type.robotTypeID }}</option>
     </select>
 </div>
 <div>
-    <button>Create</button>
+    <button (click)="createRobot()">Create</button>
 </div>

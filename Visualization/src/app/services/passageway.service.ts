@@ -4,6 +4,7 @@ import {catchError} from "rxjs/operators";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import {Observable, throwError} from "rxjs";
 import {PassagewayCreate} from "../domain/passageway/PassagewayCreate";
+import {PassagewayEdit} from "../domain/passageway/PassagewayEdit";
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +36,12 @@ export class PassagewayService {
   }
 
 
-  editPassageways(){
-
+  editPassageways(passagewayToEdit: PassagewayEdit): Observable<Passageway> {
+    const url = this.passagewaysUrl + "/" + "editPassageway";
+    return this.http.put<Passageway>(url, passagewayToEdit)
+      .pipe(
+        catchError(this.handleError)
+      )
   }
 
 }

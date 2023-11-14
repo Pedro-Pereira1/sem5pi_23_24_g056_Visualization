@@ -1,27 +1,27 @@
 <h1>Create Robot Type</h1>
 <div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">ID</label>
+    <input type="text" class="form__field" placeholder="robotTypeID" name="robotTypeID" id='robotTypeID' required [(ngModel)]="robotTypeID"/>
+    <label for="robotTypeID" class="form__label">ID</label>
 </div>
 <div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Brand</label>
+    <input type="text" class="form__field" placeholder="robotBrand" name="robotBrand" id='robotBrand' required [(ngModel)]="robotBrand"/>
+    <label for="robotBrand" class="form__label">Brand</label>
 </div>
 <div class="form__group field">
-    <input type="text" class="form__field" placeholder="Name" name="name" id='name' required />
-    <label for="name" class="form__label">Model</label>
+    <input type="text" class="form__field" placeholder="robotModel" name="robotModel" id='robotModel' required [(ngModel)]="robotModel"/>
+    <label for="robotModel" class="form__label">Model</label>
 </div>
 <div class="form__group field">
     <label class="container">Floor surveillance
-        <input type="checkbox">
-        <span class="checkmark"></span>
-      </label>
-      
-      <label class="container">Object transport
-        <input type="checkbox">
-        <span class="checkmark"></span>
-      </label>
-</div>
+      <input type="checkbox" (change)="updateTasks('Floor surveillance', $event)">
+      <span class="checkmark"></span>
+    </label>
+    
+    <label class="container">Object transport
+      <input type="checkbox" (change)="updateTasks('Object transport', $event)">
+      <span class="checkmark"></span>
+    </label>
+  </div>
 <div>
-    <button>Create</button>
+    <button (click)="createRobotType()">Create</button>
 </div>
