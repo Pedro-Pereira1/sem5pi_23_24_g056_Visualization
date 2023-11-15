@@ -4,6 +4,7 @@ import { FloorsComponent } from './floors.component';
 import { FloorEditComponent } from './floor-edit/floor-edit.component';
 import { FloorListAllFloorsOfBuildingComponent } from './floor-list-all-floors-of-building/floor-list-all-floors-of-building.component';
 import { FloorListFloorsPassagewaysComponent } from './floor-list-floors-passageways/floor-list-floors-passageways.component';
+import { LoadFloorMapComponent } from './load-floor-map/load-floor-map.component';
 
 const routes: Routes = [
   {path: 'createFloor', 
@@ -17,7 +18,8 @@ const routes: Routes = [
   },
   {path: 'listFloorsPassageways',
   component: FloorListFloorsPassagewaysComponent
-  }
+  },
+  { path: 'loadFloorMap', component: LoadFloorMapComponent },
 ];
 
 @NgModule({
