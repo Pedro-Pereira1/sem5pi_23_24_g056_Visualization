@@ -21,4 +21,10 @@ export class RobotService {
     const url = this.robotUrl + "/" + "createRobot";
     return this.http.post<Robot>(url, robotToCreate);
   }
+
+  public inhibitRobot(robotId: string): Observable<Robot> {
+    const url = this.robotUrl + "/" + "inhibitRobot";
+    return this.http.patch<Robot>(url, {id: robotId});
+  }
+
 }
