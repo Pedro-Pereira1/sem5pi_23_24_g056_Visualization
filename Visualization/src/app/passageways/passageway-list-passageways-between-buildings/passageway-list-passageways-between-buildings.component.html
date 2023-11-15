@@ -1,1 +1,28 @@
 <h1>List Passageways</h1>
+<select [(ngModel)]="building1">
+  <option value="">Select building 1</option>
+  <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+</select>
+<select [(ngModel)]="building2">
+  <option value="">Select building 2</option>
+  <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+</select>
+<button (click)="listPassagewaysBuildings()">Search</button>
+<div>
+  <table>
+    <thead>
+    <tr class="table100-head">
+      <th class="column1">PassagewayID</th>
+      <th class="column2">FloorNumberBuilding1</th>
+      <th class="column3">FloorNumberBuilding2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let passagewayList of passageways">
+      <td class="column1">{{ passagewayList.passagewayId }}</td>
+      <td class="column2">{{ passagewayList.floorNumberBuilding1 }}</td>
+      <td class="column3">{{ passagewayList.floorNumberBuilding2 }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

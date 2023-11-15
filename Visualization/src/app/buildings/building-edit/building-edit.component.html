@@ -21,11 +21,11 @@
                 <td class="column4">{{ building.buildingLength }}</td>
                 <td class="column5">{{ building.buildingWidth }}</td>
                 <td class="column6">{{ building.buildingFloors }}</td>
-                <td><button type="button" class="button" (click)="togleExpansion(i)">Edit</button></td>
+                <td><button type="button" class="button" (click)="toggleExpansion(i, building)">Edit</button></td>
             </tr>
 
             <div class="editForm" *ngIf="expanded[i]">
-                <form [formGroup]="editForm" (ngSubmit)="save(building); togleExpansion(i)">
+                <form [formGroup]="editForm" (ngSubmit)="save(); toggleExpansion(i, building)">
                     <div class="form__group field">
                         <input type="text" class="form__field" id='code' formControlName="code" [readOnly]="true" />
                         <label for="code" class="form__label">Building Code</label>
@@ -51,7 +51,12 @@
                         <label for="width" class="form__label">Width</label>
                     </div>
 
-                    <button>Save</button>
+                    <div class="form__group field">
+                        <input type="number" class="form__field" id="floors" formControlName="floors" [readOnly]="true"/>
+                        <label for="width" class="form__label">Floors</label>
+                    </div>
+
+                    <button>Submit</button>
                 </form>
             </div>
         </tbody>
