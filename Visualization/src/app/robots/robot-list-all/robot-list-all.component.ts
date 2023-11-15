@@ -11,7 +11,7 @@ import { RobotService } from 'src/app/services/robot.service';
 export class RobotListAllComponent implements OnInit{
   robots: Robot[] = [];
 
-  listAllRobots() {
+  ngOnInit() {
     this.robotService.listAllRobots().subscribe(
       (data: Robot[]) => {
         this.robots = data;
@@ -25,9 +25,4 @@ export class RobotListAllComponent implements OnInit{
   }
 
   constructor(private robotService: RobotService) { }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
-
 }
