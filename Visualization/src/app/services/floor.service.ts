@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Floor } from '../domain/floor/Floor';
 import { FloorCreate } from '../domain/floor/FloorCreate';
 import { FloorEdit } from '../domain/floor/FloorEdit';
+import {FloorList} from "../domain/floor/FloorList";
 
 @Injectable({
   providedIn: 'root'
@@ -46,4 +47,11 @@ export class FloorService {
     return throwError(() => new Error(error.error.message));
   }
 
+  listFloorsPassageway(id: string):Observable<FloorList[]>{
+    const url = this.floorsUrl + "/" + "listFloorsPassageways" + "/" + id;
+    return this.http.get<FloorList[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
 }
