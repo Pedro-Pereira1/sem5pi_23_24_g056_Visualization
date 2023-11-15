@@ -7,7 +7,7 @@ import { FloorListAllFloorsOfBuildingComponent } from './floor-list-all-floors-o
 import { FloorListFloorsPassagewaysComponent } from './floor-list-floors-passageways/floor-list-floors-passageways.component';
 import { FloorService } from '../services/floor.service';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuildingService } from '../services/building.service';
 import { LoadFloorMapComponent } from './load-floor-map/load-floor-map.component';
 
@@ -24,7 +24,8 @@ import { LoadFloorMapComponent } from './load-floor-map/load-floor-map.component
     CommonModule,
     FloorsRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [FloorService,BuildingService]
 })
