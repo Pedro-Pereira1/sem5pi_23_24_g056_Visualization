@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RobotCreate } from '../domain/robot/RobotCreate';
 import { Robot } from '../domain/robot/Robot';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class RobotService {
 
   listAllRobots() {
     const url = this.robotUrl + "/" + "listAll";
-    return this.http.get(url);
+    return this.http.get<Robot[]>(url)
   }
 
   createRobot(robotToCreate: RobotCreate): Observable<Robot> {
