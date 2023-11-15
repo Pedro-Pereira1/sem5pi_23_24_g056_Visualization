@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Floor } from '../domain/floor/Floor';
 import { FloorCreate } from '../domain/floor/FloorCreate';
 import { FloorEdit } from '../domain/floor/FloorEdit';
+import { LoadFloorMap } from '../domain/floor/LoadFLoorMap';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,13 @@ export class FloorService {
     )
   }
 
+  loadFloorMap(loadFloorMap: LoadFloorMap): Observable<Floor> {
+    const url = this.floorsUrl + "/" + "loadFloorMap";
+    return this.http.patch<Floor>(url, loadFloorMap)
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
 
 
   private handleError(error: HttpErrorResponse) {

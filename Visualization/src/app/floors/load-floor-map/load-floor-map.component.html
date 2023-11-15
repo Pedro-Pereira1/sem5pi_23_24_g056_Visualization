@@ -1,1 +1,45 @@
-<p>load-floor-map works!</p>
+<h1>Load Floor Map</h1>
+<select [(ngModel)]="id">
+    <option value="">Select a building</option>
+    <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+</select>
+<button (click)="listAllFloors()">Search</button>
+
+<div>
+    <table>
+        <thead>
+            <tr class="table100-head">
+                <th class="column1">ID</th>
+                <th class="column2">Number</th>
+                <th class="column3">Description</th>
+                <th class="column4">Map</th>
+                <th class="column5"></th>
+            </tr>
+        </thead>
+
+        <tbody *ngFor="let floor of floors; let i = index">
+            <tr>
+                <td class="column1">{{ floor.floorId }}</td>
+                <td class="column2">{{ floor.floorNumber }}</td>
+                <td class="column3">{{ floor.floorDescription }}</td>
+                <td class="column4">{{ floor.floorMap }}</td>
+                <td class="column5"><button type="button" class="button"
+                        (click)="toggleExpansion(i, floor)">Map</button></td>
+            </tr>
+
+            <div class="loadForm" *ngIf="expanded[i]">
+                <input class="file-input" type="file" (change)="onFileSelected($event)" #fileUpload>
+
+                <div class="file-upload">
+
+                    {{ fileName || 'No file selected' }}
+
+                    <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+                        Choose File
+                    </button>
+                </div>
+            </div>
+
+        </tbody>
+    </table>
+</div>
