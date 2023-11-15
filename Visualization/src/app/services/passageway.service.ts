@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import {Observable, throwError} from "rxjs";
 import {PassagewayCreate} from "../domain/passageway/PassagewayCreate";
 import {PassagewayEdit} from "../domain/passageway/PassagewayEdit";
+import {PassagewayList} from "../domain/passageway/PassagewayList";
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,23 @@ export class PassagewayService {
       .pipe(
         catchError(this.handleError)
       )
+  }
+
+  listPassagewaysBuildings(building1: string, building2: string): Observable<PassagewayList[]> {
+    const url = this.passagewaysUrl + "/" + "list" + "/" + "building1" + "/" + building1 + "/" + "building2" + "/" + building2;
+    return this.http.get<PassagewayList[]>(url)
+      .pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  listAllPassageways(): Observable<PassagewayEdit[]> {
+    const url = this.passagewaysUrl + "/" + "listAll";
+    return this.http.get<PassagewayEdit[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      )
+
   }
 
 }
