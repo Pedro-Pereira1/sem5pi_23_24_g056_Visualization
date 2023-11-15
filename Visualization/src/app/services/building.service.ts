@@ -34,7 +34,7 @@ export class BuildingService {
       )
   }
 
-  public editBuilding(building: Building) {
+  public editBuilding(building: BuildingCreate) {
     const url = this.buildingsUrl + "/" + "editBuilding";
 
     return this.http.put<Building>(url, building)
