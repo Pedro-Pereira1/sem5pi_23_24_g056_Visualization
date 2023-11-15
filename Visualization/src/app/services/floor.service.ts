@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Floor } from '../domain/floor/Floor';
 import { FloorCreate } from '../domain/floor/FloorCreate';
+import { FloorEdit } from '../domain/floor/FloorEdit';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,27 @@ export class FloorService {
   createFloor(floorToCreate: FloorCreate): Observable<Floor> {
     const url = this.floorsUrl + "/" + "createFloor";
     return this.http.post<Floor>(url, floorToCreate);
+  }
+
+  editFloor(floorToEdit: FloorEdit): Observable<Floor> {
+    const url = this.floorsUrl + "/" + "editFloor";
+    return this.http.put<Floor>(url, floorToEdit).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      window.alert('An error occurred: ' + error.error.message);
+
+    } else {
+
+      window.alert('Backend returned code ' + error.status + ', body was: ' + error.statusText);
+    }
+
+    return throwError(() => new Error(error.error.message));
   }
 
 }
