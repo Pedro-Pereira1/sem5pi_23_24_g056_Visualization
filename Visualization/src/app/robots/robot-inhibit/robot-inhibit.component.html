@@ -20,7 +20,7 @@
                 <td class="column3">{{ robot.type }}</td>
                 <td class="column4">{{ robot.serialNumber }}</td>
                 <td class="column5">{{ robot.description }}</td>
-                <td class="column6">{{ robot.operationStatus }}</td>
+                <td class="column6">{{ robot.operationStatus ? 'Working' : 'Disable' }}</td>
                 <td class="column6"> <button (click)="inhibitRobot(robot.code)">Inhibit</button> </td>
             </tr>
 
