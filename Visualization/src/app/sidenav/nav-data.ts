@@ -11,22 +11,22 @@ export const navbarData: INavbarData[] = [
         icon: 'fal fa-building',
         label: 'Buildings',
         items: [
-        {
-            routerLink: 'buildings/createBuilding',
-            label: 'Create Building'
-        },
-        {
-            routerLink: 'buildings/editBuilding',
-            label: 'Edit Building'
-        },
-        {
-            routerLink: 'buildings/listAllBuildings',
-            label: 'List All Buildings'
-        },
-        {
-            routerLink: 'buildings/listBuildingsMaxMinFloors',
-            label: 'List Buildings by Max Min Floors'
-        }
+            {
+                routerLink: 'buildings/createBuilding',
+                label: 'Create Building'
+            },
+            {
+                routerLink: 'buildings/editBuilding',
+                label: 'Edit Building'
+            },
+            {
+                routerLink: 'buildings/listAllBuildings',
+                label: 'List All Buildings'
+            },
+            {
+                routerLink: 'buildings/listBuildingsMaxMinFloors',
+                label: 'List Buildings by Max Min Floors'
+            }
         ]
     },
     {
@@ -49,8 +49,12 @@ export const navbarData: INavbarData[] = [
             {
                 routerLink: 'floors/listFloorsPassageways',
                 label: 'List Floors Passageways'
+            },
+            {
+                routerLink: 'floors/loadFloorMap',
+                label: 'Load Floor Map'
             }
-            ]
+        ]
     },
     {
         routerLink: 'passageways',
@@ -69,7 +73,7 @@ export const navbarData: INavbarData[] = [
                 routerLink: 'passageways/list',
                 label: 'List Passageways'
             }
-            ]
+        ]
     },
     {
         routerLink: 'elevators',
@@ -88,7 +92,7 @@ export const navbarData: INavbarData[] = [
                 routerLink: 'elevators/listInBuilding',
                 label: 'List Elevators'
             }
-            ]
+        ]
     },
     {
         routerLink: 'rooms',
@@ -99,8 +103,8 @@ export const navbarData: INavbarData[] = [
                 routerLink: 'rooms/createRoom',
                 label: 'Create Room'
             }
-            ]
-        
+        ]
+
     },
     {
         routerLink: 'robot-types',
@@ -111,7 +115,7 @@ export const navbarData: INavbarData[] = [
                 routerLink: 'robot-types/createRobotType',
                 label: 'Create Robot Type'
             }
-            ]
+        ]
     },
     {
         routerLink: 'robots',
@@ -130,7 +134,7 @@ export const navbarData: INavbarData[] = [
                 routerLink: 'robots/listAll',
                 label: 'List All Robots'
             }
-            ]
+        ]
     },
     {
         routerLink: 'view3d',

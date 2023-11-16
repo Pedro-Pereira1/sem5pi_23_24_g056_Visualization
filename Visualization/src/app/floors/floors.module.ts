@@ -9,6 +9,7 @@ import { FloorService } from '../services/floor.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuildingService } from '../services/building.service';
+import { LoadFloorMapComponent } from './load-floor-map/load-floor-map.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { BuildingService } from '../services/building.service';
     FloorsComponent,
     FloorEditComponent,
     FloorListAllFloorsOfBuildingComponent,
-    FloorListFloorsPassagewaysComponent
+    FloorListFloorsPassagewaysComponent,
+    LoadFloorMapComponent
   ],
   imports: [
     CommonModule,

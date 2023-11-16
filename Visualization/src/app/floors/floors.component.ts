@@ -3,6 +3,7 @@ import { BuildingService } from '../services/building.service';
 import { FloorService } from '../services/floor.service';
 import { FloorCreate } from '../domain/floor/FloorCreate';
 import { Floor } from '../domain/floor/Floor';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-floors',
@@ -12,10 +13,14 @@ import { Floor } from '../domain/floor/Floor';
 })
 export class FloorsComponent implements OnInit{
   constructor(private floorService: FloorService, private buildingService:BuildingService) { }
-  buildingCode: string = "";
-  floorID: number = 0;
-  FloorNumber: number = 0;
-  FloorDescription: string = "";
+  
+
+  createForm = new FormGroup({
+    floorID: new FormControl(0),
+    floorNumber: new FormControl(0),
+    floorDescription: new FormControl(''),
+    buildingCode: new FormControl(''),
+  })
 
   buildings: any[] = [];
 
@@ -31,24 +36,21 @@ export class FloorsComponent implements OnInit{
     );
   }
 
-  createFloor() {
+  onSubmint() {
     const floor: FloorCreate = {
-      floorId: this.floorID,
-      floorNumber: this.FloorNumber,
-      floorDescription: this.FloorDescription,
-      buildingCode: this.buildingCode
+      floorId: this.createForm.value.floorID!,
+      floorNumber: this.createForm.value.floorNumber!,
+      floorDescription: this.createForm.value.floorDescription!,
+      buildingCode: this.createForm.value.buildingCode!,
     }
     this.floorService.createFloor(floor).subscribe(
       (data: Floor) => {
-        window.alert("Floor " + this.FloorNumber + " created successfully");
-        this.floorID = 0;
-        this.FloorNumber = 0;
-        this.FloorDescription = "";
-        this.buildingCode = "";
-        
+        window.alert("Floor " + floor.floorId + " created successfully");
+        this.createForm.reset();
       },
       (error: Floor) => {
         console.error('Error:', error);
+        this.createForm.reset();
       }
     );
   }

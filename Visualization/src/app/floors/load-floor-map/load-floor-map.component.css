@@ -1,4 +1,13 @@
-input{
+.loadForm {
+  width: 100%;
+  height: 60px;
+}
+
+.file-input {
+  display: none;
+}
+
+input {
   padding: 0;
   margin: 0;
   outline: none;
@@ -8,16 +17,16 @@ input{
   margin-top: 5px;
 }
 
-select{
-  width: 13%;
-  padding: 5px;
-  margin: 10px;
+select {
+  width: 15%;
+  padding: 0;
+  margin: 0;
   outline: none;
   font-family: Roboto, Arial, sans-serif;
   font-size: 16px;
   color: #263238;
   margin-top: 5px;
-  border-radius: 15px;
+  border-radius: 20px;
 }
 
 button {
@@ -28,7 +37,7 @@ button {
   box-sizing: border-box;
   color: #3B3B3B;
   cursor: pointer;
-  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 600;
   line-height: normal;
@@ -106,36 +115,50 @@ table {
   margin-top: 20px;
 
 }
+
 table * {
   position: relative;
 }
-table td, table th {
+
+table td,
+table th {
   padding-left: 8px;
 }
+
 table thead tr {
   height: 60px;
   background: #263238;
 }
+
 table tbody tr {
   height: 50px;
 }
+
 table tbody tr:last-child {
   border: 0;
 }
-table td, table th {
+
+table td,
+table th {
   text-align: left;
 }
-table td.l, table th.l {
+
+table td.l,
+table th.l {
   text-align: right;
 }
-table td.c, table th.c {
-  text-align: center;
-}
-table td.r, table th.r {
+
+table td.c,
+table th.c {
   text-align: center;
 }
 
-.table100-head th{
+table td.r,
+table th.r {
+  text-align: center;
+}
+
+.table100-head th {
   font-size: 18px;
   color: #fff;
   line-height: 1.2;
@@ -160,16 +183,16 @@ tbody tr:hover {
 }
 
 .column1 {
-  width: 100px;
+  width: 260px;
   padding-left: 40px;
 }
 
 .column2 {
-  width: 100px;
+  width: 160px;
 }
 
 .column3 {
-  width: 200px;
+  width: 245px;
 }
 
 .column4 {
@@ -187,23 +210,32 @@ tbody tr:hover {
   table {
     display: block;
   }
-  table > *, table tr, table td, table th {
+
+  table>*,
+  table tr,
+  table td,
+  table th {
     display: block;
   }
+
   table thead {
     display: none;
   }
+
   table tbody tr {
     height: auto;
     padding: 37px 0;
   }
+
   table tbody tr td {
     padding-left: 40% !important;
     margin-bottom: 24px;
   }
+
   table tbody tr td:last-child {
     margin-bottom: 0;
   }
+
   table tbody tr td:before {
     font-family: OpenSans-Regular;
     font-size: 14px;
@@ -215,21 +247,31 @@ tbody tr:hover {
     left: 30px;
     top: 0;
   }
+
   table tbody tr td:nth-child(1):before {
     content: "ID";
   }
+
   table tbody tr td:nth-child(2):before {
     content: "Number";
   }
+
   table tbody tr td:nth-child(3):before {
     content: "Description";
   }
+
   table tbody tr td:nth-child(4):before {
     content: "Map";
   }
 
-  .column5,
+  table tbody tr td:nth-child(5):before {
+    content: "Actions";
+  }
+
   .column4,
+
+  .column4,
+  .column5,
   .column1,
   .column2,
   .column3 {
@@ -246,4 +288,156 @@ tbody tr:hover {
     padding-left: 15px;
     padding-right: 15px;
   }
+}
+
+
+.editForm {
+  width: 30vw;
+  padding: 30px;
+  margin: 10px;
+}
+
+select {
+  width: 30%;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 16px;
+  color: #263238;
+  margin-top: 5px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 50%;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.3rem;
+  color: #000000;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.form__field::placeholder {
+  color: transparent;
+}
+
+.form__field:placeholder-shown~.form__label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #9b9b9b;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #263238, #263238);
+  border-image-slice: 1;
+}
+
+.form__field:focus~.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #263238;
+  font-weight: 700;
+}
+
+/* reset input */
+.form__field:required,
+.form__field:invalid {
+  box-shadow: none;
+}
+
+/* demo */
+body {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+  background-color: #222222;
+}
+
+.form__select {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #9b9b9b;
+
+}
+
+
+
+button {
+  appearance: none;
+  background-color: transparent;
+  border: 0.125em solid #1A1A1A;
+  border-radius: 0.9375em;
+  box-sizing: border-box;
+  color: #3B3B3B;
+  cursor: pointer;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 0em;
+  min-width: 0;
+  outline: none;
+  height: 40px;
+  padding: 5px 2.3em;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+  margin-left: 0px;
+  margin-top: 25px;
+}
+
+button:disabled {
+  pointer-events: none;
+}
+
+button:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+button:active {
+  box-shadow: none;
+  transform: translateY(0);
 }
