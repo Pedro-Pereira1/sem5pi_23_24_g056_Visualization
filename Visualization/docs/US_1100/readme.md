@@ -111,14 +111,76 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 
 
 ## 5. Implementation
-###  Component
+###  FloorListAllFloorsOfBuilding Component
 ```
+@Component({
+  selector: 'app-floor-list-all-floors-of-building',
+  templateUrl: './floor-list-all-floors-of-building.component.html',
+  styleUrls: ['./floor-list-all-floors-of-building.component.css'],
+  providers: [FloorService,BuildingService]
+})
+export class FloorListAllFloorsOfBuildingComponent implements OnInit {
+  constructor(private floorService: FloorService, private buildingService:BuildingService) { }
+  id: string = "";
+  floors: any[] = [];
+  buildings: any[] = [];
+
+  ngOnInit(): void {
+    this.buildingService.listAll().subscribe(
+      (data: any) => {
+        this.buildings = data;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.buildings = [];
+      }
+    );
+  }
+
+  listAllFloors(){
+    this.floorService.listAllFloors(this.id).subscribe(
+      (data: any) => {
+        this.floors = data;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.floors = [];
+      }
+    );
+  }
+
+}
 
 ````
 
-###  Component HTML
+###  FloorListAllFloorsOfBuilding Component HTML
 ```
-
+<h1>List All Floors</h1>
+<select [(ngModel)]="id">
+    <option value="">Select a building</option>
+    <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+  </select>
+<button (click)="listAllFloors()">Search</button>
+<div>
+    <table>
+        <thead>
+        <tr class="table100-head">
+        <th class="column1">ID</th>
+        <th class="column2">Number</th>
+        <th class="column3">Description</th>
+        <th class="column4">Map</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let floor of floors">
+            <td class="column1">{{ floor.floorId }}</td>
+            <td class="column2">{{ floor.floorNumber }}</td>
+            <td class="column3">{{ floor.floorDescription }}</td>
+            <td class="column4">{{ floor.floorMap }}</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
 ````
 
 ## 6. Integration/Demonstration
