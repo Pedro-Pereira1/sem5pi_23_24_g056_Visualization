@@ -1,0 +1,49 @@
+<h1>Create Elevator</h1>
+
+<form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+
+    <div class="form__group field">
+        <input type="number" class="form__field" min="0"  id='id' formControlName="id" required/>
+        <label for="id" class="form__label">Elevator Id</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='brand'  formControlName="brand">
+        <label for="brand" class="form__label">Brand</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='description' formControlName="description">
+        <label for="description" class="form__label">Description</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='model' formControlName="model">
+        <label for="model" class="form__label">Model</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='serialNumber'  formControlName="serialNumber">
+        <label for="serialNumber" class="form__label">Serial Number</label>
+    </div>
+
+    <div class="form__group field">
+        <select class="form_select" formControlName="buildingCode" (change)="onBuildingSelect()">
+            <option value="">--Select a building--</option>
+            <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+        </select>
+    </div>
+
+    <div class="form__group field">
+        <div *ngFor="let floor of floors">
+            <label class="container">Floor {{ floor.floorNumber }}
+                <input type="checkbox" (change)="updateFloors(floor.floorId, $event)">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </div>
+
+    <div>
+        <button>Create</button>
+    </div>
+</form>

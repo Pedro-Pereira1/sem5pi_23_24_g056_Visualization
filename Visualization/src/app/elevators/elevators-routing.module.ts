@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { ElevatorsComponent } from './elevators.component';
 import { ElevatorEditComponent } from './elevator-edit/elevator-edit.component';
 import { ElevatorListInBuildingComponent } from './elevator-list-in-building/elevator-list-in-building.component';
+import { ElevatorCreateComponent } from './elevator-create/elevator-create.component';
 
 const routes: Routes = [
   {path: 'create',
-  component: ElevatorsComponent
+  component: ElevatorCreateComponent
   },
   {path: 'edit',
   component: ElevatorEditComponent
