@@ -1,0 +1,138 @@
+@startuml domain
+
+skinparam linetype ortho
+
+
+'========================================================
+rectangle #F4EDED{
+class Task << Root >> << Entity >>
+class TaskType << (v,#A4C2E5) ValueObject >>
+class TaskDescription << (v,#A4C2E5) ValueObject >>
+class TaskId << (v,orange) ValueObject >> << unique >>
+
+}
+'========================================================
+rectangle #F9DB6D{
+class Route << Root >> << Entity >>
+class Path << Entity >>
+}
+'========================================================
+rectangle #464D77{
+class Robot << Root >> << Entity >>
+class Drone  << Entity >>
+class MobileRobot  << Entity >>
+
+class Code  << (v,orange) ValueObject >> << unique >>
+class Nickname  << (v,#A4C2E5) ValueObject >>
+class OperationStatus  << (v,#A4C2E5) ValueObject >>
+class SerialNumber  << (v,#A4C2E5) ValueObject >>
+}
+'========================================================
+rectangle #96A377{
+class RobotType << Root >> << Entity >>
+class AvailableTask  << (v,#A4C2E5) ValueObject >>
+class RobotModel  << (v,#A4C2E5) ValueObject >>
+class RobotBrand  << (v,#A4C2E5) ValueObject >>
+class RobotTypeId << (v,orange) ValueObject >> << unique >>
+
+}
+'========================================================
+rectangle #36827F{
+class Building  << Root >> << Entity >>
+class BuildingDescription  << (v,#A4C2E5) ValueObject >>
+class BuildingName  << (v,#A4C2E5) ValueObject >>
+class BuildingCode  << (v,orange) ValueObject >> << unique >>
+class BuildingSize  << (v,#A4C2E5) ValueObject >>
+}
+'========================================================
+rectangle #FF3B1B{
+class Room << Root >> << Entity >>
+class RoomName << (v,orange) ValueObject >> << unique >>
+class RoomCategory << (v,#A4C2E5) ValueObject >>
+class RoomDescription << (v,#A4C2E5) ValueObject >>
+}
+'========================================================
+rectangle #EDB182{
+class Passageway  << Root >> << Entity >>
+class PassagewayId  << (v,orange) ValueObject >> << unique >>
+class PassagewayCoordinates << (v,#A4C2E5) ValueObject >>
+}
+'========================================================
+rectangle #9055A2{
+class Elevator  << Root >> << Entity >>
+class ElevatorId  << (v,orange) ValueObject >> << unique >>
+class ElevatorBrand << (v,#A4C2E5) ValueObject >>
+class ElevatorModel << (v,#A4C2E5) ValueObject >>
+class ElevatorDescription << (v,#A4C2E5) ValueObject >>
+class ElevatorIdentificationNumber << (v,#A4C2E5) ValueObject >>
+class ElevatorSerialNumber << (v,#A4C2E5) ValueObject >>
+
+}
+
+'========================================================
+rectangle #D499B9{
+class Floor  << Root >> << Entity >>
+class FloorId  << (v,orange) ValueObject >> << unique >>
+class FloorDescription  << (v,#A4C2E5) ValueObject >>
+class FloorMap  << Entity >>
+class FloorNumber << (v,#A4C2E5) ValueObject >>
+}
+
+'========================================================
+
+
+Robot <|-u- MobileRobot
+Robot <|-u- Drone
+Robot "1"-l->"1" Code
+Robot "*"-->"1" RobotType
+Robot "*"-d->"1" OperationStatus
+Robot "1"-->"1" Nickname
+Robot "1"-->"1" SerialNumber
+
+RobotType "*"-->"1" RobotModel
+RobotType "*"-->"1" RobotBrand
+RobotType "*"-->"*" AvailableTask
+RobotType "1"-->"1" RobotTypeId
+
+
+Task "*"-l>"1" Route
+Task "*"-->"1" TaskType
+Task "*"-->"1" TaskDescription
+Task -> Building
+Task "1"-->"1" TaskId
+
+Route "*"-->"1..*" Path
+Path "*"-r-->"1..*" Robot : "Made by"
+
+
+Elevator "1"-->"1" ElevatorId
+Elevator "1"-->"1" ElevatorBrand
+Elevator "1"-->"1" ElevatorModel
+Elevator "1"-->"1" ElevatorIdentificationNumber
+Elevator "1"-->"1" ElevatorDescription
+Elevator "1"-->"1" ElevatorSerialNumber
+
+Building "1"->"*" Floor
+Building "*"-->"0..1" BuildingDescription
+Building "1"-->"0..1" BuildingName
+Building "*"-->"1" BuildingSize
+Building "1"-->"1" BuildingCode
+
+Room "1"-d->"1" RoomName
+Room "1"-u->"1" RoomCategory
+Room "1"->"1" RoomDescription
+
+Passageway "1"-d->"1" PassagewayId
+Passageway "1"->"1" PassagewayCoordinates
+
+
+Floor "1"-d->"1" FloorMap
+Floor "*"-u>"1" FloorNumber
+Floor "*"->"1" FloorDescription
+Floor "1" -> "1" FloorId
+
+FloorMap "2"--->"0..*" Passageway
+FloorMap "1"-d---->"0..1" Elevator
+FloorMap "1"->"*" Room
+
+@enduml

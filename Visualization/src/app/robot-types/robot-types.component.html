@@ -1,27 +1,31 @@
 <h1>Create Robot Type</h1>
-<div class="form__group field">
-    <input type="text" class="form__field" placeholder="robotTypeID" name="robotTypeID" id='robotTypeID' required [(ngModel)]="robotTypeID"/>
-    <label for="robotTypeID" class="form__label">ID</label>
-</div>
-<div class="form__group field">
-    <input type="text" class="form__field" placeholder="robotBrand" name="robotBrand" id='robotBrand' required [(ngModel)]="robotBrand"/>
-    <label for="robotBrand" class="form__label">Brand</label>
-</div>
-<div class="form__group field">
-    <input type="text" class="form__field" placeholder="robotModel" name="robotModel" id='robotModel' required [(ngModel)]="robotModel"/>
-    <label for="robotModel" class="form__label">Model</label>
-</div>
-<div class="form__group field">
-    <label class="container">Floor surveillance
-      <input type="checkbox" (change)="updateTasks('Floor surveillance', $event)">
-      <span class="checkmark"></span>
-    </label>
-    
-    <label class="container">Object transport
-      <input type="checkbox" (change)="updateTasks('Object transport', $event)">
-      <span class="checkmark"></span>
-    </label>
+
+<form [formGroup]="createForm" (ngSubmit)="onSubmint()">
+  <div class="form__group field">
+      <input type="text" class="form__field" name="robotTypeID" id='robotTypeID' formControlName="robotTypeID" required/>
+      <label for="robotTypeID" class="form__label">ID</label>
   </div>
-<div>
-    <button (click)="createRobotType()">Create</button>
-</div>
+  <div class="form__group field">
+      <input type="text" class="form__field" name="robotBrand" id='robotBrand' formControlName="robotBrand" required/>
+      <label for="robotBrand" class="form__label">Brand</label>
+  </div>
+  <div class="form__group field">
+      <input type="text" class="form__field" name="robotModel" id='robotModel' formControlName="robotModel" required/>
+      <label for="robotModel" class="form__label">Model</label>
+  </div>
+  <div class="form__group field">
+      <label class="container">Floor surveillance
+        <input type="checkbox" (change)="updateTasks('Floor surveillance', $event)">
+        <span class="checkmark"></span>
+      </label>
+
+      <label class="container">Object transport
+        <input type="checkbox" (change)="updateTasks('Object transport', $event)">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+  <div>
+      <button>Create</button>
+  </div>
+
+</form>

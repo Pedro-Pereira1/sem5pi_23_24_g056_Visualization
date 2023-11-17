@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RobotTypeService } from '../services/robot-type.service';
 import { RobotTypeCreate } from '../domain/robotType/RobotTypeCreate';
 import { RobotType } from '../domain/robotType/RobotType';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-robot-types',
@@ -12,46 +13,44 @@ import { RobotType } from '../domain/robotType/RobotType';
 export class RobotTypesComponent implements OnInit{
 
   constructor(private robotTypeService: RobotTypeService) { }
-  
-    robotTypeID: string = "";
-    robotBrand: string = "";
-    robotModel: string = "";
-    availableTasks: string[] = [];
+    createForm = new FormGroup({
+      robotTypeID: new FormControl(''),
+      robotBrand: new FormControl(''),
+      robotModel: new FormControl(''),
+      availableTasks: new FormControl<string[]>([])
+    })
 
   ngOnInit(): void {
     
   }
 
-  createRobotType() {
+  onSubmint() {
     const robotType: RobotTypeCreate = {
-      robotTypeID: this.robotTypeID,
-      robotBrand: this.robotBrand,
-      robotModel: this.robotModel,
-      availableTasks: this.availableTasks
+      robotTypeID: this.createForm.value.robotTypeID!,
+      robotBrand: this.createForm.value.robotBrand!,
+      robotModel: this.createForm.value.robotModel!,
+      availableTasks: this.createForm.value.availableTasks!,
     }
 
     this.robotTypeService.createRobotType(robotType).subscribe(
       (data: RobotType) => {
-        window.alert("Robot Type " + this.robotTypeID + " created successfully");
-        this.robotTypeID = "";
-        this.robotBrand = "";
-        this.robotModel = "";
-        this.availableTasks = [];
+        window.alert("Robot Type " + this.createForm.value.robotTypeID + " created successfully");
+        this.createForm.reset();
       },
       (error: RobotType) => {
         console.error('Error:', error);
       }
     );
   }
-
+  
   updateTasks(task: string, event: Event) {
     const checkbox = event.target as HTMLInputElement;
     if (checkbox.checked) {
-      this.availableTasks.push(task);
+      this.createForm.value.availableTasks!.push(task);
     } else {
-      const index = this.availableTasks.indexOf(task);
+      const index = this.createForm.value.availableTasks!.indexOf(task);
       if (index > -1) {
-        this.availableTasks.splice(index, 1);
+        this.createForm.value.availableTasks!.splice(index, 1);
       }
     }
   }

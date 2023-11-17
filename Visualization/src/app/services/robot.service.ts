@@ -19,7 +19,20 @@ export class RobotService {
 
   createRobot(robotToCreate: RobotCreate): Observable<Robot> {
     const url = this.robotUrl + "/" + "createRobot";
-    return this.http.post<Robot>(url, robotToCreate);
+    return this.http.post<Robot>(url, robotToCreate).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `An error occurred: ${error.error.message}`;
+          window.alert(errorMessage);
+        } else {
+          errorMessage = `An error occurred: ${error.error}`;
+          window.alert(errorMessage);
+        }
+        console.error(errorMessage);
+        return throwError(errorMessage);
+      })
+    );
   }
 
   public inhibitRobot(robotId: string): Observable<Robot> {
