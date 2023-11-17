@@ -186,20 +186,8 @@ export class RobotTypesComponent implements OnInit{
 ````
 
 ## 6. Integration/Demonstration
-To use this US, you need to send an HTTP request.
 
-Using this URI: localhost:4000/api/robots/createRobot
 
-With the following JSON
-```
-{
-    "code":"code1",
-    "nickname": "marsupial",
-    "type": "k4",
-    "serialNumber": "maxC",
-    "description": "Joi.string().max(250)"
-}
-````
 
 ## 7. Observations
 
