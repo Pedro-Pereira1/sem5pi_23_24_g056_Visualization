@@ -113,6 +113,91 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 
 ## 5. Implementation
 
+###  Floors Component
+```
+@Component({
+  selector: 'app-floors',
+  templateUrl: './floors.component.html',
+  styleUrls: ['./floors.component.css'],
+  providers: [BuildingService,FloorService]
+})
+export class FloorsComponent implements OnInit{
+  constructor(private floorService: FloorService, private buildingService:BuildingService) { }
+  
+
+  createForm = new FormGroup({
+    floorID: new FormControl(0),
+    floorNumber: new FormControl(0),
+    floorDescription: new FormControl(''),
+    buildingCode: new FormControl(''),
+  })
+
+  buildings: any[] = [];
+
+  ngOnInit(): void {
+    this.buildingService.listAll().subscribe(
+      (data: any) => {
+        this.buildings = data;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.buildings = [];
+      }
+    );
+  }
+
+  onSubmint() {
+    const floor: FloorCreate = {
+      floorId: this.createForm.value.floorID!,
+      floorNumber: this.createForm.value.floorNumber!,
+      floorDescription: this.createForm.value.floorDescription!,
+      buildingCode: this.createForm.value.buildingCode!,
+    }
+    this.floorService.createFloor(floor).subscribe(
+      (data: Floor) => {
+        window.alert("Floor " + floor.floorId + " created successfully");
+        this.createForm.reset();
+      },
+      (error: Floor) => {
+        console.error('Error:', error);
+        this.createForm.reset();
+      }
+    );
+  }
+
+}
+
+````
+
+###  Floors Component HTML
+```
+<h1>Create Floor</h1>
+
+<form [formGroup]="createForm" (ngSubmit)="onSubmint()">
+    <div class="form__group field">
+        <input type="number" class="form__field" min="0"  id='floorID' formControlName="floorID" required/>
+        <label for="floorID" class="form__label">FloorID</label>
+    </div>
+    <div class="form__group field">
+        <input type="number" class="form__field" min="0" id='floorNumber' formControlName="floorNumber" required/>
+        <label for="floorNumber" class="form__label">FloorNumber</label>
+    </div>
+    <div class="form__group field">
+        <input type="text" class="form__field"  id='floorDescription'  formControlName="floorDescription"/>
+        <label for="floorDescription" class="form__label">Description</label>
+    </div>
+    <div class="form__group field">
+        <select class="form_select" formControlName="buildingCode">
+            <option value="">Select a building</option>
+            <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+        </select>
+    </div>
+    <div>
+        <button>Create</button>
+    </div>
+</form>
+
+````
 
 ## 6. Integration/Demonstration
 
