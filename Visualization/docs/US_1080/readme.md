@@ -75,6 +75,10 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 
 ## 5. Implementation
 
+
 ## 6. Integration/Demonstration
+
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128611263/6471c5cb-d9e2-48f6-a774-3116ca3dff22
+
 
 ## 7. Observations
