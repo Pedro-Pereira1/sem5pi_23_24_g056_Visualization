@@ -184,7 +184,10 @@ export class RobotsComponent implements OnInit{
 
 ## 6. Integration/Demonstration
 
-<video width="630" height="300" src="Video/Demonstration.mp4"></video>
+
+
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128611263/cc0495ac-012a-466e-b3c4-faf2567ba64d
+
 
 
 ## 7. Observations
