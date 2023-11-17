@@ -184,5 +184,7 @@ export class RobotsComponent implements OnInit{
 
 ## 6. Integration/Demonstration
 
+<video width="630" height="300" src="Images/Demonstration.mp4"></video>
+
 
 ## 7. Observations
