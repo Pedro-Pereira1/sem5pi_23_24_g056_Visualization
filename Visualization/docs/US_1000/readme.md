@@ -91,9 +91,95 @@ As a Fleet Manager, an actor of the system, I will be able to access the system 
 
 ## 5. Implementation
 
-### 
+### Robot Component
 ```
+@Component({
+  selector: 'app-robots',
+  templateUrl: './robots.component.html',
+  styleUrls: ['./robots.component.css'],
+  providers: [RobotTypeService,RobotService]
+})
+export class RobotsComponent implements OnInit{
 
+  constructor(private robotTypeService: RobotTypeService, private robotService:RobotService) { }
+
+  robotTypes: any[] = [];
+
+  createForm = new FormGroup({
+    code: new FormControl(''),
+    nickname: new FormControl(''),
+    robotTypeID: new FormControl(''),
+    serialNumber: new FormControl(''),
+    description: new FormControl(''),
+  })
+
+  ngOnInit(): void {
+    this.robotTypeService.listAll().subscribe(
+      (data: any) => {
+        this.robotTypes = data;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.robotTypes = [];
+      }
+    );
+  }
+
+  onSubmint() {
+    const robot: RobotCreate = {
+      code: this.createForm.value.code!,
+      nickname: this.createForm.value.nickname!,
+      type: this.createForm.value.robotTypeID!,
+      serialNumber: this.createForm.value.serialNumber!,
+      description: this.createForm.value.description!,
+    }
+
+    this.robotService.createRobot(robot).subscribe(
+      (data: any) => {
+        window.alert("Robot " + this.createForm.value.code! + " created successfully");
+        this.createForm.reset();
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+  
+  }
+
+
+}
+````
+
+### Robot Component HTML
+```
+<h1>Create Robot</h1>
+<form [formGroup]="createForm" (ngSubmit)="onSubmint()">
+    <div class="form__group field">
+        <input type="text" class="form__field" name="Code" id='Code' formControlName="code" required/>
+        <label for="Code" class="form__label">Code</label>
+    </div>
+    <div class="form__group field">
+        <input type="text" class="form__field" name="Nickname" id='Nickname' formControlName="nickname" required/>
+        <label for="Nickname" class="form__label">Nickname</label>
+    </div>
+    <div class="form__group field">
+        <input type="text" class="form__field" name="SerialNumber" id='SerialNumber' formControlName="serialNumber" required/>
+        <label for="SerialNumber" class="form__label">Serial Number</label>
+    </div>
+    <div class="form__group field">
+        <input type="text" class="form__field" name="Description" id='Description' formControlName="description" required/>
+        <label for="Description" class="form__label">Description</label>
+    </div>
+    <div class="form__group field">
+        <select class="form_select" formControlName="robotTypeID">
+            <option value="">Select a robot type</option>
+            <option *ngFor="let type of robotTypes" [value]="type.robotTypeID">{{ type.robotTypeID }}</option>
+        </select>
+    </div>
+    <div>
+        <button>Create</button>
+    </div>
+</form>
 ````
 
 ## 6. Integration/Demonstration
