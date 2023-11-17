@@ -75,6 +75,84 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 
 ## 5. Implementation
 
+### BuildingListMaxMin Component
+```
+@Component({
+  selector: 'app-building-list-max-min',
+  templateUrl: './building-list-max-min.component.html',
+  styleUrls: ['./building-list-max-min.component.css'],
+  providers: [BuildingService]
+})
+
+
+export class BuildingListMaxMinComponent implements OnInit {
+
+  buildings: any[] = [];
+
+  ngOnInit(): void {
+    
+  }
+
+  constructor(private buildingService: BuildingService) { }
+  max: number = 0;
+  min: number = 0;
+
+  listBuildingMaxMinFloors(){
+    this.buildingService.listBuildingMaxMinFloors(this.max, this.min).subscribe(
+      (data: any) => {
+        this.buildings = data;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.buildings = [];
+      }
+    );
+  }
+
+}
+
+````
+
+### BuildingListMaxMin Component HTML
+```
+<h1>List Buildings by Max Min Floor</h1>
+<div class="form__group field">
+    <input type="number" class="form__field" min="0"  [(ngModel)]="max" placeholder="Max floors" min="0"/>
+    <label for="max" class="form__label">Max floors</label>
+
+    <input type="number" class="form__field" min="0"  [(ngModel)]="min" placeholder="Min floors" min="0"/>
+    <label for="min" class="form__label" style="margin-left: 24%;">Min floors</label>
+
+    <button (click)="listBuildingMaxMinFloors()">Search</button>
+
+</div>
+
+
+<div>
+<table>
+    <thead>
+    <tr class="table100-head">
+    <th class="column1">Code</th>
+    <th class="column2">Name</th>
+    <th class="column3">Description</th>
+    <th class="column4">Length</th>
+    <th class="column5">Width</th>
+    <th class="column6">Floors</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let building of buildings">
+        <td class="column1">{{ building.buildingCode }}</td>
+        <td class="column2">{{ building.buildingName }}</td>
+        <td class="column3">{{ building.buildingDescription }}</td>
+        <td class="column4">{{ building.buildingLength }}</td>
+        <td class="column5">{{ building.buildingWidth }}</td>
+        <td class="column6">{{ building.buildingFloors }}</td>
+    </tr>
+    </tbody>
+</table>
+</div>
+````
 
 ## 6. Integration/Demonstration
 
