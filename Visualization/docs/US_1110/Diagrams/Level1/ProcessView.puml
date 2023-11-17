@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "Campus Manager" as CM
+
+CM -> System: Starts the process to edit a building floor
+System --> CM: Request data to edit
+CM -> System: Types the data
+CM <-- System: Shows actual information and request new data
+CM -> System: Types the new data
+CM <-- System: Informs operation success
+
+
+@enduml
