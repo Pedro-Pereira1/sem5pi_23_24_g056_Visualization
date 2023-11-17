@@ -107,14 +107,147 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 
 ## 5. Implementation
 
-###  Component
+###  FloorEdit Component
 ```
+@Component({
+  selector: 'app-floor-edit',
+  templateUrl: './floor-edit.component.html',
+  styleUrls: ['./floor-edit.component.css'],
+  providers: [FloorService]
+})
+export class FloorEditComponent {
+  constructor(private floorService: FloorService, private buildingService:BuildingService) { }
+  id: string = "";
+  floors: any[] = [];
+  buildings: any[] = [];
+
+  index: number = 0;
+  expanded: boolean[] = [false];
+
+  editForm = new FormGroup({
+    floorId: new FormControl(0),
+    floorNumber: new FormControl(0),
+    description: new FormControl(''),
+  })
+
+  ngOnInit(): void {
+    this.buildingService.listAll().subscribe(
+      (data: any) => {
+        this.buildings = data;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.buildings = [];
+      }
+    );
+  }
+
+  listAllFloors(){
+    this.floorService.listAllFloors(this.id).subscribe(
+      (data: any) => {
+        this.floors = data;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.floors = [];
+      }
+    );
+  }
+
+  toggleExpansion(index: number, floor: Floor) {
+    this.expanded[index] = !this.expanded[index];
+    if (this.expanded[index]) {
+      this.editForm.patchValue({
+        floorId: floor.floorId,
+        floorNumber: floor.floorNumber,
+        description: floor.floorDescription,
+      })
+    }
+  }
+
+  save() {
+    const floor: FloorEdit = {
+      floorId: this.editForm.value.floorId!,
+      floorNumber: this.editForm.value.floorNumber!,
+      floorDescription: this.editForm.value.description!,
+    }
+
+    this.floorService.editFloor(floor).subscribe(
+      (data: Floor) => {
+        window.alert("Floor " + data.floorId + " edited successfully!")
+        this.update()
+      }
+    );
+  }
+
+  update() {
+    this.floors = []
+    this.buildingService.listAll().subscribe(
+      (data: any) => {
+        this.buildings = data;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.buildings = [];
+      }
+    );
+  }
+
+}
 
 ````
 
-###  Component HTML
+###  FloorEdit Component HTML
 ```
+<h1>Edit Floor</h1>
 
+<select [(ngModel)]="id">
+    <option value="">Select a building</option>
+    <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+</select>
+<button (click)="listAllFloors()">Search</button>
+
+<div>
+    <table>
+        <thead>
+            <tr class="table100-head">
+                <th class="column1">ID</th>
+                <th class="column2">Number</th>
+                <th class="column3">Description</th>
+                <th class="column4">Map</th>
+                <th class="column5"></th>
+            </tr>
+        </thead>
+
+        <tbody *ngFor="let floor of floors; let i = index">
+            <tr>
+                <td class="column1">{{ floor.floorId }}</td>
+                <td class="column2">{{ floor.floorNumber }}</td>
+                <td class="column3">{{ floor.floorDescription }}</td>
+                <td class="column4">{{ floor.floorMap }}</td>
+                <td class="column5"><button type="button" class="button" (click)="toggleExpansion(i, floor)">Edit</button></td>
+            </tr>
+
+            <div class="editForm" *ngIf="expanded[i]">
+                <form [formGroup]="editForm" (ngSubmit)="save(); toggleExpansion(i, floor)">
+                    <div class="form__group field">
+                        <input type="text" class="form__field" id='floorId' formControlName="floorId" [readOnly]="true" />
+                        <label for="floorId" class="form__label">FloorId</label>
+                    </div>
+                    <div class="form__group field">
+                        <input type="number" class="form__field" id='floorNumber' formControlName="floorNumber"/>
+                        <label for="floorNumber" class="form__label">floorNumber</label>
+                    </div>            
+                    <div class="form__group field">
+                        <input type="text" class="form__field" id='description' formControlName="description"/>
+                        <label for="description" class="form__label">Description</label>
+                    </div>       
+                    <button>Submit</button>
+                </form>
+            </div>
+        </tbody>   
+    </table>
+</div>
 ````
 
 ## 6. Integration/Demonstration
