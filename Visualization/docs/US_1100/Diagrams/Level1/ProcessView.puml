@@ -1,0 +1,13 @@
+@startuml
+
+autonumber
+actor "Campus Manager" as CM
+
+CM -> System: Starts the process to list all floors of a building
+System --> CM: Request intended building
+CM -> System: Types the data
+CM <-- System: Shows all floors of intended building
+
+
+@enduml
+
