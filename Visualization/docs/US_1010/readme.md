@@ -189,6 +189,10 @@ export class RobotTypesComponent implements OnInit{
 
 
 
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128611263/a22dfc4e-b5de-4e72-92bd-f07ed4b945ea
+
+
+
 ## 7. Observations
 
 No additional observations.
