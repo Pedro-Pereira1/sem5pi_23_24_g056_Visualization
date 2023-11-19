@@ -1,1 +1,81 @@
 <h1>Edit Elevator</h1>
+
+<select [(ngModel)]="buildingCode">
+    <option value="">Select a building</option>
+    <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+</select>
+<button (click)="listElevatorsInBuilding(); listAllFloors()">Search</button>
+
+<div>
+    <table>
+        <thead>
+            <tr class="table100-head">
+                <th class="column1">ID</th>
+                <th class="column2">Brand</th>
+                <th class="column3">Model</th>
+                <th class="column4">Serial Number</th>
+                <th class="column5">Description</th>
+                <th class="column6">Floors</th>
+                <th class="column7">ID Number</th>
+                <th class="column8"></th>
+            </tr>
+        </thead>
+
+        <tbody *ngFor="let elevator of elevators; let i = index">
+            <tr>
+                <td class="column1">{{ elevator.elevatorId }}</td>
+                <td class="column2">{{ elevator.elevatorBrand }}</td>
+                <td class="column3">{{ elevator.elevatorModel }}</td>
+                <td class="column4">{{ elevator.elevatorSerialNumber }}</td>
+                <td class="column5">{{ elevator.elevatorDescription }}</td>
+                <td class="column6">{{ elevator.floorsNumber }}</td>
+                <td class="column7">{{ elevator.elevatorIdentificationNumber }}</td>
+                <td class="column8"><button type="button" class="button" (click)="toggleExpansion(i, elevator); getFloorsWithoutElevator(elevator.elevatorId); getFloorsWithElevator(elevator.elevatorId)">Edit</button></td>
+            </tr>
+
+            <div class="editForm" *ngIf="expanded[i]">
+                <form [formGroup]="editForm" (ngSubmit)="save(); toggleExpansion(i, elevator)">
+                    <div class="form__group field">
+                        <input type="number" class="form__field" id='elevatorIdentificationNumber' formControlName="elevatorIdentificationNumber" [readOnly]="true"/>
+                        <label for="elevatorIdentificationNumber" class="form__label">ID Number</label>
+                    </div>
+                    <div class="form__group field">
+                        <input type="text" class="form__field" id='elevatorBrand' formControlName="elevatorBrand"/>
+                        <label for="elevatorBrand" class="form__label">Brand</label>
+                    </div>
+                    <div class="form__group field"> 
+                        <input type="text" class="form__field" id='elevatorModel' formControlName="elevatorModel"/>
+                        <label for="elevatorModel" class="form__label">Model</label>
+                    </div>            
+                    <div class="form__group field">
+                        <input type="text" class="form__field" id='elevatorSerialNumber' formControlName="elevatorSerialNumber"/>
+                        <label for="elevatorSerialNumber" class="form__label">Serial Number</label>
+                    </div>   
+                    <div class="form__group field">
+                        <input type="text" class="form__field" id='elevatorDescription' formControlName="elevatorDescription"/>
+                        <label for="elevatorDescription" class="form__label">Description</label>
+                    </div>         
+                    <div class="form__group field">
+                        <label class="form__label">Floors To Add</label>
+                        <div *ngFor="let floor of floorsWithoutElevator">
+                            <label class="container">Floor {{ floor.floorNumber }}
+                                <input type="checkbox" (change)="updateFloorsToAdd(floor.floorNumber, $event)">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form__group field">
+                        <label class="form__label">Floors To Remove</label>
+                        <div *ngFor="let floor of floorsWithElevator">
+                            <label class="container">Floor {{ floor.floorNumber }}
+                                <input type="checkbox" (change)="updateFloorsToRemove(floor.floorNumber, $event)">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>     
+                    <button>Submit</button>
+                </form>
+            </div>
+        </tbody>   
+    </table>
+</div>
