@@ -14,7 +14,20 @@ export class RobotService {
 
   listAllRobots() {
     const url = this.robotUrl + "/" + "listAll";
-    return this.http.get<Robot[]>(url)
+    return this.http.get<Robot[]>(url).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `An error occurred: ${error.error.message}`;
+          window.alert(errorMessage);
+        } else {
+          errorMessage = `An error occurred: ${error.error}`;
+          window.alert(errorMessage);
+        }
+        console.error(errorMessage);
+        return throwError(errorMessage);
+      })
+    );
   }
 
   createRobot(robotToCreate: RobotCreate): Observable<Robot> {
