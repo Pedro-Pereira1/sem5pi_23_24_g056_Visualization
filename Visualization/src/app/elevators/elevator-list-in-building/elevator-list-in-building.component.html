@@ -1,1 +1,37 @@
 <h1>List Elevators In Buildings</h1>
+
+
+<select [(ngModel)]="buildingCode">
+    <option value="">Select a building</option>
+    <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+</select>
+<button (click)="listElevatorsInBuilding()">Search</button>
+
+<div>
+    <table>
+        <thead>
+            <tr class="table100-head">
+                <th class="column1">ID</th>
+                <th class="column2">Brand</th>
+                <th class="column3">Model</th>
+                <th class="column4">Serial Number</th>
+                <th class="column5">Description</th>
+                <th class="column6">Floors</th>
+                <th class="column7">ID Number</th>
+                <th class="column8"></th>
+            </tr>
+        </thead>
+
+        <tbody *ngFor="let elevator of elevators; let i = index">
+            <tr>
+                <td class="column1">{{ elevator.elevatorId }}</td>
+                <td class="column2">{{ elevator.elevatorBrand }}</td>
+                <td class="column3">{{ elevator.elevatorModel }}</td>
+                <td class="column4">{{ elevator.elevatorSerialNumber }}</td>
+                <td class="column5">{{ elevator.elevatorDescription }}</td>
+                <td class="column6">{{ elevator.floorsNumber }}</td>
+                <td class="column7">{{ elevator.elevatorIdentificationNumber }}</td>
+            </tr>
+        </tbody>   
+    </table>
+</div>
