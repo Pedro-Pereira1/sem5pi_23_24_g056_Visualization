@@ -1,1 +1,28 @@
 <h1>List Floor Passageways</h1>
+<select [(ngModel)]="id">
+  <option value="">Select a building</option>
+  <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+</select>
+<button (click)="listFloorsPassageway()">Search</button>
+<div>
+  <table>
+    <thead>
+    <tr class="table100-head">
+      <th class="column1">ID</th>
+      <th class="column2">Number</th>
+      <th class="column3">Description</th>
+      <th class="column4">PassagewayID</th>
+      <th class="column5">Floors Connected</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let floor of floors">
+      <td class="column1">{{ floor.floorId }}</td>
+      <td class="column2">{{ floor.floorNumber }}</td>
+      <td class="column3">{{ floor.floorDescription }}</td>
+      <td class="column4">{{ floor.floorMap.passageways }}</td>
+      <td class="column5">{{ floor.floorConnected }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

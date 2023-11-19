@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RobotTypesRoutingModule } from './robot-types-routing.module';
 import { RobotTypeService } from '../services/robot-type.service';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RobotTypesComponent } from './robot-types.component';
 
 
@@ -14,7 +14,8 @@ import { RobotTypesComponent } from './robot-types.component';
     CommonModule,
     RobotTypesRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [RobotTypeService]
 })

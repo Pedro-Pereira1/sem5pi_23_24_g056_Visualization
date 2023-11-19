@@ -1,7 +1,14 @@
 <h1>List Buildings by Max Min Floor</h1>
-<input type="number" [(ngModel)]="max" placeholder="Max floors">
-<input type="number" [(ngModel)]="min" placeholder="Min floors">
-<button (click)="listBuildingMaxMinFloors()">Search</button>
+<div class="form__group field">
+    <input type="number" class="form__field" min="0"  [(ngModel)]="max" placeholder="Max floors" min="0"/>
+    <label for="max" class="form__label">Max floors</label>
+
+    <input type="number" class="form__field" min="0"  [(ngModel)]="min" placeholder="Min floors" min="0"/>
+    <label for="min" class="form__label" style="margin-left: 24%;">Min floors</label>
+
+    <button (click)="listBuildingMaxMinFloors()">Search</button>
+
+</div>
 
 
 <div>

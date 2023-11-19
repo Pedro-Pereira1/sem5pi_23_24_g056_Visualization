@@ -1,21 +1,44 @@
 <h1>Edit Passageways</h1>
 
-<form [formGroup]="createForm" (ngSubmit)="onEdit()">
-
-<div class="form__group field">
-  <input type="number" class="form__field" id='passagewayId' formControlName="passagewayId" required />
-  <label for="passagewayId" class="form__label">PassagewayID</label>
-</div>
-<div class="form__group field">
-  <input type="number" class="form__field" id='floor1Id' formControlName="floor1Id" required />
-  <label for="floor1Id" class="form__label">Floor1ID</label>
-</div>
-
-<div class="form__group field">
-  <input type="number" class="form__field" id='floor2Id' formControlName="floor2Id" required />
-  <label for="floor2Id" class="form__label">Floor2ID</label>
-</div>
 <div>
-  <button>Edit</button>
+  <table>
+    <thead>
+    <tr class="table100-head">
+      <th class="column1">PassagewayID</th>
+      <th class="column2">Floor1ID</th>
+      <th class="column3">Floor2ID</th>
+      <th class="column4"></th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let passageway of passageways; let i = index">
+    <tr>
+      <td class="column1">{{ passageway.passagewayId }}</td>
+      <td class="column2">{{ passageway.floor1Id }}</td>
+      <td class="column3">{{ passageway.floor2Id }}</td>
+
+      <td><button type="button" class="button" (click)="toggleExpansion(i,passageway)">Edit</button></td>
+    </tr>
+
+    <div class="editForm" *ngIf="expanded[i]">
+      <form [formGroup]="createForm" (ngSubmit)="onEdit(); toggleExpansion(i,passageway)">
+        <div class="form__group field">
+          <input type="number" class="form__field" id='id' formControlName="id" [readOnly]="true" />
+          <label for="id" class="form__label">PassagewayID</label>
+        </div>
+
+        <div class="form__group field">
+          <input type="number" class="form__field" id='floor1Id' formControlName="floor1Id" required min="1" />
+          <label for="floor1Id" class="form__label">Floor1ID</label>
+        </div>
+
+        <div class="form__group field">
+          <input type="number" class="form__field" id='floor2Id' formControlName="floor2Id" required min="1" />
+          <label for="floor2Id" class="form__label">Floor2ID</label>
+        </div>
+
+        <button>Save</button>
+      </form>
+    </div>
+    </tbody>
+  </table>
 </div>
-</form>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Robot } from 'src/app/domain/robot/Robot';
 import { RobotService } from 'src/app/services/robot.service';
 
 @Component({
@@ -8,27 +9,20 @@ import { RobotService } from 'src/app/services/robot.service';
   providers: [RobotService]
 })
 export class RobotListAllComponent implements OnInit{
-  robots: any[] = [];
+  robots: Robot[] = [];
 
-  ngOnInit(): void {
-    
-  }
-
-  constructor(private robotService: RobotService) { }
-
-  listAllRobots() {
+  ngOnInit() {
     this.robotService.listAllRobots().subscribe(
-      (data: any) => {
+      (data: Robot[]) => {
         this.robots = data;
       },
       (error: any) => {
-        console.error('Error:', error);
-        this.robots = [];
+        if (error.status === 400) {
+          window.alert('No robots found.');
+        }
       }
     );
-
-    if (this.robots.length == 0) {
-      window.alert('No robots found!');
-    }
   }
+
+  constructor(private robotService: RobotService) { }
 }

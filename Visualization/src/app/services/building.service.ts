@@ -34,7 +34,7 @@ export class BuildingService {
       )
   }
 
-  public editBuilding(building: Building) {
+  public editBuilding(building: BuildingCreate) {
     const url = this.buildingsUrl + "/" + "editBuilding";
 
     return this.http.put<Building>(url, building)
@@ -55,7 +55,20 @@ export class BuildingService {
 
   listBuildingMaxMinFloors(max: number, min: number) {
     const url = this.buildingsUrl + "/" + "listBuildingsMaxMinFloors" + "/" + max + "/" + min;
-    return this.http.get(url);
+    return this.http.get(url).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `An error occurred: ${error.error.message}`;
+          window.alert(errorMessage);
+        } else {
+          errorMessage = `An error occurred: ${error.error}`;
+          window.alert(errorMessage);
+        }
+        console.error(errorMessage);
+        return throwError(errorMessage);
+      })
+    );
   }
 
 

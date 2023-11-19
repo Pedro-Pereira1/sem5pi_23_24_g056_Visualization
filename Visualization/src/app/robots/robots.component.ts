@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RobotTypeService } from '../services/robot-type.service';
 import { RobotService } from '../services/robot.service';
 import { RobotCreate } from '../domain/robot/RobotCreate';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-robots',
@@ -14,11 +15,14 @@ export class RobotsComponent implements OnInit{
   constructor(private robotTypeService: RobotTypeService, private robotService:RobotService) { }
 
   robotTypes: any[] = [];
-  code: string = '';
-  nickname: string = '';
-  robotTypeID: string = '';
-  serialNumber: string = '';
-  description: string = '';
+
+  createForm = new FormGroup({
+    code: new FormControl(''),
+    nickname: new FormControl(''),
+    robotTypeID: new FormControl(''),
+    serialNumber: new FormControl(''),
+    description: new FormControl(''),
+  })
 
   ngOnInit(): void {
     this.robotTypeService.listAll().subscribe(
@@ -32,27 +36,22 @@ export class RobotsComponent implements OnInit{
     );
   }
 
-  createRobot() {
+  onSubmint() {
     const robot: RobotCreate = {
-      code: this.code,
-      nickname: this.nickname,
-      type: this.robotTypeID,
-      serialNumber: this.serialNumber,
-      description: this.description
+      code: this.createForm.value.code!,
+      nickname: this.createForm.value.nickname!,
+      type: this.createForm.value.robotTypeID!,
+      serialNumber: this.createForm.value.serialNumber!,
+      description: this.createForm.value.description!,
     }
 
     this.robotService.createRobot(robot).subscribe(
       (data: any) => {
-        window.alert("Robot " + this.code + " created successfully");
-        this.code = "";
-        this.nickname = "";
-        this.robotTypeID = "";
-        this.serialNumber = "";
-        this.description = "";
+        window.alert("Robot " + this.createForm.value.code! + " created successfully");
+        this.createForm.reset();
       },
       (error: any) => {
         console.error('Error:', error);
-        window.alert("Error creating robot " + this.code);
       }
     );
   

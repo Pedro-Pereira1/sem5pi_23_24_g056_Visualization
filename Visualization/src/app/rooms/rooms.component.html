@@ -1,1 +1,31 @@
-<h1>Rooms</h1>
+<h1>Create Room</h1>
+
+<form [formGroup]="createForm" (ngSubmit)="onCreate()">
+
+  <div class="form__group field">
+    <input type="text" class="form__field" id='roomName' formControlName="roomName" required />
+    <label for="roomName" class="form__label">Room Name</label>
+  </div>
+
+  <div class="form__group field">
+    <input type="text" class="form__field" id='roomDescription' formControlName="roomDescription" required />
+    <label for="roomDescription" class="form__label">Room Description</label>
+  </div>
+
+  <div class="form__group field">
+    <select class="form__field" id="roomCategory" formControlName="roomCategory" required>
+      <option value="">Select a category</option>
+      <option *ngFor="let type of categories" [value]="type.toString()">{{type.toString()}}</option>
+    </select>
+    <label for="roomCategory" class="form__label">Room Category</label>
+  </div>
+
+  <div class="form__group field">
+    <input type="number" class="form__field" id='floorId' formControlName="floorId" required min="1" />
+    <label for="floorId" class="form__label">FloorID</label>
+  </div>
+
+  <div>
+    <button>Create</button>
+  </div>
+</form>
