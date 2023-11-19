@@ -5,6 +5,6 @@ export interface ElevatorEdit {
     elevatorModel: string
     elevatorSerialNumber: string
     buildingCode: string
-    floorsIdToAdd: number[]
-    floorsIdToRemove: number[]
+    floorsIdToAdd?: number[]
+    floorsIdToRemove?: number[]
 }
