@@ -1,0 +1,21 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataBuilding" as GI
+
+?o-> Visualization: Starts the process to  list robots
+activate Visualization
+
+
+Visualization -> GI: GET 
+activate GI
+GI --> Visualization: robots (JSON)
+deactivate GI
+
+<-- Visualization: Shows robots list
+deactivate Visualization
+
+
+@enduml

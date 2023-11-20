@@ -1,0 +1,12 @@
+@startuml
+
+autonumber
+actor "Fleet Manager" as CM
+
+CM -> System: 
+System --> CM: 
+CM -> System: 
+CM <-- System: 
+
+
+@enduml
