@@ -258,4 +258,10 @@ export class FloorEditComponent {
 
 ## 6. Integration/Demonstration
 
+
+
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128611263/ba72db8a-9438-4ee4-80c6-6a1f450c873c
+
+
+
 ## 7. Observations
