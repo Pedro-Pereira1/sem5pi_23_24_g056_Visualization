@@ -1,8 +1,9 @@
-import {  Component, ElementRef, Input, AfterViewInit, ViewChild } from
-'@angular/core';
-import * as THREE from "three";
-import Orientation from "./../../../../View3D/src/orientation.js";
-import ThumbRaiser from "./../../../../View3D/src/thumb_raiser.js";
+import {  Component, ElementRef, Input, AfterViewInit, ViewChild } from '@angular/core';
+import * as THREE from 'three';
+import Orientation from "./orientation.js"
+import ThumbRaiser from "./thumb_raiser.js"
+import { ActivatedRoute } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-view3d',
@@ -10,22 +11,13 @@ import ThumbRaiser from "./../../../../View3D/src/thumb_raiser.js";
   styleUrls: ['./view3d.component.css']
 })
 export class View3dComponent implements AfterViewInit {
-  @Input() thumbRaiser: ThumbRaiser;
-
-  @ViewChild('myCanvas') private canvasRef!: ElementRef;
-  constructor() { 
-    this.thumbRaiser = new ThumbRaiser();
-  }
-
-    
-
-  ngAfterViewInit(): void {
-    this.initialize();
-    this.animate();
-  }
   
+  thumbRaiser!: ThumbRaiser;
 
-  private initialize() {
+  constructor(private route: ActivatedRoute) { }
+
+
+   initialize() {
       // Create the game
       this.thumbRaiser = new ThumbRaiser(
           {}, // General Parameters
@@ -41,12 +33,17 @@ export class View3dComponent implements AfterViewInit {
       );
   }
 
-  private animate() {
+  animate():void {
       requestAnimationFrame(this.animate);
       // Update the game
       this.thumbRaiser.update();
   }
 
-        
-    
+  ngAfterViewInit(): void {
+      this.initialize();
+      this.animate = this.animate.bind(this);
+      this.animate();
+  }
+
+  
 }
