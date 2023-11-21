@@ -187,4 +187,7 @@ export class FloorListAllFloorsOfBuildingComponent implements OnInit {
 
 ## 6. Integration/Demonstration
 
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128611263/756534dd-04e1-4d8d-9373-91c33b148bab
+
+
 ## 7. Observations
