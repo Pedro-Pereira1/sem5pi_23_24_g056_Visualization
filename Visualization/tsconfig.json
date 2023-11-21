@@ -24,7 +24,8 @@
       "ES2022",
       "dom"
     ],
-    "allowJs": true
+    "allowJs": true,
+    "checkJs": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
