@@ -37,7 +37,11 @@ As a Fleet Manager, an actor of the system, I will be able to access the system 
 * The robot type has a Code, a Brand and a Model.
 * ex1."Tipo A: Robot marca X modelo Y com capacidade de executar tarefas de vigilância"
 * ex2."Tipo B: Robot marca W modelo Z com capacidade de executar tarefas de vigilância e pickeup&delivery"
-
+* We will use Angular, so we need an HTML, CSS and TS file.
+* We will need three labels (ID, Brand and Model)
+* We will need two checkboxes to define the available tasks
+* We will need a button to perform the action
+* We will a notification to inform the operation success.
 
 ### 3.1. Domain Model Excerpt
 ![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)

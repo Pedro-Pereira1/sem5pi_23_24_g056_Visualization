@@ -22,6 +22,10 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 * Campus Manager is a user role that manages the data of the routes and maps.
 * Building is a structure within the campus that houses various rooms and facilities. It can be navigated by the robisep robots using corridors and elevators.
 * Floor is a level within a building. Each floor can contain multiple rooms and is accessible by elevators and stairs (though robisep robots cannot use stairs).
+* We will use Angular, so we need an HTML, CSS and TS file.
+* We will need two labels, one for max number and one for min number.
+* We will need a button to search for buildings
+* We will need a table so show the result (updated when button search is clicked)
 
 ### 3.1. Domain Model Excerpt
 ![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)

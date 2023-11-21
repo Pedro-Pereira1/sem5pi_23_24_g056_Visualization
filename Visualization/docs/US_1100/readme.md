@@ -55,7 +55,9 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 |         13          |    Yes     |    No     |  No  |    No    |    Yes     |  No  |
 |         14          |     No     |    No     |  No  |   Yes    |     No     |  No  |
 
-
+* We will use Angular, so we need an HTML, CSS and TS file.
+* We will need a labels to select the building to list all Floor
+* We will need a table to show Floors content
 
 ### 3.1. Domain Model Excerpt
 ![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)

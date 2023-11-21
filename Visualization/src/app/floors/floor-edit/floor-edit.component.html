@@ -23,7 +23,12 @@
                 <td class="column1">{{ floor.floorId }}</td>
                 <td class="column2">{{ floor.floorNumber }}</td>
                 <td class="column3">{{ floor.floorDescription }}</td>
-                <td class="column4">{{ floor.floorMap }}</td>
+                <td class="column4">
+                    <div *ngFor="let row of floor.floorMap.map">
+                        <span *ngFor="let cell of row">{{ cell }}{{ cell > 10 ? '&nbsp;&nbsp;&nbsp;' : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' }}</span>
+                      <br>
+                    </div>
+                </td>
                 <td class="column5"><button type="button" class="button" (click)="toggleExpansion(i, floor)">Edit</button></td>
             </tr>
 

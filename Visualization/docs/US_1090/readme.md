@@ -59,7 +59,11 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 |         14          |     No     |    No     |  No  |   Yes    |     No     |  No  |
 
 
-
+* We will use Angular, so we need an HTML, CSS and TS file.
+* We will need three labels (ID, floorNumber and Description)
+* We will need a label to select the building to create a Floor
+* We will need a button to perform the action
+* We will a notification to inform the operation success.
 
 
 ### 3.1. Domain Model Excerpt

@@ -1,22 +1,11 @@
 # Layer 3
 
-## Logical View - Logistics
-![LogicalViewLogistics](Diagrams/LogicalViewLogistics.svg)
+## Logical View
+![LogicalViewLogistics](Diagrams/LogicalView.svg)
 
-## Implementation View - Logistics
-![ImplementationViewLogistics](Diagrams/ImplementationViewLogistics.svg)
+## Implementation View
+![ImplementationViewLogistics](Diagrams/ImplementationView.svg)
 
-## Logical and Implementation View - Logistics
-![LogicalAndImplementationLogistics](Diagrams/LogicalAndImplementationLogistics.svg)
-
-## Logical View - MasterDataBuilding
-![LogicalViewManagement](Diagrams/LogicalViewMasterDataBuilding.svg)
-
-## Implementation View - MasterDataBuilding
-![ImplementationViewManagement](Diagrams/ImplementationViewMasterDataBuilding.svg)
-
-## Logical and Implementation View - MasterDataBuilding
-![LogicalAndImplementationManagement](Diagrams/LogicalAndImplementationMasterDataBuilding.svg)
 
 ### US1050
 ![US1050](../US_1050/Diagrams/Level3/ProcessView.svg)
