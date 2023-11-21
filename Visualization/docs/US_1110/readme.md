@@ -55,7 +55,13 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 |         13          |    Yes     |    No     |  No  |    No    |    Yes     |  No  |
 |         14          |     No     |    No     |  No  |   Yes    |     No     |  No  |
 
-
+* We will use Angular, so we need an HTML, CSS and TS file.
+* We will need a labels to select the building to edit a Floor
+* We will need a button to perform the search of floor to an intended Building
+* We will need a table to show the floor information and a button to edit each floor 
+* We will need three labels (ID, floorNumber and Description) with the actual data, that ca be edited
+* We will need a button to commit changes of floor information
+* We will a notification to inform the operation success.
 
 ### 3.1. Domain Model Excerpt
 ![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)
