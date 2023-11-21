@@ -55,7 +55,10 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 |         13          |    Yes     |    No     |  No  |    No    |    Yes     |  No  |
 |         14          |     No     |    No     |  No  |   Yes    |     No     |  No  |
 
-
+* We will use Angular, so we need an HTML, CSS and TS file.
+* We will need two labels, one for max number and one for min number.
+* We will need a button to search for buildings
+* We will need a table so show the result (updated when button search is clicked)
 
 ### 3.1. Domain Model Excerpt
 ![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)
