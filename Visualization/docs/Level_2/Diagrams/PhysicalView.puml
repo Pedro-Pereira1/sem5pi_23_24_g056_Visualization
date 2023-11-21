@@ -20,9 +20,13 @@ node Server3{
   }
 }
 
+node Server4{
+  database MongoDB
+}
+
 
 
 Server1 -d- Server2: http/s
 Server2 -u- Server3: http/s
-
+Server2 -u- Server4
 @enduml
