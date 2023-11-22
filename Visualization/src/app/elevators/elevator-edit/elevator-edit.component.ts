@@ -121,11 +121,9 @@ export class ElevatorEditComponent {
 
     } 
     if (this.editForm.value.floorsIdToRemove?.length !== 0){
-      console.log(this.editForm.value.floorsIdToRemove);
       elevator.floorsIdToRemove = this.editForm.value.floorsIdToRemove!;
     }
 
-    console.log(elevator);
     this.elevatorService.editElevator(elevator).subscribe(
       (data: Elevator) => {
         window.alert("Elevator " + data.elevatorId + " edited successfully!")
@@ -153,8 +151,6 @@ export class ElevatorEditComponent {
     let floorsNumberToRemove = this.editForm.get('floorsIdToRemove') as FormArray;
     if (checkbox.checked) {
       floorsNumberToRemove.push(new FormControl(number));
-      console.log('ola');
-      //console.log('floorsNumberToRemove: ' + this.editForm.value.floorsIdToRemove);
 
     } else {
       let index = floorsNumberToRemove.controls.findIndex(control => control.value === number);
