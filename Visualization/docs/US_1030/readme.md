@@ -140,6 +140,9 @@ export class RobotListAllComponent implements OnInit{
 The integration of this US is demonstrated in the following video:
 
 
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128607684/f41213b7-a1ae-443d-a34d-e90e838f9742
+
+
 
 ## 7. Observations
 No observations.
