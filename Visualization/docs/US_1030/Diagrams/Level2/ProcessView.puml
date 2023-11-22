@@ -3,18 +3,18 @@
 autonumber
 
 participant Visualization
-participant "MasterDataBuilding" as GI
+participant "MasterDataLogistics" as GI
 
-?o-> Visualization: Starts the process to  list robots
+?o-> Visualization: Consult all robots in fleet
 activate Visualization
 
 
-Visualization -> GI: GET 
+Visualization -> GI: GET robots
 activate GI
-GI --> Visualization: robots (JSON)
+GI --> Visualization: List of robots
 deactivate GI
 
-<-- Visualization: Shows robots list
+<-- Visualization: List of robots
 deactivate Visualization
 
 

@@ -1,12 +1,16 @@
 @startuml
 
 autonumber
-actor "Fleet Manager" as CM
+actor "Fleet Manager" as FM
 
-CM -> System: 
-System --> CM: 
-CM -> System: 
-CM <-- System: 
+activate FM
+FM -> System: Consult all robots in fleet
+activate System
+System --> FM: List of robots
+deactivate System
+
+
+@enduml
 
 
 @enduml

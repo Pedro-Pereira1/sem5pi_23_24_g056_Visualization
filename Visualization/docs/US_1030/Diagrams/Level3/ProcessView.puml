@@ -1,0 +1,31 @@
+@startuml ProcessView
+
+autonumber
+
+participant "HTML Template" as Template
+participant Component
+participant Service 
+participant "HTTP Driver" as Driver
+participant Robot
+
+
+?o-> Template: Consult all robots in fleet
+activate Template
+Template-> Component: when initializing the page
+activate Component
+Component -> Service: listAllRobots()
+activate Service
+Service -> Driver: GET robots
+activate Driver
+Driver -> Service: List of robots
+deactivate Driver
+Service -> Robot: Parse JSON to Robot
+Service -> Component: List of robots
+deactivate Service
+Component -> Template: List of robots
+deactivate Component
+<-- Template: List of robots
+deactivate Template
+
+
+@enduml
