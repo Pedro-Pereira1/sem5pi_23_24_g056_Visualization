@@ -3,7 +3,7 @@
 ## 1. Context
 
 * Backend developed in Sprint A.
-* This task is relative to system user Campus Manager .
+* This task is relative to system user Campus Manager.
 
 ## 2. Requirements
 
@@ -77,7 +77,7 @@ and also the building and floor where the passageway connects to.
 ## 5. Implementation
 
 ###  ListAllFloorsPassageways Component
-```
+```typescript
 @Component({
   selector: 'app-floor-list-floors-passageways',
   templateUrl: './floor-list-floors-passageways.component.html',
@@ -117,7 +117,7 @@ export class FloorListFloorsPassagewaysComponent {
 ````
 
 ###  ListAllFloorsPassageways Component HTML
-```
+```html
 <h1>List Floor Passageways</h1>
 <select [(ngModel)]="id">
   <option value="">Select a building</option>
