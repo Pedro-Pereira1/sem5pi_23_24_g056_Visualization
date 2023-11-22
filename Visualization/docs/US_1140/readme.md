@@ -25,7 +25,7 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 * We will use Angular, so we need an HTML and CSS template and TS component.
 * When the page is loaded, it will be searched for all the buildings of the system.
 * The Campus Manager will select a building and then click a button to search for the elevators. 
-* We will a notify when there are no robots.
+* We will a notify when there are no elevators.
 
 ### 3.1. Domain Model Excerpt
 ![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)
