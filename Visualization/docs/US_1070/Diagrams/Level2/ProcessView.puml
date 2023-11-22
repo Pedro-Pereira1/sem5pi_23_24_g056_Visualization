@@ -5,16 +5,15 @@ autonumber
 participant Visualization
 participant "MasterDataBuilding" as GI
 
-?o-> Visualization: Starts the process to  list buildings with min and max floors.
+?o-> Visualization: Starts the process to list every buildings 
 activate Visualization
 
-
-Visualization -> GI: GET buildingsByMaxAndMinFloors
+Visualization -> GI: GET /listAllBuildings
 activate GI
-GI --> Visualization: building(JSON)
+GI --> Visualization: buildings(JSON)
 deactivate GI
 
-<-- Visualization: Shows buildings list
+<-- Visualization: Shows confirmation message
 deactivate Visualization
 
 
