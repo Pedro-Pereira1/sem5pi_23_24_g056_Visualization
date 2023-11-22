@@ -292,7 +292,7 @@ export class ElevatorService {
 ## 6. Integration/Demonstration
 The integration of this US is demonstrated in the following video:
 
-
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128607684/9a92d6c4-2852-4a7b-9272-caff4a37f475
 
 ## 7. Observations
 No observations.
