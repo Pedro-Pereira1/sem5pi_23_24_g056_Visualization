@@ -191,7 +191,7 @@ export class ElevatorService {
 ```
 
 
-### Elevator Create HTML Template
+### Elevator List HTML Template
 ``` html
 <h1>List Elevators In Buildings</h1>
 
@@ -234,7 +234,7 @@ export class ElevatorService {
 ## 6. Integration/Demonstration
 The integration of this US is demonstrated in the following video:
 
-
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128607684/a2c97f5c-2461-4d45-890b-7355c7f02157
 
 ## 7. Observations
 No observations.
