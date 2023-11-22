@@ -18,12 +18,12 @@ activate Service
 Service -> Driver: http request to get robots
 activate Driver
 Driver ->: GET robots
-Driver -> Service: List of robots
+Driver --> Service: List of robots
 deactivate Driver
 Service -> Robot: Parse JSON to Robot
-Service -> Component: List of robots
+Service --> Component: List of robots
 deactivate Service
-Component -> Template: List of robots
+Component --> Template: List of robots
 deactivate Component
 <-- Template: List of robots
 deactivate Template
