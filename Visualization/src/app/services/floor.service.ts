@@ -17,9 +17,9 @@ export class FloorService {
 
   constructor(private http: HttpClient) { }
 
-  listAllFloors(id: string) {
+  listAllFloors(id: string): Observable<Floor[]> {
     const url = this.floorsUrl + "/" + "listAllFloors" + "/" + id;
-    return this.http.get(url).pipe(
+    return this.http.get<Floor[]>(url).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {

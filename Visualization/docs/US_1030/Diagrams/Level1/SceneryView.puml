@@ -1,4 +1,4 @@
-@startuml ScenaryLevel1
+@startuml SceneryView
 left to right direction
 
 skinparam actorStyle awesome
