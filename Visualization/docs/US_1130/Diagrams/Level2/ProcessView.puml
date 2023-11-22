@@ -1,0 +1,21 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataBuilding" as GI
+
+?o-> Visualization: Create elevator
+activate Visualization
+
+
+Visualization -> GI: POST elevator
+activate GI
+GI --> Visualization: elevator
+deactivate GI
+
+<-- Visualization: Informs operation success
+deactivate Visualization
+
+
+@enduml
