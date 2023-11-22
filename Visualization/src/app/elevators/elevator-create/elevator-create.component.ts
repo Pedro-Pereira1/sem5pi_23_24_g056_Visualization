@@ -87,7 +87,6 @@ export class ElevatorCreateComponent {
       floorIds: this.createForm.value.floorsIds!
     }
 
-    console.log(elevator);
     this.elevatorService.createElevator(elevator).subscribe((e: Elevator) => {
       window.alert("Elevator " + e.elevatorId + " created successfully");
     })
