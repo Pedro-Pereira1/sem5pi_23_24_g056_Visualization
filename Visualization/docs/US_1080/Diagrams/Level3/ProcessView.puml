@@ -1,0 +1,41 @@
+@startuml
+
+autonumber
+
+
+participant ":Template" as Template
+participant Component as Component
+participant ":Service" as Service
+participant ":Building" as Model
+participant ":HTTP Driver" as HTTP
+
+?o->Template: /buildings
+activate Template
+
+Template -> Component: /buildings/listBuildingsMaxMinFloors
+activate Component
+
+Component -> Service: listBuildingMaxMinFloors(max,min)
+activate Service
+
+Service -> HTTP: http get
+activate HTTP
+HTTP -> : GET
+HTTP --> Service: JSON
+deactivate HTTP
+
+Service -> Model: Parse JSON to Building
+
+
+
+Service --> Component:building list
+deactivate Service
+
+Component --> Template:building list
+deactivate Component
+
+<--Template: building list
+deactivate Template
+
+
+@enduml
