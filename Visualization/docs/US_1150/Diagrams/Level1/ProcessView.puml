@@ -6,7 +6,7 @@ actor "Campus Manager" as CM
 
 
 activate CM
-CM -> System: Create elevator 
+CM -> System: Edit elevator 
 activate System
 CM <-- System: Inform Success
 deactivate System

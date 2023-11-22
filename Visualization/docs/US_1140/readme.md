@@ -1,4 +1,4 @@
-# US 1130 -  As a Campus Manager, I want to create an elevator in a building.
+# US 1140 - As a Campus Manager, I want to list elevators in building
 
 ## 1. Context
 
@@ -7,13 +7,13 @@
 
 ## 2. Requirements
 
-**US 1130 -** As a Campus Manager, I want to create an elevator in a building.
+**US 1140 -** As a Campus Manager, I want to list elevators in building.
 
 **Dependencies:**
-**US270** - Sprint A
+**US290** - Sprint A
 
 **Regarding this requirement we understand that:** <br>
-As a Campus Manager, an actor of the system, I will be able to access the system and create an elevator, specifying its building and floors that it accesses.
+As a Campus Manager, an actor of the system, I will be able to access the system and get a list of all the elevators in a building and the floors that it accesses.
 
 ## 3. Analysis
 
@@ -24,8 +24,8 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 * Elevator is a transport device for moving between different floors of a building. The robisep robots are capable of using elevators to navigate multi-story buildings. 
 * We will use Angular, so we need an HTML and CSS template and TS component.
 * When the page is loaded, it will be searched for all the buildings of the system.
-* The Campus Manager will select a building to which the elevator will be added.
-* When a building is selected it will appear the floors of that building to select.
+* The Campus Manager will select a building and then click a button to search for the elevators. 
+* We will a notify when there are no elevators.
 
 ### 3.1. Domain Model Excerpt
 ![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)
@@ -81,36 +81,21 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 
 ## 5. Implementation
 
-### Elevator Create Component
+### Elevator List Component
 ``` typescript
 @Component({
-  selector: 'app-elevator-create',
-  templateUrl: './elevator-create.component.html',
-  styleUrls: ['./elevator-create.component.css'],
-  providers: [ElevatorService, FloorService, BuildingService]
+  selector: 'app-elevator-list-in-building',
+  templateUrl: './elevator-list-in-building.component.html',
+  styleUrls: ['./elevator-list-in-building.component.css'],
+  providers: [ElevatorService, BuildingService]
 })
-export class ElevatorCreateComponent {
-  constructor(
-    private elevatorService: ElevatorService,
-    private floorService: FloorService,
-    private buildingService: BuildingService
-  ) { }
-
-  floors: any[] = [];
+export class ElevatorListInBuildingComponent {
+  constructor(private elevatorService: ElevatorService, private buildingService: BuildingService) { }
+  buildingCode: string = "";
+  elevators: ElevatorList[] = [];
   buildings: any[] = [];
- 
 
-  createForm = new FormGroup({
-    id: new FormControl(0),
-    brand: new FormControl(""),
-    description: new FormControl(""),
-    model: new FormControl(""),
-    serialNumber: new FormControl(""),
-    buildingCode: new FormControl(""),
-    floorsIds: new FormArray([])});
-
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.buildingService.listAll().subscribe(
       (data: any) => {
         this.buildings = data;
@@ -122,54 +107,21 @@ export class ElevatorCreateComponent {
     );
   }
 
-  onBuildingSelect() {
-    if (this.createForm.value.buildingCode !== null) {
-      this.listAllFloors();
-    }
-  }
-
-  listAllFloors() {
-    this.floorService.listAllFloors(this.createForm.value.buildingCode!).subscribe(
+  listElevatorsInBuilding() {
+    this.elevators = [];
+    this.elevatorService.listElevatorsInBuilding(this.buildingCode).subscribe(
       (data: any) => {
-        this.floors = data;
+        this.elevators = data;
       },
       (error: any) => {
-        window.alert('Error:' + error.error.message);
-        this.floors = [];
+        if (error.status === 400) {
+          window.alert('No elevators found.');
+          this.elevators = [];
+        }
       }
     );
   }
-
-  updateFloors(id: number, event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    let floorsIds = this.createForm.get('floorsIds') as FormArray;
-    if (checkbox.checked) {
-      floorsIds.push(new FormControl(id));
-    } else {
-      let index = floorsIds.controls.findIndex(control => control.value === id);
-      if (index > -1){
-        floorsIds.removeAt(index);
-      }
-    }
-  }
-
-  onSubmit() {
-    const elevator: ElevatorCreate = {
-      elevatorId: this.createForm.value.id!,
-      elevatorBrand: this.createForm.value.brand!,
-      elevatorDescription: this.createForm.value.description!,
-      elevatorModel: this.createForm.value.model!,
-      elevatorSerialNumber: this.createForm.value.serialNumber!,
-      buildingCode: this.createForm.value.buildingCode!,
-      floorIds: this.createForm.value.floorsIds!
-    }
-
-    this.elevatorService.createElevator(elevator).subscribe((e: Elevator) => {
-      window.alert("Elevator " + e.elevatorId + " created successfully");
-    })
-  }
 }
-
 ```
 
 ### Elevator Service
@@ -239,63 +191,50 @@ export class ElevatorService {
 ```
 
 
-### Elevator Create HTML Template
+### Elevator List HTML Template
 ``` html
-<h1>Create Elevator</h1>
+<h1>List Elevators In Buildings</h1>
 
-<form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+<select [(ngModel)]="buildingCode">
+    <option value="">Select a building</option>
+    <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+</select>
+<button (click)="listElevatorsInBuilding()">Search</button>
 
-    <div class="form__group field">
-        <input type="number" class="form__field" min="0"  id='id' formControlName="id" required/>
-        <label for="id" class="form__label">Elevator Id</label>
-    </div>
+<div>
+    <table>
+        <thead>
+            <tr class="table100-head">
+                <th class="column1">ID</th>
+                <th class="column2">Brand</th>
+                <th class="column3">Model</th>
+                <th class="column4">Serial Number</th>
+                <th class="column5">Description</th>
+                <th class="column6">Floors</th>
+                <th class="column7">ID Number</th>
+                <th class="column8"></th>
+            </tr>
+        </thead>
 
-    <div class="form__group field">
-        <input type="text" class="form__field" id='brand'  formControlName="brand">
-        <label for="brand" class="form__label">Brand</label>
-    </div>
-
-    <div class="form__group field">
-        <input type="text" class="form__field" id='description' formControlName="description">
-        <label for="description" class="form__label">Description</label>
-    </div>
-
-    <div class="form__group field">
-        <input type="text" class="form__field" id='model' formControlName="model">
-        <label for="model" class="form__label">Model</label>
-    </div>
-
-    <div class="form__group field">
-        <input type="text" class="form__field" id='serialNumber'  formControlName="serialNumber">
-        <label for="serialNumber" class="form__label">Serial Number</label>
-    </div>
-
-    <div class="form__group field">
-        <select class="form_select" formControlName="buildingCode" (change)="onBuildingSelect()">
-            <option value="">--Select a building--</option>
-            <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
-        </select>
-    </div>
-
-    <div class="form__group field">
-        <div *ngFor="let floor of floors">
-            <label class="container">Floor {{ floor.floorNumber }}
-                <input type="checkbox" (change)="updateFloors(floor.floorId, $event)">
-                <span class="checkmark"></span>
-            </label>
-        </div>
-    </div>
-
-    <div>
-        <button>Create</button>
-    </div>
-</form>
+        <tbody *ngFor="let elevator of elevators; let i = index">
+            <tr>
+                <td class="column1">{{ elevator.elevatorId }}</td>
+                <td class="column2">{{ elevator.elevatorBrand }}</td>
+                <td class="column3">{{ elevator.elevatorModel }}</td>
+                <td class="column4">{{ elevator.elevatorSerialNumber }}</td>
+                <td class="column5">{{ elevator.elevatorDescription }}</td>
+                <td class="column6">{{ elevator.floorsNumber }}</td>
+                <td class="column7">{{ elevator.elevatorIdentificationNumber }}</td>
+            </tr>
+        </tbody>   
+    </table>
+</div>
 ````
 
 ## 6. Integration/Demonstration
 The integration of this US is demonstrated in the following video:
 
-https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128607684/9a92d6c4-2852-4a7b-9272-caff4a37f475
+https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128607684/a2c97f5c-2461-4d45-890b-7355c7f02157
 
 ## 7. Observations
 No observations.
