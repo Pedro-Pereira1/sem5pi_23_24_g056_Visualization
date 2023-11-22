@@ -22,7 +22,8 @@ unique code, a name, a description, a certain lenght and width
 
 
 ### 3.1. Domain Model Excerpt
-![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)
+
+![DomainModelExcerpt](./Diagrams/DomainModelExcerpt.svg)
 
 
 ## 4. Design
@@ -30,13 +31,17 @@ unique code, a name, a description, a certain lenght and width
 ### 4.1. Realization
 
 ### Level1
+
 ###### LogicalView:
+
 ![LogicalView](Diagrams/Level1/LogicalView.svg)
 
 ###### SceneryView:
+
 ![SceneryView](Diagrams/Level1/SceneryView.svg)
 
 ###### ProcessView:
+
 ![ProcessView](Diagrams/Level1/ProcessView.svg)
 
 #### Level2
@@ -46,22 +51,29 @@ unique code, a name, a description, a certain lenght and width
 ![LogicalView](Diagrams/Level2/LogicalView.svg)
 
 ###### ImplementationView:
+
 ![ImplementationView](Diagrams/Level2/ImplementationView.svg)
 
 ###### PhysicalView:
+
 ![PhysicalView](Diagrams/Level2/PhysicalView.svg)
 
 ###### ProcessView:
+
 ![ProcessView](Diagrams/Level2/ProcessView.svg)
 
 #### Level3
+
 ###### LogicalView:
+
 ![LogicalView](Diagrams/Level3/LogicalView.svg)
 
 ###### ImplementationView:
+
 ![ImplementationView](Diagrams/Level3/ImplementationView.svg)
 
 ###### ProcessView:
+
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
 
@@ -75,19 +87,87 @@ unique code, a name, a description, a certain lenght and width
 ### building-create.component.html
 
 ```html
+<h1>Create Building</h1>
 
+<form [formGroup]="createForm" (ngSubmit)="onSubmint()">
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='code' formControlName="code" required />
+        <label for="code" class="form__label">Building Code</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='name' formControlName="name" required />
+        <label for="name" class="form__label">Name</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="text" class="form__field" id='description' formControlName="description" required />
+        <label for="description" class="form__label">Description</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="number" class="form__field" id='length' formControlName="length" required />
+        <label for="length" class="form__label">Length</label>
+    </div>
+
+    <div class="form__group field">
+        <input type="number" class="form__field" id='width' formControlName="width" required />
+        <label for="width" class="form__label">Width</label>
+    </div>
+
+
+    <button>Submit</button>
+</form>
 ```
 
 ### building-create.component.ts
 
 ```typescript
+export class BuildingCreateComponent {
+
+  constructor(
+    private buildingService: BuildingService,
+  ) { }
+
+  createForm = new FormGroup({
+    code: new FormControl(''),
+    name: new FormControl(''),
+    description: new FormControl(''),
+    length: new FormControl(0),
+    width: new FormControl(0),
+  })
+
+  onSubmint() {
+    const buildign: BuildingCreate = {
+      buildingCode: this.createForm.value.code!,
+      buildingName: this.createForm.value.name!,
+      buildingDescription: this.createForm.value.description!,
+      buildingLength: this.createForm.value.length!,
+      buildingWidth: this.createForm.value.width!
+    }
+
+    this.buildingService.createBuilding(buildign).subscribe((b: Building) => {
+      window.alert("Building " + b.buildingCode + " created successfully");
+    })
+
+    this.createForm.reset();
+  }
+}
 
 ```
 
 ### buildingService
 
 ```typescript
+  public createBuilding(buildingToCreate: BuildingCreate): Observable<Building> {
+    const url = this.buildingsUrl + "/" + "createBuilding";
 
+    return this.http.post<Building>(url, buildingToCreate)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
 ```
 
 ## 6. Integration/Demonstration
