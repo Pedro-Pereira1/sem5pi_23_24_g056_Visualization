@@ -22,7 +22,10 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 * Building is a structure within the campus that houses various rooms and facilities. It can be navigated by the robisep robots using corridors and elevators.
 * Floor is a level within a building. Each floor can contain multiple rooms and is accessible by elevators and stairs (though robisep robots cannot use stairs). 
 * Elevator is a transport device for moving between different floors of a building. The robisep robots are capable of using elevators to navigate multi-story buildings. 
-
+* We will use Angular, so we need an HTML and CSS template and TS component.
+* When the page is loaded, it will be searched for all the buildings of the system.
+* The Campus Manager will select a building to which the elevator will be added.
+* When a building is selected it will appear the floors of that building to select.
 
 ### 3.1. Domain Model Excerpt
 ![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)
