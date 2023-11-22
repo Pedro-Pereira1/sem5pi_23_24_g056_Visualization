@@ -150,7 +150,7 @@ import UserInterface from "./user_interface.js";
  */
 
 export default class ThumbRaiser {
-    constructor(generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
+    constructor(myCanvas, generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
         this.generalParameters = merge({}, generalData, generalParameters);
         this.mazeParameters = merge({}, mazeData, mazeParameters);
         this.playerParameters = merge({}, playerData, playerParameters);
@@ -205,7 +205,7 @@ export default class ThumbRaiser {
         document.body.appendChild(this.statistics.dom);
 
         // Create a renderer and turn on shadows in the renderer
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer = new THREE.WebGLRenderer({ canvas: myCanvas, antialias: true });
         if (this.generalParameters.setDevicePixelRatio) {
             this.renderer.setPixelRatio(window.devicePixelRatio);
         }
@@ -794,4 +794,5 @@ export default class ThumbRaiser {
             }
         }
     }
+    
 }

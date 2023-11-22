@@ -1,4 +1,4 @@
-import {  Component, ElementRef, Input, AfterViewInit, ViewChild } from '@angular/core';
+import {  Component, ElementRef, Input, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
 import Orientation from "./orientation.js"
 import ThumbRaiser from "./thumb_raiser.js"
@@ -10,9 +10,11 @@ declare var $: any;
   templateUrl: './view3d.component.html',
   styleUrls: ['./view3d.component.css']
 })
-export class View3dComponent implements AfterViewInit {
-  
+export class View3dComponent implements AfterViewInit, OnDestroy {
+
+  @ViewChild('myCanvas') private canvasRef!: ElementRef;
   thumbRaiser!: ThumbRaiser;
+  private animationId: number | null = null;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -20,6 +22,7 @@ export class View3dComponent implements AfterViewInit {
    initialize() {
       // Create the game
       this.thumbRaiser = new ThumbRaiser(
+          this.canvas, // Canvas
           {}, // General Parameters
           { scale: new THREE.Vector3(1.0, 0.5, 1.0) }, // Maze parameters
           {}, // Player parameters
@@ -31,10 +34,12 @@ export class View3dComponent implements AfterViewInit {
           { view: "top", multipleViewsViewport: new THREE.Vector4(1.0, 0.0, 0.45, 0.5), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0 }, // Top view camera parameters
           { view: "mini-map", multipleViewsViewport: new THREE.Vector4(0.99, 0.02, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64 } // Mini-msp view camera parameters
       );
+
   }
 
   animate():void {
-      requestAnimationFrame(this.animate);
+      this.animationId = requestAnimationFrame(this.animate.bind(this));
+
       // Update the game
       this.thumbRaiser.update();
   }
@@ -45,5 +50,18 @@ export class View3dComponent implements AfterViewInit {
       this.animate();
   }
 
-  
+  private get canvas(): HTMLCanvasElement {
+    return this.canvasRef.nativeElement;
+  }
+
+  ngOnDestroy(): void {
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+    }
+    this.canvas.parentElement?.removeChild(this.canvas);
+    if (this.thumbRaiser.userInterface) {
+      this.thumbRaiser.userInterface.gui.destroy();
+    }
+  }
+
 }
