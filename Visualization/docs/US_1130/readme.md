@@ -7,7 +7,7 @@
 
 ## 2. Requirements
 
-**US 1030 -** As a Campus Manager, I want to create an elevator in a building.
+**US 1130 -** As a Campus Manager, I want to create an elevator in a building.
 
 **Dependencies:**
 **US270** - Sprint A

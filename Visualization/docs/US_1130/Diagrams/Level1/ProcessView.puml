@@ -1,12 +1,13 @@
-@startuml
+@startuml ProcessView
 'https://plantuml.com/sequence-diagram
 
 autonumber
 actor "Campus Manager" as CM
 
 
-activate System
+activate CM
 CM -> System: Create elevator 
+activate System
 CM <-- System: Inform Success
 deactivate System
 
