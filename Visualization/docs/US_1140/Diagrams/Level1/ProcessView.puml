@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "Campus Manager" as CM
+
+
+activate CM
+CM -> System: List elevators in building 
+activate System
+CM <-- System: List of elevators
+deactivate System
+
+@enduml
