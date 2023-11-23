@@ -1,6 +1,6 @@
 @startuml
 
-() "UI Campus Manager" as CM
+() "UI Fleet Manager" as CM
 
 component RDG [
   <<component>>

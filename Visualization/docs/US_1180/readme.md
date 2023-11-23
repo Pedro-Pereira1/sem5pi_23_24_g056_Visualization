@@ -150,4 +150,6 @@ export class FloorListFloorsPassagewaysComponent {
 
 ## 6. Integration/Demonstration
 
+![Integration_demo](Video/listFloorsPassageways.gif)
+
 ## 7. Observations

@@ -172,6 +172,8 @@ export class BuildingCreateComponent {
 
 ## 6. Integration/Demonstration
 
+![Integration_video](Video/createBuilding.gif)
+
 ## 7. Observations
 
 No additional observations.
