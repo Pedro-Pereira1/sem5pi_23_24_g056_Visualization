@@ -5,9 +5,12 @@ autonumber
 actor "Fleet Manager" as CM
 
 CM -> System: Starts the process to add a new type of robot
+activate System
 System --> CM: Request data (type, brand, model, tasks)
+deactivate System
 CM -> System: Types the data
+activate System
 CM <-- System: Informs operation success
-
+deactivate System
 
 @enduml
