@@ -6,35 +6,35 @@ autonumber
 participant ":Template" as Template
 participant Component as Component
 participant ":Service" as Service
-participant ":Passageway" as Model
+participant ":Room" as Model
 participant ":HTTP Driver" as HTTP
 
-?o->Template: /passageways
+?o->Template: /rooms
 activate Template
 
-Template -> Component: /passageways/editPassageway
+Template -> Component: /rooms/rooms
 activate Component
 
-Component -> Service: editPassageways(passagewayToEdit)
+Component -> Service: createRoom(roomCreate)
 activate Service
 
-Service -> HTTP: http PUT
+Service -> HTTP: http POST
 activate HTTP
-HTTP -> : PUT
+HTTP -> : POST
 HTTP --> Service: JSON
 deactivate HTTP
 
-Service -> Model: Parse JSON to passageway
+Service -> Model: Parse JSON to room
 
 
 
-Service --> Component:passageway
+Service --> Component:room
 deactivate Service
 
-Component --> Template:passageway
+Component --> Template:room
 deactivate Component
 
-<--Template: passageway
+<--Template: room
 deactivate Template
 
 
