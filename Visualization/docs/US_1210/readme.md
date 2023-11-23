@@ -148,6 +148,6 @@ export class RoomsComponent {
 
 ## 6. Integration/Demonstration
 
-
+![Integration_demo](Video/criarRoom.gif)
 
 ## 7. Observations
