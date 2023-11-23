@@ -152,6 +152,8 @@ export class RobotInhibitComponent {
 
 ## 6. Integration/Demonstration
 
+![Integration_demo](Video/inhibitRobot.gif)
+
 ## 7. Observations
 
 No additional observations.
