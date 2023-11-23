@@ -5,7 +5,8 @@ autonumber
 actor "Fleet Manager" as CM
 
 CM -> System: Adds a new robot to the fleet
+activate System
 CM <-- System: Informs operation success
-
+deactivate System
 
 @enduml
