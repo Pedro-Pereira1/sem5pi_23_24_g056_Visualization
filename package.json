@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "@types/three": "^0.158.2",
+    "jasmine": "^5.1.0",
+    "karma": "^6.4.2",
     "lodash": "^4.17.21",
     "three": "^0.158.0"
   }
