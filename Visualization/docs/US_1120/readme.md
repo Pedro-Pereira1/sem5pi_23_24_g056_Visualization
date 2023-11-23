@@ -211,6 +211,8 @@ export class LoadFloorMapComponent {
 
 ## 6. Integration/Demonstration
 
+![Imtegration_demo](Video/loadFloorMap.gif)
+
 ## 7. Observations
 
 No additional observations.
