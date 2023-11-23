@@ -1,0 +1,20 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataBuilding" as GI
+
+?o-> Visualization: List passageways between 2 buildings
+activate Visualization
+
+Visualization -> GI: GET listInBuilding
+activate GI
+GI --> Visualization: List of passageways
+deactivate GI
+
+<-- Visualization: List of passageways
+deactivate Visualization
+
+
+@enduml

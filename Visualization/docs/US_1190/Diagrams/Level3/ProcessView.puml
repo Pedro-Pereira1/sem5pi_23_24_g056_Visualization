@@ -1,0 +1,32 @@
+@startuml ProcessView
+
+autonumber
+
+participant ":HTML Template" as Template
+participant ":Component" as Component
+participant ":Service" as Service
+participant ":HTTP Driver" as Driver
+participant ":Passageway" as Passageway
+
+
+?o-> Template: Consult all passageways in a building
+activate Template
+Template-> Component: when choosing a building
+activate Component
+Component -> Service: listPassagewaysBuildings(building1, building2)
+activate Service
+Service -> Driver: http request to GET passageways
+activate Driver
+Driver ->: GET passageways
+Driver -> Service: List of passageways
+deactivate Driver
+Service -> Passageway: Parse JSON to Passageway
+Service -> Component: List of passageways
+deactivate Service
+Component -> Template: List of passageways
+deactivate Component
+<-- Template: List of passageways
+deactivate Template
+
+
+@enduml
