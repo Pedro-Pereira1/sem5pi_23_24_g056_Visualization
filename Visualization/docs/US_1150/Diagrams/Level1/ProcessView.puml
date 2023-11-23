@@ -1,0 +1,14 @@
+@startuml ProcessView
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "Campus Manager" as CM
+
+
+activate CM
+CM -> System: Edit elevator 
+activate System
+CM <-- System: Inform Success
+deactivate System
+
+@enduml

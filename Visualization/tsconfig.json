@@ -27,6 +27,11 @@
     "allowJs": true,
     "checkJs": false
   },
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts",
+    "**/*.ts"
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

@@ -1,12 +1,12 @@
-@startuml scenaryLevel1
+@startuml SceneryView
 left to right direction
 
 skinparam actorStyle awesome
 
-actor "UI Campus Manager" as CM
+actor "UI Fleet Manager" as FM
 
 package  RobDroneGo  {
-  usecase "List Building wit Max and Min of Floors" as UC2
+    usecase "Inhibit a robot" as UC18
 }
-CM --> UC2
+FM --> UC18
 @enduml

@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Visualization:build:production"
+              "buildTarget": "Visualization:build:production"
             },
             "development": {
-              "browserTarget": "Visualization:build:development"
+              "buildTarget": "Visualization:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Visualization:build"
+            "buildTarget": "Visualization:build"
           }
         },
         "test": {
@@ -82,6 +82,7 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.ts",
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -143,6 +144,7 @@
   "cli": {
     "analytics": "9fb01d7a-afdd-45b8-8c3f-aac1bf658231",
     "schematicCollections": [
+      "@cypress/schematic",
       "@cypress/schematic",
       "@schematics/angular"
     ]

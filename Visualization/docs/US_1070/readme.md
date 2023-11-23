@@ -84,22 +84,75 @@ every building registered in the system regarless the number of floors
 ### building-list-all.component.html
 
 ```html
+<h1>Buildings list</h1>
+
+<div>
+<table>
+    <thead>
+    <tr class="table100-head">
+    <th class="column1">Code</th>
+    <th class="column2">Name</th>
+    <th class="column3">Description</th>
+    <th class="column4">Length</th>
+    <th class="column5">Width</th>
+    <th class="column6">Floors</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let building of buildings">
+        <td class="column1">{{ building.buildingCode }}</td>
+        <td class="column2">{{ building.buildingName }}</td>
+        <td class="column3">{{ building.buildingDescription }}</td>
+        <td class="column4">{{ building.buildingLength }}</td>
+        <td class="column5">{{ building.buildingWidth }}</td>
+        <td class="column6">{{ building.buildingFloors }}</td>
+    </tr>
+    </tbody>
+</table>
+</div>
 
 ```
 
 ### building-list-all.component.ts
 
 ```typescript
+export class BuildingListAllComponent {
+
+  buildings: Building[] = []
+
+  constructor(
+    private buildingService: BuildingService,
+  ) { }
+
+  ngOnInit() {
+    this.buildingService.listAll()
+      .subscribe(
+        (data: Building[]) => {
+          this.buildings = data;
+        }
+      )
+  }
+
+}
 
 ```
 
 ### buildingService
 
 ```typescript
+  public listAll(): Observable<Building[]> {
+    const url = this.buildingsUrl + "/" + "listAllBuildings";
 
+    return this.http.get<Building[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
 ```
 
 ## 6. Integration/Demonstration
+
+![Implementation_demo](Video/listAllBuilding.gif)
 
 ## 7. Observations
 

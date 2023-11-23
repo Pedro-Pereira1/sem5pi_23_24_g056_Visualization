@@ -74,7 +74,7 @@ between buildings, changing the points where it connects to.
 
 * Implementation
 
-![Implementation](./Diagrams/Level3/ImplementaionView.svg)
+![Implementation](./Diagrams/Level3/ImplementationView.svg)
 
 * Process
 
@@ -89,14 +89,128 @@ between buildings, changing the points where it connects to.
 
 ## 5. Implementation
 
+###  PassagewayEdit Component
+```typescript
+@Component({
+  selector: 'app-passageway-edit',
+  templateUrl: './passageway-edit.component.html',
+  styleUrls: ['./passageway-edit.component.css'],
+  providers: [PassagewayService, BuildingService]
+})
+export class PassagewayEditComponent {
 
+  constructor(private passagewayService: PassagewayService) { }
 
-```
+  passageways: PassagewayEdit[]= [];
+  index:number = 0;
+  expanded: boolean[] = [false];
 
+  createForm = new FormGroup({
+    id: new FormControl(0),
+    floor1Id: new FormControl(0),
+    floor2Id: new FormControl(0),
+  })
+
+  toggleExpansion(index: number, passageway: PassagewayEdit) {
+    this.expanded[index] = !this.expanded[index];
+    if (this.expanded[index]) {
+      this.createForm.patchValue({
+        id: passageway.passagewayId,
+        floor1Id: passageway.floor1Id,
+        floor2Id: passageway.floor2Id,
+      })
+    }
+  }
+
+  ngOnInit() {
+    this.passagewayService.listAllPassageways()
+      .subscribe(
+        (data: PassagewayEdit[]) => {
+          this.passageways = data;
+        }
+      )
+  }
+
+  update(){
+    this.passageways=[]
+    this.passagewayService.listAllPassageways()
+      .subscribe(
+        (data: PassagewayEdit[]) => {
+          this.passageways = data;
+        }
+      )
+  }
+
+  onEdit(){
+
+    const passageway: PassagewayEdit ={
+      passagewayId: this.createForm.value.id!,
+      floor1Id: this.createForm.value.floor1Id!,
+      floor2Id: this.createForm.value.floor2Id!,
+    }
+
+    this.passagewayService.editPassageways(passageway).subscribe((p:Passageway) => {
+      window.alert("Passageway " + p.passagewayId + " edited successfully");
+      this.update();
+    })
+
+    this.createForm.reset();
+  }
+
+}
+````
+
+###  PassagewayEdit Component HTML
+```html
+<h1>Edit Passageways</h1>
+
+<div>
+  <table>
+    <thead>
+    <tr class="table100-head">
+      <th class="column1">PassagewayID</th>
+      <th class="column2">Floor1ID</th>
+      <th class="column3">Floor2ID</th>
+      <th class="column4"></th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let passageway of passageways; let i = index">
+    <tr>
+      <td class="column1">{{ passageway.passagewayId }}</td>
+      <td class="column2">{{ passageway.floor1Id }}</td>
+      <td class="column3">{{ passageway.floor2Id }}</td>
+
+      <td><button type="button" class="button" (click)="toggleExpansion(i,passageway)">Edit</button></td>
+    </tr>
+
+    <div class="editForm" *ngIf="expanded[i]">
+      <form [formGroup]="createForm" (ngSubmit)="onEdit(); toggleExpansion(i,passageway)">
+        <div class="form__group field">
+          <input type="number" class="form__field" id='id' formControlName="id" [readOnly]="true" />
+          <label for="id" class="form__label">PassagewayID</label>
+        </div>
+
+        <div class="form__group field">
+          <input type="number" class="form__field" id='floor1Id' formControlName="floor1Id" required min="1" />
+          <label for="floor1Id" class="form__label">Floor1ID</label>
+        </div>
+
+        <div class="form__group field">
+          <input type="number" class="form__field" id='floor2Id' formControlName="floor2Id" required min="1" />
+          <label for="floor2Id" class="form__label">Floor2ID</label>
+        </div>
+
+        <button>Save</button>
+      </form>
+    </div>
+    </tbody>
+  </table>
+</div>
 ````
 
 ## 6. Integration/Demonstration
 
+![Integration_demo](Video/editPassageway.gif)
 
 ## 7. Observations
 

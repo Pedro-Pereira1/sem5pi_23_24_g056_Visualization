@@ -3,10 +3,8 @@
 autonumber
 actor "Campus Manager" as CM
 
-CM -> System: Starts the process to  list buildings with min and max floors.
-System --> CM: Request max and min of floors
-CM -> System: Types the data
-CM <-- System: Shows buildings list
+CM -> System: requests to list every building
+CM <-- System: Shows confirmation message
 
 
 @enduml

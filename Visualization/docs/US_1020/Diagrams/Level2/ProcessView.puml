@@ -3,18 +3,18 @@
 autonumber
 
 participant Visualization
-participant "MasterDataBuilding" as GI
+participant "MasterDataLogistics" as GI
 
-?o-> Visualization: Starts the process to  list buildings with min and max floors.
+?o-> Visualization: inhibit a robot
 activate Visualization
 
 
-Visualization -> GI: GET buildingsByMaxAndMinFloors
+Visualization -> GI: PATCH robot
 activate GI
-GI --> Visualization: building(JSON)
+GI --> Visualization: robot inhibited
 deactivate GI
 
-<-- Visualization: Shows buildings list
+<-- Visualization: shows operation confirmation
 deactivate Visualization
 
 

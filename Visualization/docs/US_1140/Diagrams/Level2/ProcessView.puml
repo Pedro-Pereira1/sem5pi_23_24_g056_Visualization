@@ -1,0 +1,20 @@
+@startuml ProcessView
+
+autonumber
+
+participant Visualization
+participant "MasterDataBuilding" as GI
+
+?o-> Visualization: List elevators in building
+activate Visualization
+
+Visualization -> GI: GET listInBuilding
+activate GI
+GI --> Visualization: List of elevators
+deactivate GI
+
+<-- Visualization: List of elevators
+deactivate Visualization
+
+
+@enduml

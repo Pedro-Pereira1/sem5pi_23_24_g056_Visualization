@@ -72,25 +72,170 @@ of a building with the execption of the building unique code.
 
 ## 5. Implementation
 
-### building-create.component.html
+### building-edit.component.html
 
 ```html
+<h1>Edit Building</h1>
 
+<div>
+    <table>
+        <thead>
+            <tr class="table100-head">
+                <th class="column1">Code</th>
+                <th class="column2">Name</th>
+                <th class="column3">Description</th>
+                <th class="column4">Length</th>
+                <th class="column5">Width</th>
+                <th class="column6">Floors</th>
+                <th class="column6"></th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let building of buildings; let i = index">
+            <tr>
+                <td class="column1">{{ building.buildingCode }}</td>
+                <td class="column2">{{ building.buildingName }}</td>
+                <td class="column3">{{ building.buildingDescription }}</td>
+                <td class="column4">{{ building.buildingLength }}</td>
+                <td class="column5">{{ building.buildingWidth }}</td>
+                <td class="column6">{{ building.buildingFloors }}</td>
+                <td><button type="button" class="button" (click)="toggleExpansion(i, building)">Edit</button></td>
+            </tr>
+
+            <div class="editForm" *ngIf="expanded[i]">
+                <form [formGroup]="editForm" (ngSubmit)="save(); toggleExpansion(i, building)">
+                    <div class="form__group field">
+                        <input type="text" class="form__field" id='code' formControlName="code" [readOnly]="true" />
+                        <label for="code" class="form__label">Building Code</label>
+                    </div>
+
+                    <div class="form__group field">
+                        <input type="text" class="form__field" id='name' formControlName="name"/>
+                        <label for="name" class="form__label">Name</label>
+                    </div>
+
+                    <div class="form__group field">
+                        <input type="text" class="form__field" id='description' formControlName="description"/>
+                        <label for="description" class="form__label">Description</label>
+                    </div>
+
+                    <div class="form__group field">
+                        <input type="number" class="form__field" id='length' formControlName="length"/>
+                        <label for="length" class="form__label">Length</label>
+                    </div>
+
+                    <div class="form__group field">
+                        <input type="number" class="form__field" id='width' formControlName="width"/>
+                        <label for="width" class="form__label">Width</label>
+                    </div>
+
+                    <div class="form__group field">
+                        <input type="number" class="form__field" id="floors" formControlName="floors" [readOnly]="true"/>
+                        <label for="width" class="form__label">Floors</label>
+                    </div>
+
+                    <button>Submit</button>
+                </form>
+            </div>
+        </tbody>
+    </table>
+</div>
 ```
 
-### building-create.component.ts
+### building-edit.component.ts
 
 ```typescript
+export class BuildingEditComponent {
+
+  buildings: Building[] = []
+  index: number = 0;
+  expanded: boolean[] = [false];
+
+  editForm = new FormGroup({
+    code: new FormControl(''),
+    name: new FormControl(''),
+    description: new FormControl(''),
+    length: new FormControl(0),
+    width: new FormControl(0),
+    floors: new FormArray([new FormControl(0)]),
+  })
+
+  constructor(
+    private buildingService: BuildingService
+  ) { }
+
+  toggleExpansion(index: number, building: Building) {
+    this.expanded[index] = !this.expanded[index];
+    if (this.expanded[index]) {
+      this.editForm.patchValue({
+        code: building.buildingCode,
+        name: building.buildingName,
+        description: building.buildingDescription,
+        length: building.buildingLength,
+        width: building.buildingWidth,
+        floors: building.buildingFloors,
+      })
+    }
+  }
+
+  ngOnInit() {
+    this.buildingService.listAll()
+      .subscribe(
+        (data: Building[]) => {
+          this.buildings = data;
+        }
+      )
+  }
+
+  update() {
+    this.buildings = []
+    this.buildingService.listAll()
+      .subscribe(
+        (data: Building[]) => {
+          this.buildings = data;
+        }
+      )
+  }
+
+  save() {
+    let aux: number[] = []
+    for (const f of this.editForm.value.floors!) {
+      aux.push(f!)
+    }
+
+    const building: BuildingCreate = {
+      buildingCode: this.editForm.value.code!,
+      buildingName: this.editForm.value.name!,
+      buildingDescription: this.editForm.value.description!,
+      buildingLength: this.editForm.value.length!,
+      buildingWidth: this.editForm.value.width!,
+    }
+
+    this.buildingService.editBuilding(building).subscribe((b: Building) => {
+      window.alert("Building " + b.buildingCode + " edited successfully!")
+      this.update()
+    })
+  }
+
+}
 
 ```
 
 ### buildingService
 
 ```typescript
+  public editBuilding(building: BuildingCreate) {
+    const url = this.buildingsUrl + "/" + "editBuilding";
 
+    return this.http.put<Building>(url, building)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
 ```
 
 ## 6. Integration/Demonstration
+
+![Implementation_demo](Video/editBuilding.gif)
 
 ## 7. Observations
 
