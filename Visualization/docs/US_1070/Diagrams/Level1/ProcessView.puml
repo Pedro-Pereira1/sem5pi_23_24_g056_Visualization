@@ -1,0 +1,10 @@
+@startuml
+
+autonumber
+actor "Campus Manager" as CM
+
+CM -> System: requests to list every building
+CM <-- System: Shows confirmation message
+
+
+@enduml

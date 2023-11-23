@@ -1,0 +1,20 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataBuilding" as GI
+
+?o-> Visualization: Starts the process to list every buildings 
+activate Visualization
+
+Visualization -> GI: GET /listAllBuildings
+activate GI
+GI --> Visualization: buildings(JSON)
+deactivate GI
+
+<-- Visualization: Shows confirmation message
+deactivate Visualization
+
+
+@enduml

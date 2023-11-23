@@ -152,6 +152,8 @@ export class BuildingListAllComponent {
 
 ## 6. Integration/Demonstration
 
+![Implementation_demo](Video/listAllBuilding.gif)
+
 ## 7. Observations
 
 No additional observations.
