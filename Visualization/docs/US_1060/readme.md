@@ -235,6 +235,8 @@ export class BuildingEditComponent {
 
 ## 6. Integration/Demonstration
 
+![Implementation_demo](Video/editBuilding.gif)
+
 ## 7. Observations
 
 No additional observations.
