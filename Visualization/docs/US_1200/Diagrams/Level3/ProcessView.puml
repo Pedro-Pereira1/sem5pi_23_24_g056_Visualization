@@ -2,76 +2,40 @@
 
 autonumber
 
-participant ":PassagewayRoute" as Route
-participant ":EditPassagewayController" as Controller
-participant ":EditPassagewayService" as Service
-participant ":PassagewayRepo" as Repo
-participant ":PassagewayMap" as Map
-participant ":ElevatorDTO" as DTO
-participant ":Building" as Building
-participant ":FloorRepo" as FloorRepo
-participant ":FloorSchema" as Schema
-participant ":Floor" as Floor
 
+participant ":Template" as Template
+participant Component as Component
+participant ":Service" as Service
+participant ":Passageway" as Model
+participant ":HTTP Driver" as HTTP
 
-?o->Route: PUT
-activate Route
+?o->Template: /passageways
+activate Template
 
-Route -> Controller: editPassageway(req, res, next)
-activate Controller
+Template -> Component: /passageways/editPassageway
+activate Component
 
-
-
-Controller -> Service: editPassageway(passagewayDTO)
+Component -> Service: editPassageways(passagewayToEdit)
 activate Service
 
-Service -> Repo: findById(passagewayId)
-activate Repo
-Service <-- Repo
-deactivate Repo
+Service -> HTTP: http PUT
+activate HTTP
+HTTP -> : PUT
+HTTP --> Service: JSON
+deactivate HTTP
 
-Service -> FloorRepo: findFloorPassageway(passagewayId)
-activate FloorRepo
-FloorRepo -> Schema: find(passagewayId)
-activate Schema
-FloorRepo <-- Schema
-deactivate Schema
-Service <-- FloorRepo
-deactivate FloorRepo
+Service -> Model: Parse JSON to passageway
 
-Service -> FloorRepo: findById(floorId)
-activate FloorRepo
-Service <-- FloorRepo
-deactivate FloorRepo
 
-Service -> FloorRepo: findById(floorId)
-activate FloorRepo
-Service <-- FloorRepo
-deactivate FloorRepo
 
-Service -> Floor: removes old passageways in floor map when they are no longer in use
-
-Service -> Floor: adds new passageways in floor map when they have been changed
-
-Service -> FloorRepo: save(all floors)
-activate FloorRepo
-
-FloorRepo -> Schema: save
-deactivate FloorRepo
-
-Service -> Map:toDto(passageway)
-activate Map
-
-Map -> DTO: create
-deactivate Map
-
-Service --> Controller:
+Service --> Component:passageway
 deactivate Service
 
-Controller --> Route: inform success
-deactivate Controller
-<--Route:
+Component --> Template:passageway
+deactivate Component
 
+<--Template: passageway
+deactivate Template
 
 
 @enduml
