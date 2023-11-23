@@ -142,6 +142,8 @@ export class PassagewayListPassagewaysBetweenBuildingsComponent {
 
 ## 6. Integration/Demonstration
 
+![Integration_demo](Video/listPassageways.gif)
+
 ## 7. Observations
 
 No observations
