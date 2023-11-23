@@ -210,6 +210,7 @@ export class PassagewayEditComponent {
 
 ## 6. Integration/Demonstration
 
+![Integration_demo](Video/editPassageway.gif)
 
 ## 7. Observations
 
