@@ -1,0 +1,20 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataBuilding" as GI
+
+?o-> Visualization: Create new room
+activate Visualization
+
+Visualization -> GI: POST createRoom
+activate GI
+GI --> Visualization: room
+deactivate GI
+
+<-- Visualization: Inform Success
+deactivate Visualization
+
+
+@enduml
