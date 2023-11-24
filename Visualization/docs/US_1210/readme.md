@@ -68,8 +68,51 @@
 
 ### 4.2. Applied Patterns
 
+component
+service
+
 ### 4.3. Tests
 
+**Test 1:** *Tests if the class has the correct title*
+
+```typescript
+  it('has correct title', function() {
+  cy.get('h1').should('contain', 'Create Room')
+})
+````
+
+**Test 2:** *Tests if the class creates the room correctly*
+
+```typescript
+  it('fills and submits the form', function() {
+
+  cy.get('#roomName').type('B101');
+  cy.get('#roomDescription').type('This is a room');
+  cy.get('#roomCategory').type('Office');
+  cy.get('#floorId').clear().type('4');
+
+  cy.get('button:contains("Create")').click()
+
+  cy.wait('@createRoom')
+
+  cy.get('#roomName').should('have.value', '')
+  cy.get('#roomDescription').should('have.value', '')
+  cy.get('#floorId').should('have.value', '')
+})
+````
+
+**Test 3:** *Tests if the class handles errors correctly*
+
+```typescript
+  it('handles errors correctly', function() {
+  cy.intercept('POST', '/api/rooms/createRoom', { statusCode: 500, body: {} }).as('createRoomError')
+  cy.visit('/rooms/createRoom')
+  cy.on('window:alert', (str) => {
+    expect(str).to.include('An error occurred:')
+  })
+})
+
+````
 
 ## 5. Implementation
 
