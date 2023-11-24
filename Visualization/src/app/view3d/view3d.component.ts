@@ -14,7 +14,7 @@ import { Floor } from '../domain/floor/Floor';
   styleUrls: ['./view3d.component.css'],
   providers: [BuildingService, FloorService]
 })
-export class View3dComponent implements AfterViewInit, OnDestroy {
+export class View3dComponent implements OnDestroy {
 
   @ViewChild('myCanvas') private canvasRef!: ElementRef;
   thumbRaiser!: ThumbRaiser;
