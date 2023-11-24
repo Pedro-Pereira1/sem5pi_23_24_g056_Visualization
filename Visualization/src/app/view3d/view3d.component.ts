@@ -72,9 +72,6 @@ export class View3dComponent implements AfterViewInit, OnDestroy {
     this.listBuildings();
   }
 
-  ngAfterViewInit(): void {
-  }
-
   renderCanvas() {
     const theFloor = this.floors.find((floor: Floor) => floor.floorId == this.floorId);
 
