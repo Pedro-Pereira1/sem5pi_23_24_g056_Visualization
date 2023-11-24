@@ -82,10 +82,43 @@ between buildings, changing the points where it connects to.
 
 ### 4.2. Applied Patterns
 
+component
+service
 
 ### 4.3. Tests
 
+**Test 1:** *Tests if the class has the correct title*
 
+```typescript
+  it('has correct title', function() {
+  cy.get('h1').should('contain', 'Edit Passageway')
+})
+````
+
+**Test 2:** *Tests if the class has a table for displaying the floors*
+
+```typescript
+  it('fills and submits the form', function() {
+  cy.get('button:contains("Edit")').first().click()
+  cy.get('#floor1Id').clear().type('4');
+  cy.get('#floor2Id').clear().type('5');
+  cy.get('button:contains("Save")').first().click();
+  cy.wait('@editPassageway');
+})
+````
+
+**Test 3:** *Tests if the class handles errors correctly*
+
+```typescript
+  it('handles errors correctly', function() {
+  cy.intercept('PUT', '/api/passageways/editPassageway', { statusCode: 500, body: {} }).as('editPassagewayError')
+  cy.visit('/passageways/editPassageway')
+  cy.on('window:alert', (str) => {
+    expect(str).to.include('An error occurred:')
+  })
+})
+
+````
 
 ## 5. Implementation
 
