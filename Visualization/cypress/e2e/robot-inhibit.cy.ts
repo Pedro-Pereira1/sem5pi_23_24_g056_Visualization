@@ -1,4 +1,4 @@
-describe('Create Robot Page Test', function () {
+describe('Inhibit robot', function () {
     let callCount = 0;
 
     beforeEach(() => {
