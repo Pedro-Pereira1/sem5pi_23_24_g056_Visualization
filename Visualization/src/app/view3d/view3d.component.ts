@@ -27,7 +27,9 @@ export class View3dComponent implements AfterViewInit, OnDestroy {
   ) { }
 
   buildings: Building[] = [];
+  buildingCode: string = "";
   floors: Floor[] = []
+  floorId: number = 0;
 
   listBuildings() {
     this.buildingService.listAll().subscribe((buildings: Building[]) => {
@@ -66,10 +68,23 @@ export class View3dComponent implements AfterViewInit, OnDestroy {
     this.thumbRaiser.update();
   }
 
+  ngOnInit(): void {
+    this.listBuildings();
+  }
+
   ngAfterViewInit(): void {
-    this.initialize();
-    this.animate = this.animate.bind(this);
-    this.animate();
+  }
+
+  renderCanvas() {
+    const theFloor = this.floors.find((floor: Floor) => floor.floorId == this.floorId);
+
+    if (theFloor?.floorMap.map.length! > 0) {
+      this.initialize();
+      this.animate = this.animate.bind(this);
+      this.animate();
+    } else {
+      alert("No floor map found");
+    }
   }
 
   private get canvas(): HTMLCanvasElement {
