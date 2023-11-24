@@ -5,11 +5,16 @@ autonumber
 actor "Campus Manager" as CM
 
 CM -> System: Starts the process to edit a building floor
+activate System
 System --> CM: Request data to edit
+deactivate System
 CM -> System: Types the data
+activate System
 CM <-- System: Shows actual information and request new data
+deactivate System
 CM -> System: Types the new data
+activate System
 CM <-- System: Informs operation success
-
+deactivate System
 
 @enduml

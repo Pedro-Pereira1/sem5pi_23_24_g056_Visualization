@@ -4,10 +4,13 @@ autonumber
 actor "Campus Manager" as CM
 
 CM -> System: Starts the process to list all floors of a building
+activate System
 System --> CM: Request intended building
+deactivate System
 CM -> System: Types the data
+activate System
 CM <-- System: Shows all floors of intended building
-
+deactivate System
 
 @enduml
 
