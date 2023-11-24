@@ -71,8 +71,76 @@ and also the building and floor where the passageway connects to.
 
 ### 4.2. Applied Patterns
 
+component
+service
+
 ### 4.3. Tests
 
+**Test 1:** *Tests if the class has the correct title*
+
+```typescript
+  it('has correct title', function() {
+    cy.get('h1').should('contain', 'List Floor Passageways')
+  })
+````
+
+**Test 2:** *Tests if the class has a select box for selecting a building*
+
+```typescript
+
+  it('should display a select box for selecting a building', () => {
+    cy.get('select').should('exist');
+
+  });
+````
+
+**Test 3:** *Tests if the class has a button for searching for floors*
+
+```typescript
+  it('should display a button for searching for floors', () => {
+    cy.get('button:contains("Search")').should('be.visible');
+  });
+````
+
+**Test 4:** *Tests if the class has a table for displaying the floors*
+
+```typescript
+  it('fills and submits the form', function() {
+
+    cy.get('table').then(($table) => {
+      const initialTableText = $table.text()
+      cy.get('select').select('A');
+      cy.get('button:contains("Search")').click()
+      cy.wait('@listFloorsPassageways')
+
+      cy.get('table').should('be.visible');
+      cy.get('table thead tr th').should('have.length', 5);
+      cy.get('table tbody tr').should('have.length', 2);
+
+      cy.get('table tbody tr:first-child td.column1').contains('2');
+      cy.get('table tbody tr:first-child td.column2').contains('2');
+      cy.get('table tbody tr:first-child td.column3').contains('floor');
+
+
+      cy.get('table').should(($tableAfter) => {
+        expect($tableAfter.text()).not.to.eq(initialTableText)
+      })
+    })
+  })
+````
+
+**Test 5:** *Tests if the class handles errors correctly*
+
+```typescript
+  it('handles errors correctly', function() {
+    cy.intercept('GET', '/api/floors', { statusCode: 500, body: {} }).as('getFloorsError')
+    cy.visit('/floors/listFloorsPassageways')
+    cy.on('window:alert', (str) => {
+      expect(str).to.include('`An error occurred:')
+    })
+  })
+
+````
 
 ## 5. Implementation
 
@@ -153,3 +221,5 @@ export class FloorListFloorsPassagewaysComponent {
 ![Integration_demo](Video/listFloorsPassageways.gif)
 
 ## 7. Observations
+
+No observations.
