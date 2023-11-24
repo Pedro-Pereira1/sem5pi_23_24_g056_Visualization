@@ -95,7 +95,7 @@ service
 })
 ````
 
-**Test 2:** *Tests if the class has a table for displaying the floors*
+**Test 2:** *Tests if the class edits the passageway correctly*
 
 ```typescript
   it('fills and submits the form', function() {
