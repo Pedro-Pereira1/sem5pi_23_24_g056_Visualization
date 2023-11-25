@@ -13,7 +13,6 @@ import Wall from "./wall.js";
 export default class Maze {
     constructor(parameters) {
         this.onLoad = function (description) {
-            console.log(description.mazeData)
             // Store the maze's map and size
             this.map = description.mazeData.map;
             this.size = description.mazeData.size;
