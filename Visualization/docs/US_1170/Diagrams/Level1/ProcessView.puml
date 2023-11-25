@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "Campus Manger" as CM
+participant RobDroneGo
+
+CM -> RobDroneGo : createPassageway
+activate RobDroneGo
+
+
+RobDroneGo --> CM : informs operation success
+deactivate RobDroneGo
+
+
+@enduml
