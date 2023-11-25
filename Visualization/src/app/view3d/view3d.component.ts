@@ -9,124 +9,141 @@ import { FloorService } from '../services/floor.service';
 import { Building } from '../domain/building/Building';
 import { Floor } from '../domain/floor/Floor';
 import { FloorMapRender } from '../domain/floor/FloorMapRender.js';
+import { RobotModel } from '../domain/robotModel/RobotModel.js';
 
 @Component({
-  selector: 'app-view3d',
-  templateUrl: './view3d.component.html',
-  styleUrls: ['./view3d.component.css'],
-  providers: [BuildingService, FloorService]
+	selector: 'app-view3d',
+	templateUrl: './view3d.component.html',
+	styleUrls: ['./view3d.component.css'],
+	providers: [BuildingService, FloorService]
 })
 export class View3dComponent implements OnDestroy {
 
-  @ViewChild('myCanvas') private canvasRef!: ElementRef;
-  thumbRaiser!: ThumbRaiser;
-  private animationId: number | null = null;
+	@ViewChild('myCanvas') private canvasRef!: ElementRef;
+	thumbRaiser!: ThumbRaiser;
+	private animationId: number | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private buildingService: BuildingService,
-    private floorService: FloorService
-  ) { }
+	constructor(
+		private buildingService: BuildingService,
+		private floorService: FloorService
+	) { }
 
-  buildings: Building[] = [];
-  buildingCode: string = "";
-  floors: Floor[] = []
-  floorId: number = 0;
+	buildings: Building[] = [];
+	buildingCode: string = "";
+	floors: Floor[] = []
+	floorId: number = 0;
 
-  listBuildings() {
-    this.buildingService.listAll().subscribe((buildings: Building[]) => {
-      this.buildings = buildings
-    })
-  }
+	modelName: string = "";
+	modelFile: File | null = null;
 
-  listFloors(buildingCode: string) {
-    this.floorService.listAllFloors(buildingCode).subscribe((floors: Floor[]) => {
-      this.floors = floors;
-    })
-  }
+	ngOnInit(): void {
+		this.listBuildings();
+	}
 
-  initialize(floor: Floor) {
-    // Create the game
-    this.thumbRaiser = new ThumbRaiser(
-      this.canvas, // Canvas
-      {}, // General Parameters
-      { scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor) }, // Maze parameters
-      {}, // Player parameters
-      { ambientLight: { intensity: 0.1 }, pointLight1: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(-3.5, 10.0, 2.5) }, pointLight2: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(3.5, 10.0, -2.5) } }, // Lights parameters
-      {}, // Fog parameters
-      { view: "fixed", multipleViewsViewport: new THREE.Vector4(0.0, 1.0, 0.45, 0.5) }, // Fixed view camera parameters
-      { view: "first-person", multipleViewsViewport: new THREE.Vector4(1.0, 1.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -10.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0 }, // First-person view camera parameters
-      { view: "third-person", multipleViewsViewport: new THREE.Vector4(0.0, 0.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -20.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0 }, // Third-person view camera parameters
-      { view: "top", multipleViewsViewport: new THREE.Vector4(1.0, 0.0, 0.45, 0.5), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0 }, // Top view camera parameters
-      { view: "mini-map", multipleViewsViewport: new THREE.Vector4(0.99, 0.02, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64 } // Mini-msp view camera parameters
-    );
+	renderCanvas() {
+		const theFloor = this.floors.find((floor: Floor) => floor.floorId == this.floorId);
+		const theModel = this.modelFile
 
-  }
+		if (theFloor?.floorMap.map.length! > 0) {
+			this.initialize(theFloor!);
+			this.animate = this.animate.bind(this);
+			this.animate();
+		} else {
+			alert("No floor map found");
+		}
+	}
 
-  animate(): void {
-    this.animationId = requestAnimationFrame(this.animate.bind(this));
+	updateFloorFile(floor: Floor): FloorMapRender {
+		return {
+			map: floor.floorMap.map,
+			initialPosition: [0, 0],
+			initialDirection: 0.0,
+			exitLocation: [10, 10],
+			groundTextureUrl: "./../../assets/View3D/textures/ground.jpg",
+			wallTextureUrl: "./../../assets/View3D/textures/wall.jpg",
+			elevatorTextureUrl: "./../../assets/View3D/textures/wall.jpg",
+			doorTextureUrl: "./../../assets/View3D/door_textures/door_original.jpg",
+			size: {
+				width: floor.floorMap.map[0].length - 1,
+				height: floor.floorMap.map.length - 1
+			}
+		} as FloorMapRender
+	}
 
-    // Update the game
-    this.thumbRaiser.update();
-  }
+	uploadModel(event: any) {
+		const file: File = event.target.files[0];
 
-  ngOnInit(): void {
-    this.listBuildings();
-  }
+		if (file) {
+			this.modelName = file.name
+			if (this.animationId) {
+				cancelAnimationFrame(this.animationId);
+			}
+			this.modelFile = file
+			this.renderCanvas()
+		}
+	}
 
-  renderCanvas() {
-    const theFloor = this.floors.find((floor: Floor) => floor.floorId == this.floorId);
+	prepareModel(robotModel: File): RobotModel {
+		return {
+			model: robotModel,
+			eyeHeight: 0.8,
+			scale: new  THREE.Vector3(0.1, 0.1, 0.1),
+			walkingSpeed: 0.75,
+			initialDirection: 0.0,
+			turningSpeed: 75.0,
+			runningFactor: 2.0,
+			keyCodes: { fixedView: "Digit1", firstPersonView: "Digit2", thirdPersonView: "Digit3", topView: "Digit4", viewMode: "KeyV", userInterface: "KeyU", miniMap: "KeyM", help: "KeyH", statistics: "KeyS", run: "KeyR", left: "ArrowLeft", right: "ArrowRight", backward: "ArrowDown", forward: "ArrowUp", jump: "KeyJ", yes: "KeyY", no: "KeyN", wave: "KeyW", punch: "KeyP", thumbsUp: "KeyT" }
+		} as RobotModel
+	}
 
-    if (theFloor?.floorMap.map.length! > 0) {
-      this.initialize(theFloor!);
-      this.animate = this.animate.bind(this);
-      this.animate();
-    } else {
-      alert("No floor map found");
-    }
-  }
+	initialize(floor: Floor) {
+		// Create the game
+		this.thumbRaiser = new ThumbRaiser(
+			this.canvas, // Canvas
+			{}, // General Parameters
+			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor) }, // Maze parameters
+			{ /*model: this.prepareModel(modelFile)*/ }, // Player parameters
+			{ ambientLight: { intensity: 0.1 }, pointLight1: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(-3.5, 10.0, 2.5) }, pointLight2: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(3.5, 10.0, -2.5) } }, // Lights parameters
+			{}, // Fog parameters
+			{ view: "fixed", multipleViewsViewport: new THREE.Vector4(0.0, 1.0, 0.45, 0.5) }, // Fixed view camera parameters
+			{ view: "first-person", multipleViewsViewport: new THREE.Vector4(1.0, 1.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -10.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0 }, // First-person view camera parameters
+			{ view: "third-person", multipleViewsViewport: new THREE.Vector4(0.0, 0.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -20.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0 }, // Third-person view camera parameters
+			{ view: "top", multipleViewsViewport: new THREE.Vector4(1.0, 0.0, 0.45, 0.5), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0 }, // Top view camera parameters
+			{ view: "mini-map", multipleViewsViewport: new THREE.Vector4(0.99, 0.02, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64 } // Mini-msp view camera parameters
+		);
+	}
 
-  updateFloorFile(floor: Floor): FloorMapRender {
-    return {
-      map: floor.floorMap.map,
-      initialPosition: [0, 0],
-      initialDirection: 0.0,
-      exitLocation: [10, 10],
-      groundTextureUrl: "./../../assets/View3D/textures/ground.jpg",
-      wallTextureUrl: "./../../assets/View3D/textures/wall.jpg",
-      elevatorTextureUrl: "./../../assets/View3D/textures/wall.jpg",
-      doorTextureUrl: "./../../assets/View3D/door_textures/door_original.jpg",
-      size: {
-        width: floor.floorMap.map[0].length - 1,
-        height: floor.floorMap.map.length - 1
-      }
-    } as FloorMapRender
+	animate(): void {
+		this.animationId = requestAnimationFrame(this.animate.bind(this));
 
-    /*
-    let fileObj: File = new File([JSON.stringify(floorMapRender)], path, { type: "text/plain" });
+		// Update the game
+		this.thumbRaiser.update();
+	}
 
-    var reader = new FileReader();
-    reader.onload = function (event) {
-      var contents = event.target?.result;
-      console.log("File contents: " + contents);
-    }
+	private get canvas(): HTMLCanvasElement {
+		return this.canvasRef.nativeElement;
+	}
 
-    reader.readAsText(fileObj);
-    */
-  }
+	ngOnDestroy(): void {
+		if (this.animationId) {
+			cancelAnimationFrame(this.animationId);
+		}
+		this.canvas.parentElement?.removeChild(this.canvas);
+		if (this.thumbRaiser.userInterface) {
+			this.thumbRaiser.userInterface.gui.destroy();
+		}
+	}
 
-  private get canvas(): HTMLCanvasElement {
-    return this.canvasRef.nativeElement;
-  }
+	listBuildings() {
+		this.buildingService.listAll().subscribe((buildings: Building[]) => {
+			this.buildings = buildings
+		})
+	}
 
-  ngOnDestroy(): void {
-    if (this.animationId) {
-      cancelAnimationFrame(this.animationId);
-    }
-    this.canvas.parentElement?.removeChild(this.canvas);
-    if (this.thumbRaiser.userInterface) {
-      this.thumbRaiser.userInterface.gui.destroy();
-    }
-  }
+	listFloors(buildingCode: string) {
+		this.floorService.listAllFloors(buildingCode).subscribe((floors: Floor[]) => {
+			this.floors = floors;
+		})
+	}
 
 }

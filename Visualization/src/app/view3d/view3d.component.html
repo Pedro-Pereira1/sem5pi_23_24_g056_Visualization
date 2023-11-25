@@ -26,8 +26,8 @@
                     <td>
                         <select [(ngModel)]="buildingCode" (change)="listFloors(buildingCode)" id="view">
                             <option value="">Select a building</option>
-                            <option
-                                *ngFor="let building of buildings" [value]="building.buildingCode"> {{ building.buildingCode }}
+                            <option *ngFor="let building of buildings" [value]="building.buildingCode"> {{
+                                building.buildingCode }}
                             </option>
                         </select>
                     </td>
@@ -54,8 +54,7 @@
                     <td>
                         <select [(ngModel)]="floorId" (change)="renderCanvas()" id="view">
                             <option value="">Select a Floor</option>
-                            <option
-                                *ngFor="let floor of floors" [value]="floor.floorId"> {{ floor.floorId }}
+                            <option *ngFor="let floor of floors" [value]="floor.floorId"> {{ floor.floorId }}
                             </option>
                         </select>
                     </td>
@@ -201,6 +200,15 @@
                         <input type="checkbox" id="statistics">
                     </td>
                 </tr>
+                <tr>
+                    <input type="file" (change)="uploadModel($event)" #modelUpload style="display: none;">
+                    <div>
+                        {{ modelName || 'No model selected' }}
+                        <button mat-mini-fab color="primary" class="upload-btn" (click)="modelUpload.click()">
+                            Choose Model
+                        </button>
+                    </div>
+                </tr>
             </table>
         </div>
     </div>
@@ -214,6 +222,6 @@
         }
     </script>
     <script src="../node_modules/lodash/lodash.js"></script>
-    
+
     <canvas #myCanvas id="myCanvas"></canvas>
 </body>
