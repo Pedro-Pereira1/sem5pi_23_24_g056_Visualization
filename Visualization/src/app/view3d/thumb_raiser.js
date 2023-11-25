@@ -467,7 +467,7 @@ export default class ThumbRaiser {
             else if (event.code == this.player.keyCodes.forward) {
                 this.player.keyStates.forward = state;
             }
-            if (event.code == this.player.keyCodes.jump) {
+            /*if (event.code == this.player.keyCodes.jump) {
                 this.player.keyStates.jump = state;
             }
             else if (event.code == this.player.keyCodes.yes) {
@@ -484,7 +484,7 @@ export default class ThumbRaiser {
             }
             else if (event.code == this.player.keyCodes.thumbsUp) {
                 this.player.keyStates.thumbsUp = state;
-            }
+            }*/
         }
     }
 
@@ -794,5 +794,5 @@ export default class ThumbRaiser {
             }
         }
     }
-    
+
 }
