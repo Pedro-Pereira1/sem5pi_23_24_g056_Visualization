@@ -73,20 +73,22 @@ export default class UserInteraction {
         // Create the character folder
         const characterFolder = this.gui.addFolder("Character");
 
-        // Create the emotes folder and add emotes
-        const emotesFolder = characterFolder.addFolder("Emotes");
-        const callbacks = [];
-        for (let i = 0; i < animations.emotes.length; i++) {
-            createEmoteCallback(animations, animations.emotes[i]);
-        }
 
-        // Create the expressions folder and add expressions
-        const expressionsFolder = characterFolder.addFolder("Expressions");
-        const face = object.getObjectByName("Head_4");
-        const expressions = Object.keys(face.morphTargetDictionary);
-        for (let i = 0; i < expressions.length; i++) {
-            expressionsFolder.add(face.morphTargetInfluences, i, 0.0, 1.0, 0.01).name(expressions[i]);
-        }
+
+    //    // Create the emotes folder and add emotes
+    //    const emotesFolder = characterFolder.addFolder("Emotes");
+    //    const callbacks = [];
+    //    for (let i = 0; i < animations.emotes.length; i++) {
+    //        createEmoteCallback(animations, animations.emotes[i]);
+    //    }
+//
+    //    // Create the expressions folder and add expressions
+    //    const expressionsFolder = characterFolder.addFolder("Expressions");
+    //    const face = object.getObjectByName("Head_4");
+    //    const expressions = Object.keys(face.morphTargetDictionary);
+    //    for (let i = 0; i < expressions.length; i++) {
+    //        expressionsFolder.add(face.morphTargetInfluences, i, 0.0, 1.0, 0.01).name(expressions[i]);
+    //    }
     }
 
     setVisibility(visible) {
