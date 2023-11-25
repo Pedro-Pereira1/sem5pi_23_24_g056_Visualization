@@ -10,6 +10,7 @@ import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
 import { View3dComponent } from './view3d/view3d.component';
 import { ShortestPathComponent } from './shortest-path/shortest-path.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

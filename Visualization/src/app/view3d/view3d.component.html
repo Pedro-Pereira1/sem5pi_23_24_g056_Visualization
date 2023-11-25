@@ -23,6 +23,14 @@
                     <td>
                         <input type="button" id="reset" value="Reset view">
                     </td>
+                    <td>
+                        <select [(ngModel)]="buildingCode" (change)="listFloors(buildingCode)" id="view">
+                            <option value="">Select a building</option>
+                            <option
+                                *ngFor="let building of buildings" [value]="building.buildingCode"> {{ building.buildingCode }}
+                            </option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -42,6 +50,14 @@
                     </td>
                     <td>
                         <input type="button" id="reset-all" value="Reset all views">
+                    </td>
+                    <td>
+                        <select [(ngModel)]="floorId" (change)="renderCanvas()" id="view">
+                            <option value="">Select a Floor</option>
+                            <option
+                                *ngFor="let floor of floors" [value]="floor.floorId"> {{ floor.floorId }}
+                            </option>
+                        </select>
                     </td>
                 </tr>
             </table>
