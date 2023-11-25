@@ -90,6 +90,7 @@ export class ElevatorCreateComponent {
     this.elevatorService.createElevator(elevator).subscribe((e: Elevator) => {
       window.alert("Elevator " + e.elevatorId + " created successfully");
     })
+    this.createForm.reset();
   }
 
 
