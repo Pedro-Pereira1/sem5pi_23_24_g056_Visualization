@@ -24,7 +24,7 @@ describe('Create Room Page Test', function() {
     cy.get('#roomName').type('B101');
     cy.get('#roomDescription').type('This is a room');
     cy.get('#roomCategory').type('Office');
-    cy.get('#floorId').clear().type('4');
+    cy.get('#floorId').type('4');
 
     cy.get('button:contains("Create")').click()
 
