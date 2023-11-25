@@ -8,6 +8,8 @@ import { BuildingService } from '../services/building.service';
 import { FloorService } from '../services/floor.service';
 import { Building } from '../domain/building/Building';
 import { Floor } from '../domain/floor/Floor';
+import { FloorMapRender } from '../domain/floor/FloorMapRender.js';
+
 @Component({
   selector: 'app-view3d',
   templateUrl: './view3d.component.html',
@@ -43,12 +45,12 @@ export class View3dComponent implements OnDestroy {
     })
   }
 
-  initialize() {
+  initialize(floor: Floor) {
     // Create the game
     this.thumbRaiser = new ThumbRaiser(
       this.canvas, // Canvas
       {}, // General Parameters
-      { scale: new THREE.Vector3(1.0, 0.5, 1.0) }, // Maze parameters
+      { scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor) }, // Maze parameters
       {}, // Player parameters
       { ambientLight: { intensity: 0.1 }, pointLight1: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(-3.5, 10.0, 2.5) }, pointLight2: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(3.5, 10.0, -2.5) } }, // Lights parameters
       {}, // Fog parameters
@@ -76,12 +78,41 @@ export class View3dComponent implements OnDestroy {
     const theFloor = this.floors.find((floor: Floor) => floor.floorId == this.floorId);
 
     if (theFloor?.floorMap.map.length! > 0) {
-      this.initialize();
+      this.initialize(theFloor!);
       this.animate = this.animate.bind(this);
       this.animate();
     } else {
       alert("No floor map found");
     }
+  }
+
+  updateFloorFile(floor: Floor): FloorMapRender {
+    return {
+      map: floor.floorMap.map,
+      initialPosition: [0, 0],
+      initialDirection: 0.0,
+      exitLocation: [10, 10],
+      groundTextureUrl: "./../../assets/View3D/textures/ground.jpg",
+      wallTextureUrl: "./../../assets/View3D/textures/wall.jpg",
+      elevatorTextureUrl: "./../../assets/View3D/textures/wall.jpg",
+      doorTextureUrl: "./../../assets/View3D/door_textures/door_original.jpg",
+      size: {
+        width: floor.floorMap.map[0].length - 1,
+        height: floor.floorMap.map.length - 1
+      }
+    } as FloorMapRender
+
+    /*
+    let fileObj: File = new File([JSON.stringify(floorMapRender)], path, { type: "text/plain" });
+
+    var reader = new FileReader();
+    reader.onload = function (event) {
+      var contents = event.target?.result;
+      console.log("File contents: " + contents);
+    }
+
+    reader.readAsText(fileObj);
+    */
   }
 
   private get canvas(): HTMLCanvasElement {

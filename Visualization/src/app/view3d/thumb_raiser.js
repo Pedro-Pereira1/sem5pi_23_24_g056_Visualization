@@ -152,7 +152,7 @@ import UserInterface from "./user_interface.js";
 export default class ThumbRaiser {
     constructor(myCanvas, generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
         this.generalParameters = merge({}, generalData, generalParameters);
-        this.mazeParameters = merge({}, mazeData, mazeParameters);
+        this.mazeParameters = merge({}, mazeParameters);
         this.playerParameters = merge({}, playerData, playerParameters);
         this.lightsParameters = merge({}, lightsData, lightsParameters);
         this.fogParameters = merge({}, fogData, fogParameters);

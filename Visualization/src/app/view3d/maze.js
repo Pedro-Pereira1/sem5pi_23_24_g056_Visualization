@@ -13,31 +13,32 @@ import Wall from "./wall.js";
 export default class Maze {
     constructor(parameters) {
         this.onLoad = function (description) {
+            console.log(description.mazeData)
             // Store the maze's map and size
-            this.map = description.map;
-            this.size = description.size;
+            this.map = description.mazeData.map;
+            this.size = description.mazeData.size;
 
             // Store the player's initial position and direction
-            this.initialPosition = this.cellToCartesian(description.initialPosition);
-            this.initialDirection = description.initialDirection;
+            this.initialPosition = this.cellToCartesian(description.mazeData.initialPosition);
+            this.initialDirection = description.mazeData.initialDirection;
 
             // Store the maze's exit location
-            this.exitLocation = this.cellToCartesian(description.exitLocation);
+            this.exitLocation = this.cellToCartesian(description.mazeData.exitLocation);
 
             // Create a group of objects
             this.object = new THREE.Group();
 
             // Create the ground
-            this.ground = new Ground({ textureUrl: description.groundTextureUrl, size: description.size });
+            this.ground = new Ground({ textureUrl: description.mazeData.groundTextureUrl, size: description.mazeData.size });
             this.object.add(this.ground.object);
 
             // Create a wall
-            this.wall = new Wall({ textureUrl: description.wallTextureUrl });
+            this.wall = new Wall({ textureUrl: description.mazeData.wallTextureUrl });
 
             // Build the maze
             let wallObject;
-            for (let i = 0; i <= description.size.width; i++) { // In order to represent the eastmost walls, the map width is one column greater than the actual maze width
-                for (let j = 0; j <= description.size.height; j++) { // In order to represent the southmost walls, the map height is one row greater than the actual maze height
+            for (let i = 0; i <= description.mazeData.size.width; i++) { // In order to represent the eastmost walls, the map width is one column greater than the actual maze width
+                for (let j = 0; j <= description.mazeData.size.height; j++) { // In order to represent the southmost walls, the map height is one row greater than the actual maze height
                     /*
                      * description.map[][] | North wall | West wall
                      * --------------------+------------+-----------
@@ -46,15 +47,30 @@ export default class Maze {
                      *          2          |    Yes     |     No
                      *          3          |    Yes     |    Yes
                      */
-                    if (description.map[j][i] == 2 || description.map[j][i] == 3) {
+                    if (description.mazeData.map[j][i] == 2 || description.mazeData.map[j][i] == 3) {
                         wallObject = this.wall.object.clone();
-                        wallObject.position.set(i - description.size.width / 2.0 + 0.5, 0.5, j - description.size.height / 2.0);
+                        wallObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.5, j - description.mazeData.size.height / 2.0);
                         this.object.add(wallObject);
                     }
-                    if (description.map[j][i] == 1 || description.map[j][i] == 3) {
+                    if (description.mazeData.map[j][i] == 1 || description.mazeData.map[j][i] == 3) {
                         wallObject = this.wall.object.clone();
                         wallObject.rotateY(Math.PI / 2.0);
-                        wallObject.position.set(i - description.size.width / 2.0, 0.5, j - description.size.height / 2.0 + 0.5);
+                        wallObject.position.set(i - description.mazeData.size.width / 2.0, 0.5, j - description.mazeData.size.height / 2.0 + 0.5);
+                        this.object.add(wallObject);
+                    }
+                    if (description.mazeData.map[j][i] == 8 || description.mazeData.map[j][i] == 10) {
+                        let clone = this.wall.object.clone();
+                        clone = new Wall({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                        wallObject = clone.object.clone();
+                        wallObject.rotateY(Math.PI / 2.0);
+                        wallObject.position.set(i - description.mazeData.size.width / 2.0, 0.5, j - description.mazeData.size.height / 2.0 + 0.5);
+                        this.object.add(wallObject);
+                    }
+                    if (description.mazeData.map[j][i] == 9 ||  description.mazeData.map[j][i] == 11) {
+                        let clone = this.wall.object.clone();
+                        clone = new Wall({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                        wallObject = clone.object.clone();
+                        wallObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.5, j - description.mazeData.size.height / 2.0);
                         this.object.add(wallObject);
                     }
                 }
@@ -86,6 +102,9 @@ export default class Maze {
         // Set the response type: the resource file will be parsed with JSON.parse()
         loader.setResponseType("json");
 
+        this.onLoad(parameters)
+
+        /*
         // Load a maze description resource file
         loader.load(
             //Resource URL
@@ -100,6 +119,8 @@ export default class Maze {
             // onError callback
             error => this.onError(this.url, error)
         );
+
+        */
     }
 
     // Convert cell [row, column] coordinates to cartesian (x, y, z) coordinates
