@@ -30,7 +30,47 @@ export default class Maze {
 
             // Create the ground
             this.ground = new Ground({ textureUrl: description.mazeData.groundTextureUrl, size: description.mazeData.size });
-            this.object.add(this.ground.object);
+            let groundObject;
+            this.object.add(this.ground.object)
+
+            /*
+            for (let i = 0; i <= description.mazeData.size.width; i++) { // In order to represent the eastmost walls, the map width is one column greater than the actual maze width
+                for (let j = 0; j <= description.mazeData.size.height; j++) { // In order to represent the southmost walls, the map height is one row greater than the actual maze height
+                    //Inside Room
+                    if (description.mazeData.map[j][i] == 4 || description.mazeData.map[j][i] == 5 || description.mazeData.map[j][i] == 6 || description.mazeData.map[j][i] == 7 || description.mazeData.map[j][i] == 10 || description.mazeData.map[j][i] == 11) {
+                        groundObject = this.ground.object.clone();
+                        this.object.add(this.ground.object)
+                    }
+
+                    //Passageway
+                    if (description.mazeData.map[j][i] == 12 || description.mazeData.map[j][i] == 13) {
+                        let clone = this.ground.object.clone();
+                        clone = new Ground({ textureUrl: './../../assets/View3D/textures/passageway.png', size: description.mazeData.size});
+                        groundObject = clone.object.clone();
+                        this.object.add(this.ground.object)
+                    }
+
+                    //Elevator
+                    if (description.mazeData.map[j][i] == 14) {
+                        let clone = this.ground.object.clone();
+                        clone = new Ground({ textureUrl: './../../assets/View3D/textures/elevator.png', size: description.mazeData.size});
+                        groundObject = clone.object.clone();
+                        this.object.add(this.ground.object)
+                    }
+
+                    //Hallway
+                    if (description.mazeData.map[j][i] == 0 || description.mazeData.map[j][i] == 1 || description.mazeData.map[j][i] == 2 || description.mazeData.map[j][i] == 3 || description.mazeData.map[j][i] == 8 || description.mazeData.map[j][i] == 9) {
+                        let clone = this.ground.object.clone();
+                        clone = new Ground({ textureUrl: './../../assets/View3D/textures/hallway.jpg', size: description.mazeData.size });
+                        groundObject = clone.object.clone();
+                        this.object.add(this.ground.object)
+                    }
+
+                }
+            }
+            */
+
+
 
             // Create a wall
             this.wall = new Wall({ textureUrl: description.mazeData.wallTextureUrl });
@@ -66,7 +106,7 @@ export default class Maze {
                         wallObject.position.set(i - description.mazeData.size.width / 2.0, 0.5, j - description.mazeData.size.height / 2.0 + 0.5);
                         this.object.add(wallObject);
                     }
-                    if (description.mazeData.map[j][i] == 9 ||  description.mazeData.map[j][i] == 11) {
+                    if (description.mazeData.map[j][i] == 9 || description.mazeData.map[j][i] == 11) {
                         let clone = this.wall.object.clone();
                         clone = new Wall({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
                         wallObject = clone.object.clone();
