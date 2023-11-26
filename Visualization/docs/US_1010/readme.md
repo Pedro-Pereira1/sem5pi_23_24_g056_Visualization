@@ -90,6 +90,9 @@ As a Fleet Manager, an actor of the system, I will be able to access the system 
 
 ### 4.2. Applied Patterns
 
+* Pipe
+* Directive
+* Service
 
 ### 4.3. Tests
 **Test 1:** *Intercepting a POST request to mock the creation of a new robot.*

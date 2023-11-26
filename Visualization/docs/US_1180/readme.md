@@ -71,8 +71,9 @@ and also the building and floor where the passageway connects to.
 
 ### 4.2. Applied Patterns
 
-component
-service
+* Pipe
+* Directive
+* Service
 
 ### 4.3. Tests
 
