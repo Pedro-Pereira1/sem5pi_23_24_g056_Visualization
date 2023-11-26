@@ -82,9 +82,9 @@ between buildings, changing the points where it connects to.
 
 ### 4.2. Applied Patterns
 
-pipe
-directive
-service
+* Pipe
+* Directive
+* Service
 
 ### 4.3. Tests
 
