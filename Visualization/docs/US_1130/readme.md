@@ -72,9 +72,9 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 
 ### 4.2. Applied Patterns
 
-pipe
-directive
-service
+* Pipe
+* Directive
+* Service
 
 ### 4.3. Tests
 
