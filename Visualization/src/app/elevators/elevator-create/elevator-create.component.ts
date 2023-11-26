@@ -21,7 +21,7 @@ export class ElevatorCreateComponent {
 
   floors: any[] = [];
   buildings: any[] = [];
- 
+
 
   createForm = new FormGroup({
     id: new FormControl(0),
@@ -91,6 +91,8 @@ export class ElevatorCreateComponent {
       window.alert("Elevator " + e.elevatorId + " created successfully");
     })
     this.createForm.reset();
+
+    (this.createForm.get('floorsIds') as FormArray).clear();
   }
 
 

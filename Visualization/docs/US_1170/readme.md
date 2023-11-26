@@ -195,6 +195,7 @@ export class PassagewaysComponent {
 ## 6. Integration/Demonstration
 The integration of this US is demonstrated in the following video:
 
+![integration_demo](Video/createPassageway.gif)
 
 ## 7. Observations
 No observations.
