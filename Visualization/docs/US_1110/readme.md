@@ -106,9 +106,13 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
 
-### 4.3. Applied Patterns
+### 4.2. Applied Patterns
 
-### 4.4. Tests
+* Pipe
+* Directive
+* Service
+
+### 4.3. Tests
 **Test 1:** *It intercepts a PUT request to the specified API endpoint using cy.intercept. The intercepted request returns mock data representing the editing of a floor with ID '11', floor number '3', and an updated description.*
 ```
  beforeEach(() => {
