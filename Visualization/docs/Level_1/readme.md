@@ -25,7 +25,7 @@
 ![US1100](../US_1100/Diagrams/Level1/ProcessView.svg)
 
 ### US1200
-![US1200](../US_220/Diagrams/Level1/ProcessView.svg)
+![US1200](../US_1200/Diagrams/Level1/ProcessView.svg)
 
 ### US1120
 ![US1120](../US_1120/Diagrams/Level1/ProcessView.svg)
@@ -37,7 +37,7 @@
 ![US1180](../US_1180/Diagrams/Level1/ProcessView.svg)
 
 ### US1190
-![US1190](../US_260/Diagrams/Level1/ProcessView.svg)
+![US1190](../US_1190/Diagrams/Level1/ProcessView.svg)
 
 ### US1130
 ![US1130](../US_1130/Diagrams/Level1/ProcessView.svg)
