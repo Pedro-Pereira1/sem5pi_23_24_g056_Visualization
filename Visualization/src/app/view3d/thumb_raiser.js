@@ -153,7 +153,7 @@ export default class ThumbRaiser {
     constructor(myCanvas, generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
         this.generalParameters = merge({}, generalData, generalParameters);
         this.mazeParameters = merge({}, mazeParameters);
-        this.playerParameters = merge({},playerData, playerParameters);
+        this.playerParameters = merge({}, playerParameters);
         this.lightsParameters = merge({}, lightsData, lightsParameters);
         this.fogParameters = merge({}, fogData, fogParameters);
         this.fixedViewCameraParameters = merge({}, cameraData, fixedViewCameraParameters);

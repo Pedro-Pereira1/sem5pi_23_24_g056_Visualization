@@ -16,7 +16,10 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 export default class Player {
     constructor(parameters) {
+        console.log(parameters)
         this.onLoad = function (description) {
+            console.log(description)
+
             this.object = description.scene;
             this.animations = description.animations;
 
@@ -51,7 +54,7 @@ export default class Player {
         this.onError = function (url, error) {
             console.error("Error loading resource " + url + " (" + error + ").");
         }
-        for (const [key, value] of Object.entries(parameters)) {
+        for (const [key, value] of Object.entries(parameters.model)) {
             this[key] = value;
         }
         this.initialDirection = THREE.MathUtils.degToRad(this.initialDirection);
@@ -64,16 +67,16 @@ export default class Player {
         // Load a model description resource file
         loader.load(
             //Resource URL
-            this.url,
+            URL.createObjectURL(parameters.model.model),
+            (gltf) => {
+                this.onLoad(gltf);
+            },
 
             // onLoad callback
-            description => this.onLoad(description),
 
             // onProgress callback
-            xhr => this.onProgress(this.url, xhr),
 
             // onError callback
-            error => this.onError(this.url, error)
         );
     }
 

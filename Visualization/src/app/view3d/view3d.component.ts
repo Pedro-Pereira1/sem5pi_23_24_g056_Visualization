@@ -45,7 +45,7 @@ export class View3dComponent implements OnDestroy {
 		const theModel = this.modelFile
 
 		if (theFloor?.floorMap.map.length! > 0) {
-			this.initialize(theFloor!);
+			this.initialize(theFloor!, theModel!);
 			this.animate = this.animate.bind(this);
 			this.animate();
 		} else {
@@ -96,13 +96,13 @@ export class View3dComponent implements OnDestroy {
 		} as RobotModel
 	}
 
-	initialize(floor: Floor) {
+	initialize(floor: Floor, modelFile: File) {
 		// Create the game
 		this.thumbRaiser = new ThumbRaiser(
 			this.canvas, // Canvas
 			{}, // General Parameters
 			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor) }, // Maze parameters
-			{ /*model: this.prepareModel(modelFile)*/ }, // Player parameters
+			{ model: this.prepareModel(modelFile) }, // Player parameters
 			{ ambientLight: { intensity: 0.1 }, pointLight1: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(-3.5, 10.0, 2.5) }, pointLight2: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(3.5, 10.0, -2.5) } }, // Lights parameters
 			{}, // Fog parameters
 			{ view: "fixed", multipleViewsViewport: new THREE.Vector4(0.0, 1.0, 0.45, 0.5) }, // Fixed view camera parameters
