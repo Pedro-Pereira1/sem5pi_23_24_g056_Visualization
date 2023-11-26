@@ -650,6 +650,10 @@ export default class ThumbRaiser {
         return this.maze.distanceToWestWall(position) < this.player.radius || this.maze.distanceToEastWall(position) < this.player.radius || this.maze.distanceToNorthWall(position) < this.player.radius || this.maze.distanceToSouthWall(position) < this.player.radius;
     }
 
+    collisionDoor(position) {
+        return this.maze.distanceToWestWallDoor(position) < this.player.radius || this.maze.distanceToEastWallDoor(position) < this.player.radius || this.maze.distanceToNorthWallDoor(position) < this.player.radius || this.maze.distanceToSouthWallDoor(position) < this.player.radius;
+    }
+
     update() {
         if (!this.gameRunning) {
             if (this.maze.loaded && this.player.loaded) { // If all resources have been loaded
@@ -702,6 +706,7 @@ export default class ThumbRaiser {
                     const direction = THREE.MathUtils.degToRad(this.player.direction);
                     if (this.player.keyStates.backward) {
                         const newPosition = new THREE.Vector3(-coveredDistance * Math.sin(direction), 0.0, -coveredDistance * Math.cos(direction)).add(this.player.position);
+                      
                         if (this.collision(newPosition)) {
                             this.animations.fadeToAction("Death", 0.2);
                         }
@@ -712,15 +717,27 @@ export default class ThumbRaiser {
                     }
                     else if (this.player.keyStates.forward) {
                         const newPosition = new THREE.Vector3(coveredDistance * Math.sin(direction), 0.0, coveredDistance * Math.cos(direction)).add(this.player.position);
+                        this.maze.closeDoors(newPosition);
+                        
                         if (this.collision(newPosition)) {
-                            this.animations.fadeToAction("Death", 0.2);
-                        }
-                        else {
-                            this.animations.fadeToAction(this.player.keyStates.run ? "Running" : "Walking", 0.2);
-                            this.player.position = newPosition;
+                            //this.animations.fadeToAction("Death", 0.2);
+
+                        }else{
+                            if(this.collisionDoor(newPosition)){
+                                console.log("door");
+                                if(this.maze.doorState(newPosition) === "closed"){
+                                    this.maze.openDoor(newPosition)
+                                }else{
+                                    this.animations.fadeToAction(this.player.keyStates.run ? "Running" : "Walking", 0.2);
+                                    this.player.position = newPosition;
+                                }
+                            }else{
+                                this.animations.fadeToAction(this.player.keyStates.run ? "Running" : "Walking", 0.2);
+                                this.player.position = newPosition;                    
+                            }
                         }
                     }
-                    else if (this.player.keyStates.jump) {
+                    /*else if (this.player.keyStates.jump) {
                         this.animations.fadeToAction("Jump", 0.2);
                     }
                     else if (this.player.keyStates.yes) {
@@ -740,7 +757,7 @@ export default class ThumbRaiser {
                     }
                     else {
                         this.animations.fadeToAction("Idle", this.animations.activeName != "Death" ? 0.2 : 0.6);
-                    }
+                    }*/
                     this.player.object.position.set(this.player.position.x, this.player.position.y, this.player.position.z);
                     this.player.object.rotation.y = direction - this.player.initialDirection;
                 }
