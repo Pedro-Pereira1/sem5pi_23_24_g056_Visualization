@@ -70,10 +70,13 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 ###### ProcessView:
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
-### 4.3. Applied Patterns
+### 4.2. Applied Patterns
 
+pipe
+directive
+service
 
-### 4.4. Tests
+### 4.3. Tests
 
 ``` typescript
 describe('Elevator Create', function () {
