@@ -15,7 +15,7 @@
 
 **Dependencies:**
 - **US150 -** As a Campus Manager, I want to create a building.
-- **US190 -** Sprint A 
+- **US190 -** Sprint A
 
 **Regarding this requirement we understand that:** <br>
 As a Campus Manager, an actor of the system, I will be able to access the system and create building floor.
@@ -113,6 +113,60 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 
 
 ### 4.4. Tests
+**Test 1:** *Test Suite Setup (beforeEach)*
+```
+beforeEach(() => {
+
+        cy.intercept('POST', 'http://localhost:4000/api/floors/createFloor', {
+          statusCode: 201,
+          body: {
+            "floorID": "1",
+            "floorNumber": "10",
+            "floorDescription": "This is a description"
+          }
+        }).as('createFloor')
+
+        cy.visit('/floors/createFloor')
+
+    });
+````
+
+**Test 2:** *It checks if the page contains an <h1> element with the text 'Create Floor'.*
+```
+it('has correct title', function() {
+        cy.get('h1').should('contain', 'Create Floor')
+    })
+````
+
+**Test 3:** *Verify a completed call*
+```
+it('fills and submits the form', function() {
+
+        cy.get('#floorID').type('33');
+        cy.get('#floorNumber').type('3');
+        cy.get('#floorDescription').type('PL floor');
+        cy.get('.form_select').select('B');
+    
+        cy.get('button:contains("Create")').click()
+
+        cy.wait('@createFloor')
+
+        cy.get('#floorID').should('have.value', '');
+        cy.get('#floorNumber').should('have.value', '')
+        cy.get('#floorDescription').should('have.value', '')
+    })
+````
+
+**Test 4:** *It intercepts a POST request to '/api/floors/createFloor' and responds with a status code of 500 (Internal Server Error) and an empty body, simulating an error.*
+```
+it('handles errors correctly', function() {
+        cy.intercept('POST', '/api/floors/createFloor', { statusCode: 500, body: {} }).as('createFloorError')
+        cy.visit('/floors/createFloor')
+        cy.on('window:alert', (str) => {
+          expect(str).to.include('An error occurred:')
+        })
+    })
+````
 
 
 ## 5. Implementation
