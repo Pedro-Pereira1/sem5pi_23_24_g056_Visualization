@@ -68,7 +68,8 @@
 
 ### 4.2. Applied Patterns
 
-component
+pipe
+directive
 service
 
 ### 4.3. Tests
