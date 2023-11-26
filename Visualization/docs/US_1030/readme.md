@@ -68,7 +68,9 @@ As a Fleet Manager, an actor of the system, I will be able to access the system 
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
 ### 4.3. Applied Patterns
-
+* Pipe
+* Directive
+* Service
 
 ### 4.4. Tests
 
