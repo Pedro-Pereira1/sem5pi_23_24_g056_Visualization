@@ -66,6 +66,9 @@ inhibit a certain robot
 
 ### 4.2. Applied Patterns
 
+pipe
+directive
+service
 
 ### 4.3. Tests
 

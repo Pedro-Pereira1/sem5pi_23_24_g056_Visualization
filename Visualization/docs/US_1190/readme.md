@@ -75,6 +75,10 @@ and also the building and floor where the passageway connects to.
 
 ### 4.2. Applied Patterns
 
+pipe
+directive
+service
+
 ### 4.3. Tests
 ```typescript
 describe('Passageway list between buildings', function () {

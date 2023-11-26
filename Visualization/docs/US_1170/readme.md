@@ -65,8 +65,9 @@ A passageway is defined by its ID and the 2 buildings that it connects.
 
 ### 4.2. Applied Patterns
 
-- component
-- service
+pipe
+directive
+service
 
 ### 4.3. Tests
 
