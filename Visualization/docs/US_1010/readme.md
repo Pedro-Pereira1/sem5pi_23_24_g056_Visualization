@@ -90,9 +90,70 @@ As a Fleet Manager, an actor of the system, I will be able to access the system 
 
 ### 4.2. Applied Patterns
 
+* Pipe
+* Directive
+* Service
 
 ### 4.3. Tests
 
+**Test 1:** *Tests if the class has the correct title*
+
+```typescript
+  it('has correct title', function() {
+  cy.get('h1').should('contain', 'Create Robot')
+})
+````
+
+**Test 2:** *Tests if the class has a text input box to enter the robot code*
+
+```typescript
+
+it('should display a text input field for entering the robot code', () => {
+  cy.get('input[id=Code]').should('be.visible');
+  cy.get('input[id=Code]').should('have.attr', 'type', 'text');
+});
+````
+
+**Test 3:** *Tests if the class has a select box for selecting a robot type*
+
+```typescript
+  it('should display a select box for selecting the robot type', () => {
+  cy.get('select').should('exist');
+});
+````
+
+**Test 4:** *Tests if the class creates a robot correctly*
+
+```typescript
+  it('fills and submits the form', function() {
+  cy.get('input[id=Code]').type('RBT001');
+  cy.get('input[id=Nickname]').type('Rosie');
+  cy.get('input[id=SerialNumber]').type('1234567890');
+  cy.get('input[id=Description]').type('A friendly and helpful robot');
+  cy.get('select').select('k4');
+  cy.get('button:contains("Create")').click();
+  cy.wait('@createRobot')
+
+  cy.get('input[id=Code]').should('have.value', '');
+  cy.get('input[id=Nickname]').should('have.value', '')
+  cy.get('input[id=SerialNumber]').should('have.value', '')
+  cy.get('input[id=Description]').should('have.value', '')
+
+})
+````
+
+**Test 5:** *Tests if the class handles errors correctly*
+
+```typescript
+  it('handles errors correctly', function() {
+  cy.intercept('POST', '/api/robots/createRobot', { statusCode: 500, body: {} }).as('createRobotError')
+  cy.visit('/robots/createRobot')
+  cy.on('window:alert', (str) => {
+    expect(str).to.include('An error occurred:')
+  })
+})
+
+````
 
 ## 5. Implementation
 
@@ -190,10 +251,7 @@ export class RobotTypesComponent implements OnInit{
 
 ## 6. Integration/Demonstration
 
-
-
 https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/128611263/a22dfc4e-b5de-4e72-92bd-f07ed4b945ea
-
 
 
 ## 7. Observations
