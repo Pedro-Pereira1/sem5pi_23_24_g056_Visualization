@@ -16,9 +16,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 export default class Player {
     constructor(parameters) {
-        console.log(parameters)
         this.onLoad = function (description) {
-            console.log(description)
 
             this.object = description.scene;
             this.animations = description.animations;
