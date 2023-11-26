@@ -86,10 +86,13 @@ As a Fleet Manager, an actor of the system, I will be able to access the system 
 ###### ProcessView:
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
-### 4.3. Applied Patterns
+### 4.2. Applied Patterns
 
+* Pipe
+* Directive
+* Service
 
-### 4.4. Tests
+### 4.3. Tests
 **Test 1:** *Intercepting a POST request to mock the creation of a new robot type.*
 ```
 beforeEach(() => {
@@ -298,3 +301,5 @@ https://github.com/Pedro-Pereira1/sem5pi_23_24_g056_Visualization/assets/1286112
 
 
 ## 7. Observations
+
+No additional observations.
