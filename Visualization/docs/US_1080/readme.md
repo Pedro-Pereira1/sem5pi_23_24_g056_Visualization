@@ -71,11 +71,13 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
 
-### 4.3. Applied Patterns
+### 4.2. Applied Patterns
 
+* Pipe
+* Directive
+* Service
 
-
-### 4.4. Tests
+### 4.3. Tests
 
 **Test 1:** *It intercepts a GET request to the specified API endpoint using cy.intercept. The intercepted request returns mock data containing information about two buildings.*
 ```
