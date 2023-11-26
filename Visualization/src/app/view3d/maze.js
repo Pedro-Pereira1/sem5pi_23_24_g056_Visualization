@@ -2,6 +2,8 @@ import * as THREE from "three";
 import Ground from "./ground.js";
 import Wall from "./wall.js";
 import Door from "./door.js";
+import { forEach } from "lodash";
+import * as TWEEN from '@tweenjs/tween.js';
 
 /*
  * parameters = {
@@ -36,7 +38,7 @@ export default class Maze {
             // Create a wall
             this.wall = new Wall({ textureUrl: description.mazeData.wallTextureUrl });
             this.door = new Door({ textureUrl: description.mazeData.doorTextureUrl });
-
+            this.doors = [];
             // Build the maze
             let wallObject;
             let doorObject;
@@ -70,6 +72,8 @@ export default class Maze {
                         doorObject.rotateY(Math.PI / 2.0);
                         doorObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
                         this.object.add(doorObject);
+
+                        this.doors.push({"door": doorObject, "state": "closed"});
                     }
                     if (description.mazeData.map[j][i] == 9 || description.mazeData.map[j][i] == 11) {
                         let clone = this.door.object.clone();
@@ -77,6 +81,8 @@ export default class Maze {
                         doorObject = clone.object.clone();
                         doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                         this.object.add(doorObject);
+
+                        this.doors.push({"door": doorObject, "state": "closed"});
                     }
                 }
             }
@@ -143,6 +149,8 @@ export default class Maze {
         if (this.map[indices[0]][indices[1]] == 1 || this.map[indices[0]][indices[1]] == 3) {
             return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
         }
+
+        
         return Infinity;
     }
 
@@ -152,6 +160,7 @@ export default class Maze {
         if (this.map[indices[0]][indices[1]] == 1 || this.map[indices[0]][indices[1]] == 3) {
             return this.cellToCartesian(indices).x - this.scale.x / 2.0 - position.x;
         }
+
         return Infinity;
     }
 
@@ -160,6 +169,7 @@ export default class Maze {
         if (this.map[indices[0]][indices[1]] == 2 || this.map[indices[0]][indices[1]] == 3) {
             return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
         }
+
         return Infinity;
     }
 
@@ -169,10 +179,142 @@ export default class Maze {
         if (this.map[indices[0]][indices[1]] == 2 || this.map[indices[0]][indices[1]] == 3) {
             return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
         }
+
         return Infinity;
     }
 
     foundExit(position) {
         return Math.abs(position.x - this.exitLocation.x) < 0.5 * this.scale.x && Math.abs(position.z - this.exitLocation.z) < 0.5 * this.scale.z
     };
+
+    distanceToWestWallDoor(position) {
+        const indices = this.cartesianToCell(position);
+
+        if(this.map[indices[0]][indices[1]] == 8 || this.map[indices[0]][indices[1]] == 10) {
+            return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
+        }
+        
+        return Infinity;
+    }
+
+    distanceToEastWallDoor(position) {
+        const indices = this.cartesianToCell(position);
+        indices[1]++;
+
+        if(this.map[indices[0]][indices[1]] == 8 || this.map[indices[0]][indices[1]] == 10) {
+            return this.cellToCartesian(indices).x - this.scale.x / 2.0 - position.x;
+        }
+
+        return Infinity;
+    }
+
+    distanceToNorthWallDoor(position) {
+        const indices = this.cartesianToCell(position);
+
+        if(this.map[indices[0]][indices[1]] == 9 || this.map[indices[0]][indices[1]] == 11) {
+            return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
+        }
+
+        return Infinity;
+    }
+
+    distanceToSouthWallDoor(position) {
+        const indices = this.cartesianToCell(position);
+        indices[0]++;
+
+        if(this.map[indices[0]][indices[1]] == 9 || this.map[indices[0]][indices[1]] == 11) {
+            return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
+        }
+
+        return Infinity;
+    }  
+    
+    openDoor(position) {
+        const closestDoor = this.closestDoor(position);
+    
+        if (closestDoor.state === "closed") {
+            // Define the initial and target positions for the door animation
+            const initialPosition = closestDoor.door.position.clone();
+            const targetPosition = initialPosition.clone();
+            targetPosition.y -= 3.0; // Adjust the target position according to your door's movement direction
+    
+            // Set up a Tween animation
+            const tween = new TWEEN.Tween(initialPosition)
+                .to(targetPosition, 1000) // Adjust the duration of the animation as needed
+                .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
+                .onUpdate(() => {
+                    // Update the door's position during the animation
+                    closestDoor.door.position.copy(initialPosition);
+                })
+                .onComplete(() => {
+                    // Update the door state after the animation is complete
+                    closestDoor.state = "open";
+                })
+                .start(); // Start the animation
+    
+            // Store the tween object if you want to manipulate or stop it later
+            closestDoor.tween = tween;
+        }
+    }
+    
+
+
+    doorState(position){
+        let door = this.closestDoor(position);
+
+        return door.state;
+    }
+
+    closeDoors(position) {
+        for(const door of this.doors) {
+            const doorPosition = door.door.position;
+            const distance = position.distanceTo(doorPosition);
+            
+            if(distance > 1.5 && door.door.position.y < 0.0) {
+                const initialPosition = door.door.position.clone();
+                const targetPosition = initialPosition.clone();
+                targetPosition.y = 0.894; // Adjust the target position according to your door's movement direction
+        
+                // Set up a Tween animation
+                const tween = new TWEEN.Tween(initialPosition)
+                    .to(targetPosition, 1000) // Adjust the duration of the animation as needed
+                    .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
+                    .onUpdate(() => {
+                        // Update the door's position during the animation
+                        door.door.position.copy(initialPosition);
+                    })
+                    .onComplete(() => {
+                        // Update the door state after the animation is complete
+                        door.state = "closed";
+                    })
+                    .start(); // Start the animation
+        
+                // Store the tween object if you want to manipulate or stop it later
+                door.tween = tween;
+            }
+        }
+    }
+
+
+    closestDoor(position) {
+        let minDistance = Infinity;
+        let closestDoor = {
+            door: null,
+            state: null
+        };
+
+        for(const door of this.doors) {
+            const doorPosition = door.door.position;
+            const distance = position.distanceTo(doorPosition);
+
+            if(distance < minDistance && distance < 1.5) {
+                minDistance = distance;
+                closestDoor.door = door.door;
+                closestDoor.state = door.state;
+            }
+        }
+
+        return closestDoor;
+    }
+
 }
