@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import Orientation from "./orientation.js"
 import ThumbRaiser from "./thumb_raiser.js"
 import { ActivatedRoute } from '@angular/router';
-
+import * as TWEEN from '@tweenjs/tween.js';
 import { BuildingService } from '../services/building.service';
 import { FloorService } from '../services/floor.service';
 import { Building } from '../domain/building/Building';
@@ -115,7 +115,7 @@ export class View3dComponent implements OnDestroy {
 
 	animate(): void {
 		this.animationId = requestAnimationFrame(this.animate.bind(this));
-
+		TWEEN.update();
 		// Update the game
 		this.thumbRaiser.update();
 	}
