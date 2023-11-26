@@ -106,12 +106,16 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
 
-### 4.3. Applied Patterns
+### 4.2. Applied Patterns
 
 
 
 
-### 4.4. Tests
+* Pipe
+* Directive
+* Service
+
+### 4.3. Tests
 **Test 1:** *Intercepting a GET request to mock the list of all floors in a building.*
 ```
 cy.intercept('GET', 'http://localhost:4000/api/floors/listAllFloors/*', {
