@@ -707,7 +707,7 @@ export default class ThumbRaiser {
                     if (this.player.keyStates.backward) {
                         const newPosition = new THREE.Vector3(-coveredDistance * Math.sin(direction), 0.0, -coveredDistance * Math.cos(direction)).add(this.player.position);
                       
-                        if (this.collision(newPosition)) {
+                        if (this.collision(newPosition)||this.collisionDoor(newPosition)) {
                             this.animations.fadeToAction("Death", 0.2);
                         }
                         else {
