@@ -58,7 +58,7 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 * We will use Angular, so we need an HTML, CSS and TS file.
 * We will need a labels to select the building to edit a Floor
 * We will need a button to perform the search of floor to an intended Building
-* We will need a table to show the floor information and a button to edit each floor 
+* We will need a table to show the floor information and a button to edit each floor
 * We will need three labels (ID, floorNumber and Description) with the actual data, that ca be edited
 * We will need a button to commit changes of floor information
 * We will a notification to inform the operation success.
@@ -106,10 +106,77 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
 
-### 4.3. Applied Patterns
+### 4.2. Applied Patterns
 
-### 4.4. Tests
+* Pipe
+* Directive
+* Service
 
+### 4.3. Tests
+**Test 1:** *It intercepts a PUT request to the specified API endpoint using cy.intercept. The intercepted request returns mock data representing the editing of a floor with ID '11', floor number '3', and an updated description.*
+```
+ beforeEach(() => {
+
+        cy.intercept('PUT', 'http://localhost:4000/api/floors/editFloor', {
+          statusCode: 200,
+          body: {
+            "floorId": 11,
+            "floorNumber": 3,
+            "floorDescription": "Updated description",
+            "floorMap": {
+                "map": [],
+                "passageways": [],
+                "rooms": [],
+                "elevators": [],
+                "passagewaysCoords": [],
+                "elevatorsCoords": [],
+                "roomCoords": []
+            }
+        }
+        }).as('editFloor')
+
+        cy.visit('/floors/editFloor')
+
+    });
+````
+
+**Test 2:** *It checks if the page contains an <h1> element with the text 'Edit Floor'.*
+```
+it('has correct title', function() {
+        cy.get('h1').should('contain', 'Edit Floor')
+    })
+````
+
+**Test 3:** *It verifies that a button with the text 'Search' is visible on the page.*
+```
+it('should display a button for searching for floors', () => {
+        cy.get('button:contains("Search")').should('be.visible');
+    });
+````
+
+**Test 4:** *Verify a completed call*
+```
+it('fills and submits the form', function() {
+        cy.get('select').select('B');
+        cy.get('button:contains("Search")').click()
+        cy.get('button:contains("Edit")').first().click()
+        cy.get('#floorNumber').clear().type('3');
+        cy.get('#description').clear().type('Updated description');
+        cy.get('button:contains("Submit")').first().click();
+        cy.wait('@editFloor');
+    })
+````
+
+**Test 5:** *It intercepts a PUT request to '/api/floors/editFloor' and responds with a status code of 500 (Internal Server Error) and an empty body, simulating an error.*
+```
+it('handles errors correctly', function() {
+        cy.intercept('PUT', '/api/floors/editFloor', { statusCode: 500, body: {} }).as('editFloorError')
+        cy.visit('/floors/editFloor')
+        cy.on('window:alert', (str) => {
+          expect(str).to.include('An error occurred:')
+        })
+    })
+````
 
 ## 5. Implementation
 

@@ -1,1 +1,53 @@
 <h1>Shortest Path</h1>
+
+<div class="selectPlaces">
+    <select [(ngModel)]="building1Code" (change)="listFloors1()">
+        <option value="">Select the building 1</option>
+        <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+    </select>
+
+    <select [(ngModel)]="building2Code" (change)="listFloors2()">
+        <option value="">Select the building 2</option>
+        <option *ngFor="let building of buildings" [value]="building.buildingCode">{{ building.buildingCode }}</option>
+    </select>
+    <div>
+
+    </div>
+    <select [(ngModel)]="floor1Id">
+        <option value="">Select floor 1</option>
+        <option *ngFor="let floor of floors1" [value]="floor.floorId">{{ floor.floorId }}</option>
+    </select>
+
+    <select [(ngModel)]="floor2Id">
+        <option value="">Select floor 2</option>
+        <option *ngFor="let floor of floors2" [value]="floor.floorId">{{ floor.floorId }}</option>
+    </select>
+</div>
+
+
+<div class="selectCoords">
+    <form>
+        <div>
+            <input type="number" class="form__field" id='x1' formControlName="x1" required />
+            <label for="x1" class="form__label">X1</label>
+          <input type="number" class="form__field" id='x2' formControlName="x2" required />
+          <label for="x2" class="form__label">X2</label>
+
+
+        </div>
+    </form>
+
+    <form>
+        <div>
+          <input type="number" class="form__field" id='y1' formControlName="y1" required />
+          <label for="y1" class="form__label">Y1</label>
+
+            <input type="number" class="form__field" id='y2' formControlName="y2" required />
+            <label for="y2" class="form__label">Y2</label>
+        </div>
+    </form>
+</div>
+
+<div>
+  <button>Create</button>
+</div>

@@ -82,24 +82,6 @@ describe('Load Floor map', function () {
     cy.get('h1').should('contain', 'Load Floor Map')
   })
 
-  /*
-  it('fills and submits the form', function () {
-    cy.get('select').select('BGDA');
-    cy.get('button:contains("Search")').click()
-
-    cy.get('button:contains("Map")').first().click()
-
-    cy.get('#file-input').selectFile('cypress/fixtures/map.txt', { force: true })
-
-    cy.get('button:contains("Choose File")').selectFile('cypress/fixtures/map.txt').click()
-
-    cy.wait('@loadFloorMap');
-
-
-  });
-  */
-
-
   it('handles errors correctly', function () {
     cy.intercept('PATCH', 'http://localhost:4000/api/floors/loadFloorMap', { statusCode: 500, body: {} }).as('loadFloorMap')
     cy.visit('/floors/loadFloorMap')
@@ -107,8 +89,6 @@ describe('Load Floor map', function () {
       expect(str).to.include('An error occurred:')
     })
   })
-
-
 
 })
 

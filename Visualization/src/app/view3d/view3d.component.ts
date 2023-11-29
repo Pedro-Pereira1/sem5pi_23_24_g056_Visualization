@@ -54,6 +54,9 @@ export class View3dComponent implements OnDestroy {
 	}
 
 	updateFloorFile(floor: Floor): FloorMapRender {
+		if (this.thumbRaiser != undefined && this.thumbRaiser.userInterface != undefined) {
+			this.thumbRaiser.userInterface.gui.destroy();
+		}
 		return {
 			map: floor.floorMap.map,
 			initialPosition: [0, 0],

@@ -1,0 +1,117 @@
+input{
+    padding: 0;
+    margin: 0;
+    outline: none;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 18px;
+    color: #263238;
+    margin-top: 5px;
+}
+
+select{
+  width: 25%;
+  padding: 5px;
+  margin: 10px;
+  outline: none;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 18px;
+  color: #263238;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+button {
+    appearance: none;
+    background-color: transparent;
+    border: 0.125em solid #1A1A1A;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #3B3B3B;
+    cursor: pointer;
+    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 0em;
+    min-width: 0;
+    outline: none;
+    height: 40px;
+    padding: 0em 2.3em;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+    margin-left: 5px;
+    margin-top: 100px;
+   }
+
+   button:disabled {
+    pointer-events: none;
+   }
+
+   button:hover {
+    color: #fff;
+    background-color: #1A1A1A;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+   }
+
+   button:active {
+    box-shadow: none;
+    transform: translateY(0);
+   }
+
+.limiter {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.selectCoords {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  margin: 10px;
+  width: 60%;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 25%;
+  margin: 60px;
+  border: 0;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 20px;
+  color: #000000;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+.form__field::placeholder {
+  color: transparent;
+}
+.form__field:placeholder-shown ~ .form__label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+
+
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #263238, #263238);
+  border-image-slice: 1;
+}
+
+
+/* reset input */
+.form__field:required, .form__field:invalid {
+  box-shadow: none;
+}

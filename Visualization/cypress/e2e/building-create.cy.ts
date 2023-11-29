@@ -51,7 +51,7 @@ describe('Building Create', function () {
 
     it('handles errors correctly', function () {
         cy.intercept('GET', '/api/buildings', { statusCode: 500, body: {} }).as('getBuildingsError')
-        cy.visit('/buildings/listBuildingsMaxMinFloors')
+        cy.visit('/buildings/createBuilding')
         cy.on('window:alert', (str) => {
             expect(str).to.include('`An error occurred:')
         })

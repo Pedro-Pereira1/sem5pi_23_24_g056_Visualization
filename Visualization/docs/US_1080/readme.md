@@ -71,11 +71,105 @@ As a Campus Manager, an actor of the system, I will be able to access the system
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
 
-### 4.3. Applied Patterns
+### 4.2. Applied Patterns
+
+* Pipe
+* Directive
+* Service
+
+### 4.3. Tests
+
+**Test 1:** *It intercepts a GET request to the specified API endpoint using cy.intercept. The intercepted request returns mock data containing information about two buildings.*
+```
+beforeEach(() => {
+    
+      cy.intercept('GET', 'http://localhost:4000/api/buildings/listBuildingsMaxMinFloors/*/*', {
+        statusCode: 200,
+        body: [
+          {
+              "buildingName": "A",
+              "buildingDescription": "T.I Building",
+              "buildingCode": "A",
+              "buildingLength": 10,
+              "buildingWidth": 10,
+              "buildingFloors": [
+                  1,
+                  2,
+                  3,
+                  4
+              ]
+          },
+          {
+              "buildingName": "B",
+              "buildingDescription": "Joi.string().max(255)",
+              "buildingCode": "B",
+              "buildingLength": 10,
+              "buildingWidth": 10,
+              "buildingFloors": [
+                  11,
+                  22,
+                  33
+              ]
+          }
+      ]
+      }).as('listBuildingMaxMinFloors');  
 
 
+      cy.visit('/buildings/listBuildingsMaxMinFloors')
+    });
+````
 
-### 4.4. Tests
+**Test 2:** *It checks if the page contains an <h1> element with the text 'List Buildings by Max Min Floor'.*
+```
+it('has correct title', function() {
+        cy.get('h1').should('contain', 'List Buildings by Max Min Floor')
+    })
+````
+
+**Test 3:** *It ensures that the initial values of form fields (presumably numerical input fields) are set to '0'.*
+```
+it('has correct initial input values', function() {
+        cy.get('.form__field').each(($el, index, $list) => {
+          cy.wrap($el).should('have.value', '0')
+        })
+      })
+````
+
+**Test 4:** *Verify a completed call*
+```
+it('fills and submits the form', function() {
+
+        cy.get('table').then(($table) => {
+          const initialTableText = $table.text()
+
+          cy.get('.form__field').first().clear().type('10')
+          cy.get('.form__field').last().clear().type('5')
+          cy.get('button:contains("Search")').click()
+
+          cy.get('.form__field').first().should('have.value', '10')
+          cy.get('.form__field').last().should('have.value', '5')
+
+          cy.wait('@listBuildingMaxMinFloors')
+
+          cy.get('table').should(($tableAfter) => {
+            expect($tableAfter.text()).not.to.eq(initialTableText)
+          })
+        })
+      })
+````
+
+**Test 5:** *It intercepts a GET request to '/api/buildings' and responds with a status code of 500 (Internal Server Error) and an empty body, simulating an error.*
+```
+it('handles errors correctly', function() {
+        cy.intercept('GET', '/api/buildings', { statusCode: 500, body: {} }).as('getBuildingsError')
+        cy.visit('/buildings/listBuildingsMaxMinFloors')
+        cy.on('window:alert', (str) => {
+          expect(str).to.include('`An error occurred:')
+        })
+      })
+
+````
+
 
 ## 5. Implementation
 
