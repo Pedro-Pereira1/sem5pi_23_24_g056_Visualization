@@ -10,7 +10,10 @@
 - **No dependencies**
 
 ## 3. Analysis
-
+**Analyzing this User Story we understand that:**
+* We need to create a proper visualization for passageway.
+* When the robot arrives at a passage it must recognize it.
+* The robot should be teleported to the other floor.
 
 ## 4. Implementation
 
