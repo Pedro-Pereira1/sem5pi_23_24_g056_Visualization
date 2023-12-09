@@ -42,6 +42,8 @@ export default class Maze {
             // Build the maze
             let wallObject;
             let doorObject;
+            console.log(description.mazeData.size.width);
+            console.log(description.mazeData.size.height);
             for (let i = 0; i <= description.mazeData.size.width; i++) { // In order to represent the eastmost walls, the map width is one column greater than the actual maze width
                 for (let j = 0; j <= description.mazeData.size.height; j++) { // In order to represent the southmost walls, the map height is one row greater than the actual maze height
                     /*
@@ -62,6 +64,23 @@ export default class Maze {
                         wallObject.rotateY(Math.PI / 2.0);
                         wallObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
                         this.object.add(wallObject);
+                    }
+
+
+                    if(description.mazeData.map[j][i] == 12){
+                        if((i == description.mazeData.size.width && description.mazeData.map[j+1][i] == 12) || 
+                           (i == 0 && description.mazeData.map[j+1][i] == 12)){
+                            let wallObject1 = this.wall.object.clone();
+                            let wallObject2 = this.wall.object.clone();
+
+                            wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
+                            this.object.add(wallObject1);
+
+                            
+                            wallObject2.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j + 2 - description.mazeData.size.height / 2.0);
+                            this.object.add(wallObject2);
+                        }
+
                     }
 
                     //DOORS
@@ -168,6 +187,8 @@ export default class Maze {
         const indices = this.cartesianToCell(position);
         if (this.map[indices[0]][indices[1]] == 2 || this.map[indices[0]][indices[1]] == 3 || this.map[indices[0]][indices[1]] == 6 || this.map[indices[0]][indices[1]] == 7) {
             return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
+        }else if(this.map[indices[0]][indices[1]] == 12 && this.map[indices[0] - 1][indices[1]] != 12){
+            return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
         }
 
         return Infinity;
@@ -177,6 +198,8 @@ export default class Maze {
         const indices = this.cartesianToCell(position);
         indices[0]++;
         if (this.map[indices[0]][indices[1]] == 2 || this.map[indices[0]][indices[1]] == 3 || this.map[indices[0]][indices[1]] == 6 || this.map[indices[0]][indices[1]] == 7) {
+            return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
+        }else if(this.map[indices[0]][indices[1]] == 12 && this.map[indices[0] + 1][indices[1]] == 12){
             return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
         }
 
