@@ -26,13 +26,15 @@ export default class Animations {
         if (this.activeName != name && !this.actionInProgress) {
             const previousName = this.activeName;
             this.activeName = name;
-            this.actions[previousName].fadeOut(duration);
-            this.actions[this.activeName]
-                .reset()
-                .setEffectiveTimeScale(1)
-                .setEffectiveWeight(1)
-                .fadeIn(duration)
-                .play();
+            if (this.actions[previousName]) {
+                this.actions[previousName].fadeOut(duration);
+            }
+            //this.actions[this.activeName]
+            //    .reset()
+            //    .setEffectiveTimeScale(1)
+            //    .setEffectiveWeight(1)
+            //    .fadeIn(duration)
+            //    .play();
             // Some actions must not be interrupted
             if (this.activeName != "Idle" && this.activeName != "Walking" && this.activeName != "Running") {
                 this.mixer.addEventListener("finished", event => this.actionFinished(event));
