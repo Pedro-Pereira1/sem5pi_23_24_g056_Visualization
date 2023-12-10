@@ -687,8 +687,10 @@ export default class ThumbRaiser {
             // Update the player
             if (!this.animations.actionInProgress) {
                 // Check if the player found the exit
-                if (this.maze.foundExit(this.player.position)) {
-                    this.finalSequence();
+                if (this.maze.foundPassageway(this.player.position)) {
+                    //this.finalSequence();
+
+                    
                 }
                 else {
                     let coveredDistance = this.player.walkingSpeed * deltaT;
@@ -708,7 +710,7 @@ export default class ThumbRaiser {
                         const newPosition = new THREE.Vector3(-coveredDistance * Math.sin(direction), 0.0, -coveredDistance * Math.cos(direction)).add(this.player.position);
                       
                         if (this.collision(newPosition)||this.collisionDoor(newPosition)) {
-                            this.animations.fadeToAction("Death", 0.2);
+                            //this.animations.fadeToAction("Death", 0.2);
                         }
                         else {
                             this.animations.fadeToAction(this.player.keyStates.run ? "Running" : "Walking", 0.2);
