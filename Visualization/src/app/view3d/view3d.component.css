@@ -108,3 +108,17 @@ canvas {
     left: 0;
     z-index: -1;
 }
+
+#info {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%; /* Adjust the width as needed */
+    text-align: center;
+    z-index: 100;
+    display: block;
+    visibility: hidden; /* Change to visible to make it initially visible */
+    background-color: rgba(255, 192, 203, 0.7); /* Pink transparent background */
+    padding: 20px; /* Adjust padding as needed */
+}
