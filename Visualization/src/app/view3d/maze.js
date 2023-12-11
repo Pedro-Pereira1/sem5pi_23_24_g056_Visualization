@@ -270,7 +270,10 @@ export default class Maze {
         const indices = this.cartesianToCell(position);
         if(this.map[indices[0]][indices[1]] == 12){
             console.log("found passageway");
+            return true;
         }
+
+    
     }
 
     distanceToWestWallDoor(position) {
