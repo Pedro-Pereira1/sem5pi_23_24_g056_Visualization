@@ -687,10 +687,15 @@ export default class ThumbRaiser {
             // Update the player
             if (!this.animations.actionInProgress) {
                 // Check if the player found the exit
-                if (this.maze.foundPassageway(this.player.position)) {
-                    //this.finalSequence();
+                let infoElement = document.getElementById('info');
 
-                    
+                if(!this.maze.foundPassageway(this.player.position) && infoElement.style.visibility === 'visible'){
+                    infoElement.style.visibility = 'hidden';
+                }
+
+                if (this.maze.foundPassageway(this.player.position) && infoElement.style.visibility != 'visible') {
+                    //this.finalSequence();         
+                    infoElement.style.visibility = 'visible';
                 }
                 else {
                     let coveredDistance = this.player.walkingSpeed * deltaT;
