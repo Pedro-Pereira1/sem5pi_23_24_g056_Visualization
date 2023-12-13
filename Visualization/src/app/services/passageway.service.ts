@@ -6,6 +6,7 @@ import {Observable, throwError} from "rxjs";
 import {PassagewayCreate} from "../domain/passageway/PassagewayCreate";
 import {PassagewayEdit} from "../domain/passageway/PassagewayEdit";
 import {PassagewayList} from "../domain/passageway/PassagewayList";
+import { Floor } from '../domain/floor/Floor';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,14 @@ export class PassagewayService {
         catchError(this.handleError)
       )
 
+  }
+
+  findFloorsByPassageway(passagewayId: number): Observable<Floor[]> {
+    const url = this.passagewaysUrl + "/" + "findFloorsByPassageway"+ "/" + passagewayId;
+    return this.http.get<Floor[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      )
   }
 
 }
