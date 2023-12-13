@@ -1,16 +1,19 @@
-<div class="login-box">
-    <h1>Login</h1>
+<div class="container">
+    <div class="login-box">
+        <h1 class="title">Login</h1>
 
-    <form>
-        <div class="form__group field">
-            <input type="text" class="form__field" id='email' formControlName="email"/>
-            <label for="email" class="form__label">Email</label>
-        </div>
-        <div class="form__group field">
-            <input type="password" class="form__field" id='password' formControlName="password"/>
-            <label for="password" class="form__label">Password</label>
-        </div>
-    </form>
+        <form class="form">
+            <div class="form__group field">
+                <input type="text" class="form__field" id='email' formControlName="email" />
+                <label for="email" class="form__label">Email</label>
+            </div>
+            <div class="form__group field">
+                <input type="password" class="form__field" id='password' formControlName="password" />
+                <label for="password" class="form__label">Password</label>
+            </div>
+            <button>Submit</button>
+        </form>
 
-    <a [routerLink]="['/auth/register']">Don't have an account yet?</a>
+        <a class="link" type="button" [routerLink]="['/auth/register']">Don't have an account yet?</a>
+    </div>
 </div>

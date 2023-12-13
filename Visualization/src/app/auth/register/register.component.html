@@ -1,1 +1,31 @@
-<p>register works!</p>
+<div class="container">
+    <div class="login-box">
+        <h1 class="title">Create an account</h1>
+
+        <form class="form">
+            <div class="form__group field">
+                <input type="text" class="form__field" id='name' formControlName="name" />
+                <label for="name" class="form__label">Name</label>
+            </div>
+            <div class="form__group field">
+                <input type="text" class="form__field" id='email' formControlName="email" />
+                <label for="email" class="form__label">Email</label>
+            </div>
+            <div class="form__group field">
+                <input type="text" class="form__field" id='password' formControlName="phone" />
+                <label for="phone" class="form__label">Phone Number</label>
+            </div>
+            <div class="form__group field">
+                <input type="text" class="form__field" id='taxPayerNumber' formControlName="taxPayerNumber" />
+                <label for="taxPayerNumber" class="form__label">Tax payer number</label>
+            </div>
+            <div class="form__group field">
+                <input type="password" class="form__field" id='password' formControlName="password" />
+                <label for="password" class="form__label">Password</label>
+            </div>
+            <button>Submit</button>
+        </form>
+
+        <a class="link" type="button" [routerLink]="['/auth/login']">Already have an account?</a>
+    </div>
+</div>
