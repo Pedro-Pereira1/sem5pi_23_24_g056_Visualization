@@ -22,6 +22,7 @@ import Fog from "./fog.js";
 import Camera from "./camera.js";
 import Animations from "./animations.js";
 import UserInterface from "./user_interface.js";
+import { View3dComponent } from "./view3d.component";
 
 /*
  * generalParameters = {
@@ -150,7 +151,7 @@ import UserInterface from "./user_interface.js";
  */
 
 export default class ThumbRaiser {
-    constructor(myCanvas, generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
+    constructor(floorMapParameters,passagewayService, myCanvas, generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
         this.generalParameters = merge({}, generalData, generalParameters);
         this.mazeParameters = merge({}, mazeParameters);
         this.playerParameters = merge({}, playerParameters);
@@ -161,7 +162,8 @@ export default class ThumbRaiser {
         this.thirdPersonViewCameraParameters = merge({}, cameraData, thirdPersonViewCameraParameters);
         this.topViewCameraParameters = merge({}, cameraData, topViewCameraParameters);
         this.miniMapCameraParameters = merge({}, cameraData, miniMapCameraParameters);
-
+        this.passagewayService = passagewayService;
+        this.floorMapParameters = floorMapParameters
         // Create a 2D scene (the viewports frames)
         this.scene2D = new THREE.Scene();
 
@@ -691,11 +693,42 @@ export default class ThumbRaiser {
 
                 if(!this.maze.foundPassageway(this.player.position) && infoElement.style.visibility === 'visible'){
                     infoElement.style.visibility = 'hidden';
+                    
                 }
 
                 if (this.maze.foundPassageway(this.player.position) && infoElement.style.visibility != 'visible') {
                     //this.finalSequence();         
                     infoElement.style.visibility = 'visible';
+
+                    window.addEventListener('keydown', (event) => {
+                        if (event.key === 'k' || event.key === 'K') {
+                            const robotCoordX = this.maze.cartesianToCell(this.player.position)[1]
+                            const robotCoordY = this.maze.cartesianToCell(this.player.position)[0]
+                            let passagewaysCoords = this.floorMapParameters.floor.floorMap.passagewaysCoords
+
+                            for (let i = 0; i < passagewaysCoords.length; i++) {
+                                if((passagewaysCoords[i][1] == robotCoordX && passagewaysCoords[i][2] == robotCoordY) ||
+                                (passagewaysCoords[i][3] == robotCoordX && passagewaysCoords[i][4] == robotCoordY)){
+                                    this.passagewayService.findFloorsByPassageway(passagewaysCoords[i][0]).subscribe(
+                                        floors => {
+                                            if(floors[0]._id.value == this.floorMapParameters.floor.floorId){
+                                                const newFloorCoords = this.newFloorCoords(floors[1],passagewaysCoords[i][0])
+                                                console.log("Floors: " + floors[1]._id.value + " | New coords: " + Number(newFloorCoords.props.x1) + " " + Number(newFloorCoords.props.y1))
+                                                
+                                            }else{
+                                                const newFloorCoords = this.newFloorCoords(floors[0],passagewaysCoords[i][0])
+                                                console.log("Floors: " + floors[0]._id.value + " | New coords: " + Number(newFloorCoords.props.x1) + " " + Number(newFloorCoords.props.y1))
+
+                                            }
+                                        },error => {
+                                                    console.error('Error fetching passageways:', error);
+                                                }
+                                        );
+                                }                      
+                            }
+                        }
+                    });
+                    
                 }
                 else {
                     let coveredDistance = this.player.walkingSpeed * deltaT;
@@ -815,6 +848,15 @@ export default class ThumbRaiser {
                 this.renderer.setViewport(viewport.x, viewport.y, viewport.width, viewport.height);
                 this.renderer.render(this.scene3D, this.miniMapCamera.object);
                 this.renderer.render(this.scene2D, this.camera2D);
+            }
+        }
+    }
+
+
+    newFloorCoords(floor, passagewayId) {
+        for (let i = 0; i < floor.props.floormap.props.passagewaysCoords.length; i++) {    
+            if(floor.props.floormap.props.passagewaysCoords[i].props.id == passagewayId){
+                return floor.props.floormap.props.passagewaysCoords[i]
             }
         }
     }
