@@ -13,12 +13,19 @@ export class VerifyAuthServiceService implements CanActivate {
 
 
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(): boolean {
     if (localStorage.getItem('token')) {
       return true;
     }
 
     this.router.navigate(['auth/login']);
+    return false;
+  }
+
+  isLogged(): boolean {
+    if (localStorage.getItem('token')) {
+      return true;
+    }
     return false;
   }
 }

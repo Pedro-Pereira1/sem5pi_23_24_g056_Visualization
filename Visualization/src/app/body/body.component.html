@@ -1,3 +1,8 @@
-<div class="body" [ngClass]="getBodyClass()">  
-    <router-outlet></router-outlet>
+<div [ngClass]="getBodyClass()">  
+    <div *ngIf="isLogged()">
+        <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+    </div>
+    <div class="body">
+        <router-outlet></router-outlet>
+    </div>
 </div>

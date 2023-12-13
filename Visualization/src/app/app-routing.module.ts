@@ -7,25 +7,25 @@ import { VerifyAuthServiceService } from './services/verify-auth-service.service
 import { AuthModule } from './auth/auth.module';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
+  {path: '', redirectTo: 'auth/login', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent , canActivate: [VerifyAuthServiceService]},
   {path: 'buildings',
     loadChildren: () => import('./buildings/buildings.module').then(m => m.BuildingsModule), canActivate: [VerifyAuthServiceService]
   },
   {path: 'floors',
-  loadChildren: () => import('./floors/floors.module').then(m => m.FloorsModule)},
+  loadChildren: () => import('./floors/floors.module').then(m => m.FloorsModule), canActivate: [VerifyAuthServiceService]},
   {path: 'passageways',
-  loadChildren: () => import('./passageways/passageways.module').then(m => m.PassagewaysModule)},
+  loadChildren: () => import('./passageways/passageways.module').then(m => m.PassagewaysModule), canActivate: [VerifyAuthServiceService]},
   {path: 'elevators',
-  loadChildren: () => import('./elevators/elevators.module').then(m => m.ElevatorsModule)},
+  loadChildren: () => import('./elevators/elevators.module').then(m => m.ElevatorsModule), canActivate: [VerifyAuthServiceService]},
   {path: 'rooms',
-  loadChildren: () => import('./rooms/rooms.module').then(m => m.RoomsModule)},
+  loadChildren: () => import('./rooms/rooms.module').then(m => m.RoomsModule), canActivate: [VerifyAuthServiceService]},
   {path: 'robot-types',
-  loadChildren: () => import('./robot-types/robot-types.module').then(m => m.RobotTypesModule)},
+  loadChildren: () => import('./robot-types/robot-types.module').then(m => m.RobotTypesModule), canActivate: [VerifyAuthServiceService]},
   {path: 'robots', 
-  loadChildren: () => import('./robots/robots.module').then(m => m.RobotsModule)},
-  {path: 'view3d', component: View3dComponent},
-  {path: 'shortest-path', component: ShortestPathComponent},
+  loadChildren: () => import('./robots/robots.module').then(m => m.RobotsModule), canActivate: [VerifyAuthServiceService]},
+  {path: 'view3d', component: View3dComponent, canActivate: [VerifyAuthServiceService]},
+  {path: 'shortest-path', component: ShortestPathComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
 ];
 
