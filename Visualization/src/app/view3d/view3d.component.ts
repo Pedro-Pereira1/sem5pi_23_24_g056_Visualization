@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as TWEEN from '@tweenjs/tween.js';
 import { BuildingService } from '../services/building.service';
 import { FloorService } from '../services/floor.service';
+import { PassagewayService } from '../services/passageway.service';
 import { Building } from '../domain/building/Building';
 import { Floor } from '../domain/floor/Floor';
 import { FloorMapRender } from '../domain/floor/FloorMapRender.js';
@@ -15,7 +16,7 @@ import { RobotModel } from '../domain/robotModel/RobotModel.js';
 	selector: 'app-view3d',
 	templateUrl: './view3d.component.html',
 	styleUrls: ['./view3d.component.css'],
-	providers: [BuildingService, FloorService]
+	providers: [BuildingService, FloorService, PassagewayService]
 })
 export class View3dComponent implements OnDestroy {
 
@@ -25,7 +26,8 @@ export class View3dComponent implements OnDestroy {
 
 	constructor(
 		private buildingService: BuildingService,
-		private floorService: FloorService
+		private floorService: FloorService,
+		private passagewayService: PassagewayService,
 	) { }
 
 	buildings: Building[] = [];
@@ -102,6 +104,8 @@ export class View3dComponent implements OnDestroy {
 	initialize(floor: Floor, modelFile: File) {
 		// Create the game
 		this.thumbRaiser = new ThumbRaiser(
+			{buildingCode: this.buildingCode, floorId: this.floorId, floor: floor},
+			this.passagewayService,
 			this.canvas, // Canvas
 			{}, // General Parameters
 			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor) }, // Maze parameters
