@@ -36,7 +36,7 @@ export class BodyComponent {
   }
 
   isLogged(): boolean {
-    return this.verifyAuthService.isLoged();
+    return this.verifyAuthService.isLogged();
   }
 
 }
