@@ -269,7 +269,7 @@ export default class Maze {
     foundPassageway(position){      
         const indices = this.cartesianToCell(position);
         if(this.map[indices[0]][indices[1]] == 12){
-            console.log("found passageway");
+            //console.log("found passageway");
             return true;
         }
 
