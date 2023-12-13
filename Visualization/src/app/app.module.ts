@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     SublevelMenuComponent,
     View3dComponent,
-    ShortestPathComponent
+    ShortestPathComponent,
   ],
   imports: [
     BrowserModule,
