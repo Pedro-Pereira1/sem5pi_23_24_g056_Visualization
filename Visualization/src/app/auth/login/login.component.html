@@ -2,7 +2,7 @@
     <div class="login-box">
         <h1 class="title">Login</h1>
 
-        <form class="form">
+        <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form__group field">
                 <input type="text" class="form__field" id='email' formControlName="email" />
                 <label for="email" class="form__label">Email</label>

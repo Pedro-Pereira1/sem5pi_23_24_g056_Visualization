@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterUserDto } from '../domain/user/RegisterUserDto';
 import { catchError, map, throwError } from 'rxjs';
+import { UserDto } from '../domain/user/UserDto';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class AuthServiceService {
 
   public register(dto: RegisterUserDto) {
     const url = this.authUrl
-    return this.httpClient.post(url, dto)
+    return this.httpClient.post<UserDto>(url, dto)
   }
 
   public logout() {

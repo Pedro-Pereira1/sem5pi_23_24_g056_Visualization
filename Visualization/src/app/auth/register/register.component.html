@@ -2,7 +2,7 @@
     <div class="login-box">
         <h1 class="title">Create an account</h1>
 
-        <form class="form">
+        <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="form__group field">
                 <input type="text" class="form__field" id='name' formControlName="name" />
                 <label for="name" class="form__label">Name</label>
@@ -12,8 +12,8 @@
                 <label for="email" class="form__label">Email</label>
             </div>
             <div class="form__group field">
-                <input type="text" class="form__field" id='password' formControlName="phone" />
-                <label for="phone" class="form__label">Phone Number</label>
+                <input type="text" class="form__field" id='phoneNumber' formControlName="phoneNumber" />
+                <label for="phoneNumber" class="form__label">Phone Number</label>
             </div>
             <div class="form__group field">
                 <input type="text" class="form__field" id='taxPayerNumber' formControlName="taxPayerNumber" />
