@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { map } from 'rxjs';
+import { UserSession } from 'src/app/domain/user/UserSession';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
@@ -20,11 +22,14 @@ export class LoginComponent {
   })
 
   onSubmit() {
-    this.authService.login(this.loginForm.value.email!, this.loginForm.value.password!).subscribe((user) => {
-      this.router.navigate(["/home"]);
+    this.authService.login(this.loginForm.value.email!, this.loginForm.value.password!).subscribe((user: UserSession | void) => {
+      if (this.authService.getToken() == null) {
+        this.loginForm.reset();
+        window.alert("Wrong email or password");
+      } else {
+        this.router.navigate(["/home"]);
+      }
     })
   }
-  
-
 
 }

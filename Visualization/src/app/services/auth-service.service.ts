@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterUserDto } from '../domain/user/RegisterUserDto';
-import { catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { UserDto } from '../domain/user/UserDto';
+import { UserSession } from '../domain/user/UserSession';
 
 @Injectable({
   providedIn: 'root'
@@ -13,16 +14,21 @@ export class AuthServiceService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private handleError(error: HttpErrorResponse) {
-    return throwError(() => new Error(error.error.message));
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      this.logout()
+      console.error(error)
+      console.log(`${operation} failed: ${error.message}`)
+      return of (result as T)
+    }
   }
 
-  public login(email: string, password: string) {
+  public login(email: string, password: string): Observable<void | UserSession>{
     const url = this.authUrl + "/" + "login"
-    return this.httpClient.post<any>(url, { email: email, password: password })
+    return this.httpClient.post<UserSession>(url, { email: email, password: password })
       .pipe(
-        map((user : string) => localStorage.setItem('token', JSON.stringify(user))),
-        catchError(this.handleError)
+        map((user : UserSession) => { localStorage.setItem('token', JSON.stringify(user.token)); console.log(2) }),
+        catchError(this.handleError<UserSession>("login"))
       )
   }
 
@@ -32,11 +38,11 @@ export class AuthServiceService {
   }
 
   public logout() {
-    localStorage.removeItem('user')
+    localStorage.removeItem('token')
   }
 
-  getToken() {
-    return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!).token : null
+  public getToken(): string | null {
+    return localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')!) : null
   }
 
 }
