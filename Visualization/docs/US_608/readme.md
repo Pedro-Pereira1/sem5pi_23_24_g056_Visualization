@@ -6,6 +6,9 @@
 
 ## 2. Requirements
 
+**Dependencies:**
+- **No dependencies**
+
 ## 3. Analysis
 
 
