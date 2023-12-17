@@ -693,13 +693,26 @@ export default class ThumbRaiser {
                 let infoElement = document.getElementById('info');
                 
                 
-                if(!this.maze.foundPassageway(this.player.position) && infoElement.style.visibility === 'visible'){
+                if(!this.maze.foundPassageway(this.player.position) && !this.maze.foundElevator(this.player.position) && infoElement.style.visibility === 'visible'){
                     infoElement.style.visibility = 'hidden';
                     active = false;
                 }
 
+                if(this.maze.foundElevator(this.player.position) && infoElement.style.visibility != 'visible'){
+                    infoElement.innerHTML = 'You found an elevator. Press q!';
+                    infoElement.style.visibility = 'visible';
+
+                    window.addEventListener('keydown', (event) => {
+                        if ((event.key === 'q' || event.key === 'Q') && !active) {
+                            active = true;
+                            
+                        }
+                    });
+                }
+
                 if (this.maze.foundPassageway(this.player.position) && infoElement.style.visibility != 'visible') {
-                    //this.finalSequence();         
+                    //this.finalSequence();
+                    infoElement.innerHTML = 'You found a passageway. Press k!';
                     infoElement.style.visibility = 'visible';
 
                     window.addEventListener('keydown', (event) => {
