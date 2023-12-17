@@ -4,6 +4,7 @@ import Wall from "./wall.js";
 import Door from "./door.js";
 import { forEach } from "lodash";
 import * as TWEEN from '@tweenjs/tween.js';
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /*
  * parameters = {
@@ -64,6 +65,21 @@ export default class Maze {
                         wallObject.rotateY(Math.PI / 2.0);
                         wallObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
                         this.object.add(wallObject);
+                    }
+
+                    if(description.mazeData.map[j][i] == 14){
+                       // console.log("elevator");
+                       // const loader = new GLTFLoader();
+                       // loader.load('./../../assets/View3D/models/elevator.glb', (gltf) => {
+                       //     const glbModel = gltf.scene;
+                       //     const scaleFactor = 10.0;
+                       //     glbModel.scale.set(scaleFactor, scaleFactor, scaleFactor);
+                       //     glbModel.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
+                       //     this.object.add(gltf.scene);
+                       // }, undefined, function (error) {
+                       //     console.error(error);
+                       // });
+
                     }
 
 
@@ -273,11 +289,15 @@ export default class Maze {
     foundPassageway(position){      
         const indices = this.cartesianToCell(position);
         if(this.map[indices[0]][indices[1]] == 12){
-            //console.log("found passageway");
             return true;
         }
+    }
 
-    
+    foundElevator(position){      
+        const indices = this.cartesianToCell(position);
+        if(this.map[indices[0]][indices[1]] == 14){
+            return true;
+        }
     }
 
     distanceToWestWallDoor(position) {
