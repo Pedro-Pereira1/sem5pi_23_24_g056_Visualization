@@ -255,7 +255,11 @@ export default class Maze {
             if(this.map[indices[0] + 1] && this.map[indices[0] + 1][indices[1]] == 12){
                 return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
             }
-         }
+        }
+
+        if(this.map[indices[0] - 1] && this.map[indices[0] - 2] && this.map[indices[0] - 1][indices[1]] == 12 && this.map[indices[0] - 2][indices[1]] == 12){
+            return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
+        }
             
 
         return Infinity;
