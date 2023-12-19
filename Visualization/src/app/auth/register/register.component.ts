@@ -13,6 +13,8 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 })
 export class RegisterComponent {
 
+  isChecked = false;
+
   constructor(private authService: AuthServiceService,
     private router: Router) { }
 
@@ -25,16 +27,33 @@ export class RegisterComponent {
   })
 
   onSubmit() {
-    const user: RegisterUserDto = {
-      name: this.registerForm.value.name!,
-      email: this.registerForm.value.email!,
-      phoneNumber: Number(this.registerForm.value.phoneNumber!),
-      taxPayerNumber: Number(this.registerForm.value.taxPayerNumber!),
-      password: this.registerForm.value.password!
+
+    if(this.isChecked) {
+      const user: RegisterUserDto = {
+        name: this.registerForm.value.name!,
+        email: this.registerForm.value.email!,
+        phoneNumber: Number(this.registerForm.value.phoneNumber!),
+        taxPayerNumber: Number(this.registerForm.value.taxPayerNumber!),
+        password: this.registerForm.value.password!
+      }
+      this.authService.register(user).subscribe((user: UserDto) => {
+        window.alert("User " + user.name + " created successfully");
+      })
+    } else {
+      window.alert("You must accept the terms and conditions");
+      return;
     }
-    this.authService.register(user).subscribe((user: UserDto) => {
-      window.alert("User " + user.name + " created successfully");
-    })
+
+  }
+
+
+  updatePrivacy(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    if (checkbox.checked) {
+      this.isChecked = true;
+    } else {
+      this.isChecked = false;
+    }
   }
 
 }
