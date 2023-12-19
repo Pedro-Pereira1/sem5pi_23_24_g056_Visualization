@@ -34,6 +34,7 @@ describe('Elevator list all', function () {
       }).as('listInBuilding');
   
   
+        localStorage.setItem('token', 'something')
       cy.visit('/elevators/listInBuilding')
     });
   

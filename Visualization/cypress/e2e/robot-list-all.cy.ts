@@ -24,6 +24,7 @@ describe('Robot list all', function () {
         }).as('listAll');
 
 
+        localStorage.setItem('token', 'something')
         cy.visit('/robots/listAll')
     });
 

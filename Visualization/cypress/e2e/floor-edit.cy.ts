@@ -19,6 +19,7 @@ describe('Edit Floor Page Test', function() {
         }
         }).as('editFloor')
 
+        localStorage.setItem('token', 'something')
         cy.visit('/floors/editFloor')
 
     });

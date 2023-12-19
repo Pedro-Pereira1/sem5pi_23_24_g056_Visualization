@@ -14,6 +14,7 @@ describe('Create Robot Type Page Test', function() {
         }
         }).as('createRobotType')
 
+        localStorage.setItem('token', 'something')
         cy.visit('/robot-types/createRobotType')
 
     });

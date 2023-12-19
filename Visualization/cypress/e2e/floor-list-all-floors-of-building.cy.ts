@@ -36,6 +36,7 @@ describe('Floor List All Floor Page Test', function() {
       }).as('listAllFloors');  
 
 
+        localStorage.setItem('token', 'something')
       cy.visit('/floors/listAllFloorsOfBuilding')
     });
 

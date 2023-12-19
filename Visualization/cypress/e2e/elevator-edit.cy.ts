@@ -13,6 +13,7 @@ describe('Edit Elevator Test', function() {
             }
         }).as('edit')
 
+        localStorage.setItem('token', 'something')
         cy.visit('/elevators/edit')
 
     });

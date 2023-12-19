@@ -26,6 +26,7 @@ describe('Floor List All Floors With Passageways Page Test', function() {
     }).as('listFloorsPassageways');
 
 
+        localStorage.setItem('token', 'something')
     cy.visit('/floors/listFloorsPassageways')
   });
 

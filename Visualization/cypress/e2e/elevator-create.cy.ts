@@ -14,6 +14,7 @@ describe('Elevator Create', function () {
         }).as('create');
 
 
+        localStorage.setItem('token', 'something')
         cy.visit('/elevators/create')
     });
 

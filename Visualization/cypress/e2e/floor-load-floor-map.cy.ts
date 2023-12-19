@@ -75,6 +75,7 @@ describe('Load Floor map', function () {
       }
     }).as('loadFloorMap')
 
+        localStorage.setItem('token', 'something')
     cy.visit('/floors/loadFloorMap')
   })
 

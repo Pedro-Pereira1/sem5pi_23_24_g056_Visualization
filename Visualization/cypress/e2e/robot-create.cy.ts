@@ -13,6 +13,7 @@ describe('Create Robot Page Test', function() {
         }
         }).as('createRobot')
 
+        localStorage.setItem('token', 'something')
         cy.visit('/robots/createRobot')
 
     });

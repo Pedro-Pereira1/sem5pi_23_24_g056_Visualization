@@ -10,6 +10,7 @@ describe('Create Floor Page Test', function() {
           }
         }).as('createFloor')
 
+        localStorage.setItem('token', 'something')
         cy.visit('/floors/createFloor')
 
     });

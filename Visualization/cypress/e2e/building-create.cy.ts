@@ -17,8 +17,10 @@ describe('Building Create', function () {
         }).as('createBuilding');
 
 
+        localStorage.setItem('token', 'something')
         cy.visit('/buildings/createBuilding')
     });
+
 
     it('has correct title', function () {
         cy.get('h1').should('contain', 'Create Building')

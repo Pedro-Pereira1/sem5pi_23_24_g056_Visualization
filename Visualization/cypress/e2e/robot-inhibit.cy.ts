@@ -65,6 +65,7 @@ describe('Inhibit robot', function () {
             }
         }).as('inhibitRobot')
 
+        localStorage.setItem('token', 'something')
         cy.visit('/robots/inhibitRobot')
     });
 

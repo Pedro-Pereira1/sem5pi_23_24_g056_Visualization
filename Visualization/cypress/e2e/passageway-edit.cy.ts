@@ -10,6 +10,7 @@ describe('Edit Passageway Page Test', function() {
       }
     }).as('editPassageway')
 
+        localStorage.setItem('token', 'something')
     cy.visit('/passageways/editPassageway')
 
   });

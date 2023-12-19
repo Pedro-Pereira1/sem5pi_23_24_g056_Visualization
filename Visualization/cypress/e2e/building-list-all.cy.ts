@@ -33,6 +33,7 @@ describe('Building list all', function () {
     }).as('listAllBuildings');
 
 
+        localStorage.setItem('token', 'something')
     cy.visit('/buildings/listAllBuildings')
   });
 

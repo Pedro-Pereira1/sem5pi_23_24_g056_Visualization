@@ -18,6 +18,7 @@ describe('Passageway list between buildings', function () {
       }).as('list');
   
   
+        localStorage.setItem('token', 'something')
       cy.visit('/passageways/list')
     });
   

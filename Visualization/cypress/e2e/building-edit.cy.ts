@@ -49,6 +49,7 @@ describe('Building Edit', function () {
 
 
 
+        localStorage.setItem('token', 'something')
         cy.visit('/buildings/editBuilding')
     });
 

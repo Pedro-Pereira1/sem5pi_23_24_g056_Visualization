@@ -11,6 +11,7 @@ describe('Create Room Page Test', function() {
       }
     }).as('createRoom')
 
+        localStorage.setItem('token', 'something')
     cy.visit('/rooms/createRoom')
 
   });

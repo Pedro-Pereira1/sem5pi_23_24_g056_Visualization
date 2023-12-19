@@ -12,6 +12,7 @@ describe('Create Passageway Page Test', function() {
       }
     }).as('createPassageway')
 
+        localStorage.setItem('token', 'something')
     cy.visit('/passageways/createPassageway')
 
   });

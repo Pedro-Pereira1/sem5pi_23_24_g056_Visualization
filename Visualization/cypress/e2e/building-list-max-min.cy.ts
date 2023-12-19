@@ -33,6 +33,7 @@ describe('Building List Max Min Floor Page Test', function() {
       }).as('listBuildingMaxMinFloors');  
 
 
+        localStorage.setItem('token', 'something')
       cy.visit('/buildings/listBuildingsMaxMinFloors')
     });
 
