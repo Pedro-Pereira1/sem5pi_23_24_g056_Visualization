@@ -26,7 +26,7 @@
             <div class="privacy">
                 <input type="checkbox" id="checkbox" (change)="updatePrivacy($event)" />
                 <label for="checkbox">I confirm that I have read the <a
-                        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">privacy
+                        [routerLink]="['/privacy']">privacy
                         policy</a></label>
             </div>
             <button>Submit</button>

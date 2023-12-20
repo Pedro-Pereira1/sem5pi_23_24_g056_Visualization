@@ -5,6 +5,7 @@ import { View3dComponent } from './view3d/view3d.component';
 import { ShortestPathComponent } from './shortest-path/shortest-path.component';
 import { VerifyAuthServiceService } from './services/verify-auth-service.service';
 import { AuthModule } from './auth/auth.module';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'auth/login', pathMatch: 'full'},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: 'view3d', component: View3dComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'shortest-path', component: ShortestPathComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+  {path: 'privacy', component: PrivacyComponent}
 ];
 
 @NgModule({

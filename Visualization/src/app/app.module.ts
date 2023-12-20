@@ -12,6 +12,7 @@ import { ShortestPathComponent } from './shortest-path/shortest-path.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     SublevelMenuComponent,
     View3dComponent,
     ShortestPathComponent,
+    PrivacyComponent,
   ],
   imports: [
     BrowserModule,
