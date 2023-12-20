@@ -34,7 +34,9 @@ export class AuthServiceService {
 
   public register(dto: RegisterUserDto) {
     const url = this.authUrl
-    return this.httpClient.post<UserDto>(url, dto)
+    return this.httpClient.post<UserDto>(url, dto).pipe(
+      catchError(this.handleError<UserDto>("register"))
+    )
   }
 
   public logout() {
