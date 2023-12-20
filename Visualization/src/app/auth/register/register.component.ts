@@ -37,7 +37,8 @@ export class RegisterComponent {
         password: this.registerForm.value.password!
       }
       this.authService.register(user).subscribe((user: UserDto) => {
-        window.alert("User " + user.name + " created successfully");
+        this.registerForm.reset();
+        this.router.navigate(['/auth/login']);
       })
     } else {
       window.alert("You must accept the terms and conditions");
