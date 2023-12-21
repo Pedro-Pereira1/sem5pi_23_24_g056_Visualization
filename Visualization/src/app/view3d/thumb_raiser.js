@@ -685,49 +685,75 @@ export default class ThumbRaiser {
             // Update the model animations
             const deltaT = this.clock.getDelta();
             this.animations.update(deltaT);
+            let active = false;
 
             // Update the player
             if (!this.animations.actionInProgress) {
                 // Check if the player found the exit
                 let infoElement = document.getElementById('info');
-
-                if(!this.maze.foundPassageway(this.player.position) && infoElement.style.visibility === 'visible'){
+                
+                
+                if(!this.maze.foundPassageway(this.player.position) && !this.maze.foundElevator(this.player.position) && infoElement.style.visibility === 'visible'){
                     infoElement.style.visibility = 'hidden';
-                    
+                    active = false;
                 }
 
-                if (this.maze.foundPassageway(this.player.position) && infoElement.style.visibility != 'visible') {
-                    //this.finalSequence();         
+                if(this.maze.foundElevator(this.player.position) && infoElement.style.visibility != 'visible'){
+                    infoElement.innerHTML = 'You found an elevator. Press q!';
                     infoElement.style.visibility = 'visible';
 
                     window.addEventListener('keydown', (event) => {
-                        if (event.key === 'k' || event.key === 'K') {
+                        if ((event.key === 'q' || event.key === 'Q') && !active) {
+                            active = true;
+                            
+                        }
+                    });
+                }
+
+                if (this.maze.foundPassageway(this.player.position) && infoElement.style.visibility != 'visible') {
+                    //this.finalSequence();
+                    infoElement.innerHTML = 'You found a passageway. Press k!';
+                    infoElement.style.visibility = 'visible';
+
+                    window.addEventListener('keydown', (event) => {
+                        
+                        if ((event.key === 'k' || event.key === 'K') && !active) {
+                            active = true;
                             const robotCoordX = this.maze.cartesianToCell(this.player.position)[1]
                             const robotCoordY = this.maze.cartesianToCell(this.player.position)[0]
                             let passagewaysCoords = this.floorMapParameters.floor.floorMap.passagewaysCoords
-
                             for (let i = 0; i < passagewaysCoords.length; i++) {
                                 if((passagewaysCoords[i][1] == robotCoordX && passagewaysCoords[i][2] == robotCoordY) ||
                                 (passagewaysCoords[i][3] == robotCoordX && passagewaysCoords[i][4] == robotCoordY)){
                                     this.passagewayService.findFloorsByPassageway(passagewaysCoords[i][0]).subscribe(
                                         floors => {
-                                            if(floors[0]._id.value == this.floorMapParameters.floor.floorId){
+                                            if(floors[0].floorId == this.floorMapParameters.floor.floorId){
                                                 const newFloorCoords = this.newFloorCoords(floors[1],passagewaysCoords[i][0])
-                                                console.log("Floors: " + floors[1]._id.value + " | New coords: " + Number(newFloorCoords.props.x1) + " " + Number(newFloorCoords.props.y1))
-                                                
+                                                const eventDetail = {
+                                                    floor: floors[1], 
+                                                    initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])], 
+                                                };
+                                                const event = new CustomEvent('newFloorMap', { detail: eventDetail});
+                                                window.dispatchEvent(event);
                                             }else{
                                                 const newFloorCoords = this.newFloorCoords(floors[0],passagewaysCoords[i][0])
-                                                console.log("Floors: " + floors[0]._id.value + " | New coords: " + Number(newFloorCoords.props.x1) + " " + Number(newFloorCoords.props.y1))
-
+                                                const eventDetail = {
+                                                    floor: floors[0], 
+                                                    initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])], 
+                                                };
+                                                const event = new CustomEvent('newFloorMap', { detail: eventDetail});
+                                                window.dispatchEvent(event);
                                             }
                                         },error => {
                                                     console.error('Error fetching passageways:', error);
                                                 }
                                         );
+                                        break;
                                 }                      
                             }
                         }
                     });
+                    
                     
                 }
                 else {
@@ -854,11 +880,13 @@ export default class ThumbRaiser {
 
 
     newFloorCoords(floor, passagewayId) {
-        for (let i = 0; i < floor.props.floormap.props.passagewaysCoords.length; i++) {    
-            if(floor.props.floormap.props.passagewaysCoords[i].props.id == passagewayId){
-                return floor.props.floormap.props.passagewaysCoords[i]
+        for (let i = 0; i < floor.floorMap.passagewaysCoords.length; i++) {    
+            if(floor.floorMap.passagewaysCoords[i][0] == passagewayId){
+                return floor.floorMap.passagewaysCoords[i]
             }
         }
     }
+
+    
 
 }
