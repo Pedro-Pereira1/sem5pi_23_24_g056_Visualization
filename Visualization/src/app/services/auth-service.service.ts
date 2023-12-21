@@ -27,7 +27,7 @@ export class AuthServiceService {
     const url = this.authUrl + "/" + "login"
     return this.httpClient.post<UserSession>(url, { email: email, password: password })
       .pipe(
-        map((user : UserSession) => { localStorage.setItem('token', JSON.stringify(user.token)); console.log(2) }),
+        map((user : UserSession) => localStorage.setItem('token', JSON.stringify(user.token))),
         catchError(this.handleError<UserSession>("login"))
       )
   }
