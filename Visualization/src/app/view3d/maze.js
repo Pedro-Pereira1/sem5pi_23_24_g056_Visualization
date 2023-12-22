@@ -360,7 +360,25 @@ export default class Maze {
             if(this.map[indices[0] + 1] && this.map[indices[0] + 1][indices[1]] == 12){
                 return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
             }
-         }
+        }else if(this.map[indices[1]] && this.map[indices[0]][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 1){
+                        return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
+                    }
+                    break;
+                }
+            }
+        }else if(this.map[indices[0] - 1] && this.map[indices[0] - 1][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0] - 1){
+                    if(this.elevatorDoorData[k][3] != 2){
+                        return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
+                    }
+                    break;
+                }
+            }
+        }
 
         return Infinity;
     }
@@ -385,7 +403,26 @@ export default class Maze {
             if(this.map[indices[0] + 1] && this.map[indices[0] + 1][indices[1]] == 12){
                 return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
             }
+        }else if(this.map[indices[0]][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 1){
+                        return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
+                    }
+                    break;
+                }
+            }
+        }else if(this.map[indices[0] - 1] && this.map[indices[0] - 1][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0] - 1){
+                    if(this.elevatorDoorData[k][3] != 2){
+                        return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
+                    }
+                    break;
+                }
+            }
         }
+
 
         if(this.map[indices[0] - 1] && this.map[indices[0] - 2] && this.map[indices[0] - 1][indices[1]] == 12 && this.map[indices[0] - 2][indices[1]] == 12){
             return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
