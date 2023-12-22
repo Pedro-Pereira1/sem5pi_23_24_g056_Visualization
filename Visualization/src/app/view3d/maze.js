@@ -126,6 +126,17 @@ export default class Maze {
                                     //doorObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
                                     //this.object.add(doorObject);
                                     //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
+
+                                    wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
+                                    this.object.add(wallObject1);
+
+                                    wallObject2.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894,1 + j - description.mazeData.size.height / 2.0);
+                                    this.object.add(wallObject2);
+                            
+                                    wallObject3.position.set(i + 1 - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
+                                    wallObject3.rotateY(Math.PI / 2.0);
+                                    this.object.add(wallObject3);
+                                    
                                 }else if(this.elevatorDoorData[k][3] == 4){ // EAST
                                     //let clone = this.door.object.clone();
                                     //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
