@@ -80,12 +80,12 @@ export default class Maze {
                                 let wallObject3 = this.wall.object.clone();
                                 
                                 if(this.elevatorDoorData[k][3] == 1){ //NORTH
-                                    //let clone = this.door.object.clone();
-                                    //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
-                                    //doorObject = clone.object.clone();
-                                    //doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
-                                    //this.object.add(doorObject);
-                                    //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"});
+                                    let clone = this.door.object.clone();
+                                    clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                                    doorObject = clone.object.clone();
+                                    doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
+                                    this.object.add(doorObject);
+                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"});
 
                                     wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, 1 + j - description.mazeData.size.height / 2.0);
                                     this.object.add(wallObject1);
@@ -99,12 +99,12 @@ export default class Maze {
                                     this.object.add(wallObject3);
                                      
                                 }else if(this.elevatorDoorData[k][3] == 2){ // SOUTH
-                                    //let clone = this.door.object.clone();
-                                    //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
-                                    //doorObject = clone.object.clone();
-                                    //doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0 + 1);
-                                    //this.object.add(doorObject);
-                                    //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"});   
+                                    let clone = this.door.object.clone();
+                                    clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                                    doorObject = clone.object.clone();
+                                    doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0 + 1);
+                                    this.object.add(doorObject);
+                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"});   
                                     
                                     wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                                     this.object.add(wallObject1);
@@ -119,13 +119,13 @@ export default class Maze {
 
 
                                 }else if(this.elevatorDoorData[k][3] == 3){ // WEST
-                                    //let clone = this.door.object.clone();
-                                    //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
-                                    //doorObject = clone.object.clone();
-                                    //doorObject.rotateY(Math.PI / 2.0);
-                                    //doorObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
-                                    //this.object.add(doorObject);
-                                    //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
+                                    let clone = this.door.object.clone();
+                                    clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                                    doorObject = clone.object.clone();
+                                    doorObject.rotateY(Math.PI / 2.0);
+                                    doorObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
+                                    this.object.add(doorObject);
+                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
 
                                     wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                                     this.object.add(wallObject1);
@@ -138,13 +138,13 @@ export default class Maze {
                                     this.object.add(wallObject3);
 
                                 }else if(this.elevatorDoorData[k][3] == 4){ // EAST
-                                    //let clone = this.door.object.clone();
-                                    //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
-                                    //doorObject = clone.object.clone();
-                                    //doorObject.rotateY(Math.PI / 2.0);
-                                    //doorObject.position.set(i - description.mazeData.size.width / 2.0 + 1, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
-                                    //this.object.add(doorObject);
-                                    //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
+                                    let clone = this.door.object.clone();
+                                    clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                                    doorObject = clone.object.clone();
+                                    doorObject.rotateY(Math.PI / 2.0);
+                                    doorObject.position.set(i - description.mazeData.size.width / 2.0 + 1, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
+                                    this.object.add(doorObject);
+                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
 
                                     wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                                     this.object.add(wallObject1);
@@ -458,6 +458,26 @@ export default class Maze {
         if(this.map[indices[0]][indices[1]] == 8 || this.map[indices[0]][indices[1]] == 10) {
             return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
         }
+
+        if(this.map[indices[0]] && this.map[indices[0]][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 4){
+                        return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
+                    }
+                    break;
+                }
+            }
+        }else if(this.map[indices[0]] && this.map[indices[0]][indices[1] - 1] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] - 1 && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 3){
+                        return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
+                    }
+                    break;
+                }
+            }
+        }
         
         return Infinity;
     }
@@ -470,6 +490,26 @@ export default class Maze {
             return this.cellToCartesian(indices).x - this.scale.x / 2.0 - position.x;
         }
 
+        if(this.map[indices[0]] && this.map[indices[0]][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 4){
+                        return this.cellToCartesian(indices).x - this.scale.x / 2.0 - position.x;
+                    }
+                    break;
+                }
+            }
+        }else if(this.map[indices[1] - 1] && this.map[indices[0]][indices[1] - 1] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1]-1 && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 3){
+                        return this.cellToCartesian(indices).x - this.scale.x / 2.0 - position.x;
+                    }
+                    break;
+                }
+            }
+        }
+
         return Infinity;
     }
 
@@ -478,6 +518,26 @@ export default class Maze {
 
         if(this.map[indices[0]][indices[1]] == 9 || this.map[indices[0]][indices[1]] == 11) {
             return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
+        }
+
+        if(this.map[indices[1]] && this.map[indices[0]][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 2){
+                        return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
+                    }
+                    break;
+                }
+            }
+        }else if(this.map[indices[0] - 1] && this.map[indices[0] - 1][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0] - 1){
+                    if(this.elevatorDoorData[k][3] != 1){
+                        return position.z - this.cellToCartesian(indices).z + this.scale.z / 2.0;
+                    }
+                    break;
+                }
+            }
         }
 
         return Infinity;
@@ -495,9 +555,25 @@ export default class Maze {
             return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
         }
 
-        //if(this.map[indices[0] - 1] && this.map[indices[0] - 1][indices[1]] == 14){
-        //    return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
-        //}
+        if(this.map[indices[0]][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 2){
+                        return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
+                    }
+                    break;
+                }
+            }
+        }else if(this.map[indices[0] - 1] && this.map[indices[0] - 1][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0] - 1){
+                    if(this.elevatorDoorData[k][3] != 1){
+                        return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
+                    }
+                    break;
+                }
+            }
+        }
 
         return Infinity;
     }  
@@ -530,7 +606,27 @@ export default class Maze {
                 closestDoor.tween = tween;
 
             }else if(closestDoor.type == "elevator"){
+                // Define the initial and target positions for the door animation
+                const initialPosition = closestDoor.door.position.clone();
+                const targetPosition = initialPosition.clone();
+                targetPosition.y -= 3.0; // Adjust the target position according to your door's movement direction
                 
+                // Set up a Tween animation
+                const tween = new TWEEN.Tween(initialPosition)
+                    .to(targetPosition, 1000) // Adjust the duration of the animation as needed
+                    .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
+                    .onUpdate(() => {
+                        // Update the door's position during the animation
+                        closestDoor.door.position.copy(initialPosition);
+                    })
+                    .onComplete(() => {
+                        // Update the door state after the animation is complete
+                        closestDoor.state = "open";
+                    })
+                    .start(); // Start the animation
+                
+                // Store the tween object if you want to manipulate or stop it later
+                closestDoor.tween = tween;
 
             }
         }
@@ -573,7 +669,26 @@ export default class Maze {
                     // Store the tween object if you want to manipulate or stop it later
                     door.tween = tween;
                 }else if(door.type == "elevator"){
-                                   
+                    const initialPosition = door.door.position.clone();
+                    const targetPosition = initialPosition.clone();
+                    targetPosition.y = 0.894; // Adjust the target position according to your door's movement direction
+                    
+                    // Set up a Tween animation
+                    const tween = new TWEEN.Tween(initialPosition)
+                        .to(targetPosition, 1000) // Adjust the duration of the animation as needed
+                        .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
+                        .onUpdate(() => {
+                            // Update the door's position during the animation
+                            door.door.position.copy(initialPosition);
+                        })
+                        .onComplete(() => {
+                            // Update the door state after the animation is complete
+                            door.state = "closed";
+                        })
+                        .start(); // Start the animation
+                    
+                    // Store the tween object if you want to manipulate or stop it later
+                    door.tween = tween;           
 
                 }
             }
