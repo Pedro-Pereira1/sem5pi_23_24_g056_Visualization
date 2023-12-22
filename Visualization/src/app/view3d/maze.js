@@ -2,6 +2,7 @@ import * as THREE from "three";
 import Ground from "./ground.js";
 import Wall from "./wall.js";
 import Door from "./door.js";
+import ElevatorDoor from "./elevatorDoor.js";
 import { forEach } from "lodash";
 import * as TWEEN from '@tweenjs/tween.js';
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -15,6 +16,8 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
  */
 
 export default class Maze {
+    elevators = [];
+
     constructor(parameters) {
         this.onLoad = function (description) {
             // Store the maze's map and size
@@ -68,18 +71,62 @@ export default class Maze {
                     }
 
                     if(description.mazeData.map[j][i] == 14){
-                       // console.log("elevator");
-                       // const loader = new GLTFLoader();
-                       // loader.load('./../../assets/View3D/models/elevator.glb', (gltf) => {
-                       //     const glbModel = gltf.scene;
-                       //     const scaleFactor = 10.0;
-                       //     glbModel.scale.set(scaleFactor, scaleFactor, scaleFactor);
-                       //     glbModel.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
-                       //     this.object.add(gltf.scene);
-                       // }, undefined, function (error) {
-                       //     console.error(error);
-                       // });
+                        console.log(this.elevatorDoorData)
 
+                        for(let k = 0; k < this.elevatorDoorData.length; k++){
+                            if(this.elevatorDoorData[k][1] == i && this.elevatorDoorData[k][2] == j){
+                                let wallObject1 = this.wall.object.clone();
+                                let wallObject2 = this.wall.object.clone();
+                                let wallObject3 = this.wall.object.clone();
+                                
+                                if(this.elevatorDoorData[k][3] == 1){ //NORTH
+                                    //let clone = this.door.object.clone();
+                                    //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                                    //doorObject = clone.object.clone();
+                                    //doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
+                                    //this.object.add(doorObject);
+                                    //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"});
+                                     
+                                }else if(this.elevatorDoorData[k][3] == 2){ // SOUTH
+                                    //let clone = this.door.object.clone();
+                                    //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                                    //doorObject = clone.object.clone();
+                                    //doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0 + 1);
+                                    //this.object.add(doorObject);
+                                    //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"});   
+                                    
+                                    wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
+                                    this.object.add(wallObject1);
+
+                                    wallObject2.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
+                                    wallObject2.rotateY(Math.PI / 2.0);
+                                    this.object.add(wallObject2);
+                            
+                                    wallObject3.position.set(i + 1 - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
+                                    wallObject3.rotateY(Math.PI / 2.0);
+                                    this.object.add(wallObject3);
+
+
+                                }else if(this.elevatorDoorData[k][3] == 3){ // WEST
+                                    //let clone = this.door.object.clone();
+                                    //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                                    //doorObject = clone.object.clone();
+                                    //doorObject.rotateY(Math.PI / 2.0);
+                                    //doorObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
+                                    //this.object.add(doorObject);
+                                    //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
+                                }else if(this.elevatorDoorData[k][3] == 4){ // EAST
+                                    //let clone = this.door.object.clone();
+                                    //clone = new ElevatorDoor({ textureUrl: './../../assets/View3D/textures/ground.jpg' });
+                                    //doorObject = clone.object.clone();
+                                    //doorObject.rotateY(Math.PI / 2.0);
+                                    //doorObject.position.set(i - description.mazeData.size.width / 2.0 + 1, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
+                                    //this.object.add(doorObject);
+                                    //this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
+                                }
+                                break;
+                            }
+                        }
                     }
 
 
@@ -120,7 +167,7 @@ export default class Maze {
                         doorObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
                         this.object.add(doorObject);
 
-                        this.doors.push({"door": doorObject, "state": "closed"});
+                        this.doors.push({"door": doorObject, "state": "closed", "type": "normal"});
                     }
                     if (description.mazeData.map[j][i] == 9 || description.mazeData.map[j][i] == 11) {
                         let clone = this.door.object.clone();
@@ -129,7 +176,7 @@ export default class Maze {
                         doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                         this.object.add(doorObject);
 
-                        this.doors.push({"door": doorObject, "state": "closed"});
+                        this.doors.push({"door": doorObject, "state": "closed", "type": "normal"});
                     }
                 }
             }
@@ -197,8 +244,6 @@ export default class Maze {
        if(indices[1] == 0){
             return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
         }
-
-
 
         if (this.map[indices[0]] && (this.map[indices[0]][indices[1]] == 1 || this.map[indices[0]][indices[1]] == 3  || this.map[indices[0]][indices[1]] == 5 || this.map[indices[0]][indices[1]] == 7)) {
             return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
@@ -302,6 +347,7 @@ export default class Maze {
 
     distanceToWestWallDoor(position) {
         const indices = this.cartesianToCell(position);
+        
 
         if(this.map[indices[0]][indices[1]] == 8 || this.map[indices[0]][indices[1]] == 10) {
             return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
@@ -343,6 +389,10 @@ export default class Maze {
             return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
         }
 
+        //if(this.map[indices[0] - 1] && this.map[indices[0] - 1][indices[1]] == 14){
+        //    return this.cellToCartesian(indices).z - this.scale.z / 2.0 - position.z;
+        //}
+
         return Infinity;
     }  
     
@@ -350,27 +400,33 @@ export default class Maze {
         const closestDoor = this.closestDoor(position);
     
         if (closestDoor.state === "closed") {
-            // Define the initial and target positions for the door animation
-            const initialPosition = closestDoor.door.position.clone();
-            const targetPosition = initialPosition.clone();
-            targetPosition.y -= 3.0; // Adjust the target position according to your door's movement direction
-    
-            // Set up a Tween animation
-            const tween = new TWEEN.Tween(initialPosition)
-                .to(targetPosition, 1000) // Adjust the duration of the animation as needed
-                .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
-                .onUpdate(() => {
-                    // Update the door's position during the animation
-                    closestDoor.door.position.copy(initialPosition);
-                })
-                .onComplete(() => {
-                    // Update the door state after the animation is complete
-                    closestDoor.state = "open";
-                })
-                .start(); // Start the animation
-    
-            // Store the tween object if you want to manipulate or stop it later
-            closestDoor.tween = tween;
+            if(closestDoor.type == "normal"){
+                // Define the initial and target positions for the door animation
+                const initialPosition = closestDoor.door.position.clone();
+                const targetPosition = initialPosition.clone();
+                targetPosition.y -= 3.0; // Adjust the target position according to your door's movement direction
+                
+                // Set up a Tween animation
+                const tween = new TWEEN.Tween(initialPosition)
+                    .to(targetPosition, 1000) // Adjust the duration of the animation as needed
+                    .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
+                    .onUpdate(() => {
+                        // Update the door's position during the animation
+                        closestDoor.door.position.copy(initialPosition);
+                    })
+                    .onComplete(() => {
+                        // Update the door state after the animation is complete
+                        closestDoor.state = "open";
+                    })
+                    .start(); // Start the animation
+                
+                // Store the tween object if you want to manipulate or stop it later
+                closestDoor.tween = tween;
+
+            }else if(closestDoor.type == "elevator"){
+                
+
+            }
         }
     }
     
@@ -388,26 +444,32 @@ export default class Maze {
             const distance = position.distanceTo(doorPosition);
             
             if(distance > 1.5 && door.door.position.y < 0.0) {
-                const initialPosition = door.door.position.clone();
-                const targetPosition = initialPosition.clone();
-                targetPosition.y = 0.894; // Adjust the target position according to your door's movement direction
-        
-                // Set up a Tween animation
-                const tween = new TWEEN.Tween(initialPosition)
-                    .to(targetPosition, 1000) // Adjust the duration of the animation as needed
-                    .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
-                    .onUpdate(() => {
-                        // Update the door's position during the animation
-                        door.door.position.copy(initialPosition);
-                    })
-                    .onComplete(() => {
-                        // Update the door state after the animation is complete
-                        door.state = "closed";
-                    })
-                    .start(); // Start the animation
-        
-                // Store the tween object if you want to manipulate or stop it later
-                door.tween = tween;
+
+                if(door.type == "normal"){
+                    const initialPosition = door.door.position.clone();
+                    const targetPosition = initialPosition.clone();
+                    targetPosition.y = 0.894; // Adjust the target position according to your door's movement direction
+                    
+                    // Set up a Tween animation
+                    const tween = new TWEEN.Tween(initialPosition)
+                        .to(targetPosition, 1000) // Adjust the duration of the animation as needed
+                        .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
+                        .onUpdate(() => {
+                            // Update the door's position during the animation
+                            door.door.position.copy(initialPosition);
+                        })
+                        .onComplete(() => {
+                            // Update the door state after the animation is complete
+                            door.state = "closed";
+                        })
+                        .start(); // Start the animation
+                    
+                    // Store the tween object if you want to manipulate or stop it later
+                    door.tween = tween;
+                }else if(door.type == "elevator"){
+                                   
+
+                }
             }
         }
     }
@@ -417,7 +479,8 @@ export default class Maze {
         let minDistance = Infinity;
         let closestDoor = {
             door: null,
-            state: null
+            state: null,
+            type: null
         };
 
         for(const door of this.doors) {
@@ -428,6 +491,7 @@ export default class Maze {
                 minDistance = distance;
                 closestDoor.door = door.door;
                 closestDoor.state = door.state;
+                closestDoor.type = door.type;
             }
         }
 
