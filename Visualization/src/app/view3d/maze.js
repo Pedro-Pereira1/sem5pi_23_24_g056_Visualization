@@ -284,7 +284,25 @@ export default class Maze {
             if (this.map[indices[0]][indices[1] + 1] == 12) {
                 return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
             }
-         }
+        }else if(this.map[indices[0]] && this.map[indices[0]][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 3){
+                        return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
+                    }
+                    break;
+                }
+            }
+        }else if(this.map[indices[0]] && this.map[indices[0]][indices[1] - 1] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] - 1 && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 4){
+                        return position.x - this.cellToCartesian(indices).x + this.scale.x / 2.0;
+                    }
+                    break;
+                }
+            }
+        }
     
         return Infinity;
     }
@@ -305,6 +323,24 @@ export default class Maze {
             }
         }else if(this.map[indices[0]][indices[1]] == 12 && this.map[indices[0]][indices[1] + 1] == 12){
             return this.cellToCartesian(indices).x - this.scale.x / 2.0 - position.x;
+        }else if(this.map[indices[0]] && this.map[indices[0]][indices[1]] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1] && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 3){
+                        return this.cellToCartesian(indices).x - this.scale.x / 2.0 - position.x;
+                    }
+                    break;
+                }
+            }
+        }else if(this.map[indices[1] - 1] && this.map[indices[0]][indices[1] - 1] == 14){
+            for(let k = 0; k < this.elevatorDoorData.length; k++){
+                if(this.elevatorDoorData[k][1] == indices[1]-1 && this.elevatorDoorData[k][2] == indices[0]){
+                    if(this.elevatorDoorData[k][3] != 4){
+                        return this.cellToCartesian(indices).x - this.scale.x / 2.0 - position.x;
+                    }
+                    break;
+                }
+            }
         }
         
 
