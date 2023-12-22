@@ -115,7 +115,7 @@ export class View3dComponent implements OnDestroy {
 			this.passagewayService,
 			this.canvas, // Canvas
 			{}, // General Parameters
-			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor,initialPositionX,initialPositionY) }, // Maze parameters
+			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor,initialPositionX,initialPositionY), elevatorDoorData: floor.floorMap.elevatorsCoords }, // Maze parameters
 			{ model: this.prepareModel(modelFile) }, // Player parameters
 			{ ambientLight: { intensity: 0.1 }, pointLight1: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(-3.5, 10.0, 2.5) }, pointLight2: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(3.5, 10.0, -2.5) } }, // Lights parameters
 			{}, // Fog parameters
