@@ -692,34 +692,36 @@ export default class ThumbRaiser {
             if (!this.animations.actionInProgress) {
                 // Check if the player found the exit
                 let infoElement = document.getElementById('info');
+                let elevatorElement = document.getElementById('elevatorPainel');
                 
                 
                 if(!this.maze.foundPassageway(this.player.position) && !this.maze.foundElevator(this.player.position) && infoElement.style.visibility === 'visible'){
                     infoElement.style.visibility = 'hidden';
+                    elevatorElement.style.visibility = 'hidden';
                     active = false;
                 }
 
                 if(this.maze.foundElevator(this.player.position) && infoElement.style.visibility != 'visible'){
                     infoElement.innerHTML = 'You found an elevator. Press q!';
                     infoElement.style.visibility = 'visible';
+                    
 
                     window.addEventListener('keydown', (event) => {
                         if ((event.key === 'q' || event.key === 'Q') && !active) {
                             if(this.maze.closestDoor(this.player.position).state === "closed"){
+                                elevatorElement.style.visibility = 'visible';
                                 active = true;
                                 const robotCoordX = this.maze.cartesianToCell(this.player.position)[1]
                                 const robotCoordY = this.maze.cartesianToCell(this.player.position)[0]
                                 let elevatorsCoords = this.floorMapParameters.floor.floorMap.elevatorsCoords
                                 for (let i = 0; i < elevatorsCoords.length; i++) {
                                     if((elevatorsCoords[i][1] == robotCoordX && elevatorsCoords[i][2] == robotCoordY)){
-                                        console.log("elevator -> " + elevatorsCoords[i][0]);
-
-                                        this.elevatorService.listFloorsByElevatorId(elevatorsCoords[i][0]).subscribe(
-                                            floors => {
-                                                console.log(floors);
-                                            });
-
-                                        break;
+                                        const eventDetail = {
+                                            elevatorID:  elevatorsCoords[i][0]
+                                        };
+                                        const event = new CustomEvent('clickElevatorButton', { detail: eventDetail});
+                                        window.dispatchEvent(event);
+                                       break;
                                     }
 
                                 }
@@ -905,6 +907,29 @@ export default class ThumbRaiser {
                 return floor.floorMap.passagewaysCoords[i]
             }
         }
+    }
+
+    useElevator(elevatorId,destinationFloor){
+        console.log(`Elevator ${elevatorId} going to. -> ${destinationFloor.floorId}`);
+        console.log(destinationFloor)
+        
+        for(let i=0; i < destinationFloor.floorMap.elevatorsCoords.length; i++){
+            if(destinationFloor.floorMap.elevatorsCoords[i][0] == elevatorId){
+                const eventDetail = {
+                    floor: destinationFloor, 
+                    initialPosition: [Number(destinationFloor.floorMap.elevatorsCoords[i][2]), Number(destinationFloor.floorMap.elevatorsCoords[i][1])], 
+                };
+                const event = new CustomEvent('newFloorMap', { detail: eventDetail});
+                window.dispatchEvent(event);
+                
+                break;
+            }
+
+        }
+
+    
+    
+    
     }
 
     
