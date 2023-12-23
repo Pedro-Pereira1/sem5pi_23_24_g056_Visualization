@@ -31,7 +31,7 @@ const routes: Routes = [
   {path: 'shortest-path', component: ShortestPathComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
   {path: 'backoffice-user', component: BackofficeUserComponent, canActivate: [VerifyAuthServiceService]},
-  {path: 'user-data', component: UserDataComponent, canActivate: [VerifyAuthServiceService]}
+  {path: 'user-data', component: UserDataComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'privacy', component: PrivacyComponent}
 ];
 
