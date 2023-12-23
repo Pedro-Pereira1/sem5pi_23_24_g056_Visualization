@@ -704,8 +704,12 @@ export default class ThumbRaiser {
 
                     window.addEventListener('keydown', (event) => {
                         if ((event.key === 'q' || event.key === 'Q') && !active) {
-                            active = true;
-                            
+                            if(this.maze.closestDoor(this.player.position).state === "closed"){
+                                active = true;
+                                console.log("elevator -> ");
+                            }else{
+                                window.alert("You need to close the door first!");
+                            }
                         }
                     });
                 }
@@ -790,7 +794,7 @@ export default class ThumbRaiser {
 
                         }else{
                             if(this.collisionDoor(newPosition)){
-                                console.log("door -> " + this.maze.doorState(newPosition));
+                                //console.log("door -> " + this.maze.doorState(newPosition));
                                 if(this.maze.doorState(newPosition) === "closed"){
                                     this.maze.openDoor(newPosition)
                                 }else{
