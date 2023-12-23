@@ -151,7 +151,7 @@ import { View3dComponent } from "./view3d.component";
  */
 
 export default class ThumbRaiser {
-    constructor(floorMapParameters,passagewayService, myCanvas, generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
+    constructor(floorMapParameters,passagewayService,elevatorService, myCanvas, generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
         this.generalParameters = merge({}, generalData, generalParameters);
         this.mazeParameters = merge({}, mazeParameters);
         this.playerParameters = merge({}, playerParameters);
@@ -163,6 +163,7 @@ export default class ThumbRaiser {
         this.topViewCameraParameters = merge({}, cameraData, topViewCameraParameters);
         this.miniMapCameraParameters = merge({}, cameraData, miniMapCameraParameters);
         this.passagewayService = passagewayService;
+        this.elevatorService = elevatorService;
         this.floorMapParameters = floorMapParameters
         // Create a 2D scene (the viewports frames)
         this.scene2D = new THREE.Scene();
@@ -706,7 +707,22 @@ export default class ThumbRaiser {
                         if ((event.key === 'q' || event.key === 'Q') && !active) {
                             if(this.maze.closestDoor(this.player.position).state === "closed"){
                                 active = true;
-                                console.log("elevator -> ");
+                                const robotCoordX = this.maze.cartesianToCell(this.player.position)[1]
+                                const robotCoordY = this.maze.cartesianToCell(this.player.position)[0]
+                                let elevatorsCoords = this.floorMapParameters.floor.floorMap.elevatorsCoords
+                                for (let i = 0; i < elevatorsCoords.length; i++) {
+                                    if((elevatorsCoords[i][1] == robotCoordX && elevatorsCoords[i][2] == robotCoordY)){
+                                        console.log("elevator -> " + elevatorsCoords[i][0]);
+
+                                        this.elevatorService.listFloorsByElevatorId(elevatorsCoords[i][0]).subscribe(
+                                            floors => {
+                                                console.log(floors);
+                                            });
+
+                                        break;
+                                    }
+
+                                }
                             }else{
                                 window.alert("You need to close the door first!");
                             }
