@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { View3dComponent } from './view3d/view3d.component';
 import { ShortestPathComponent } from './shortest-path/shortest-path.component';
+import { UserDataComponent } from './user-data/user-data.component';
 import { VerifyAuthServiceService } from './services/verify-auth-service.service';
 import { AuthModule } from './auth/auth.module';
+import { BackofficeUserComponent } from './backoffice-user/backoffice-user.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 
 const routes: Routes = [
@@ -28,6 +30,8 @@ const routes: Routes = [
   {path: 'view3d', component: View3dComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'shortest-path', component: ShortestPathComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+  {path: 'backoffice-user', component: BackofficeUserComponent, canActivate: [VerifyAuthServiceService]},
+  {path: 'user-data', component: UserDataComponent, canActivate: [VerifyAuthServiceService]}
   {path: 'privacy', component: PrivacyComponent}
 ];
 

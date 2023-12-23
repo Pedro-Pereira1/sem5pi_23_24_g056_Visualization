@@ -145,5 +145,15 @@ export const navbarData: INavbarData[] = [
         routerLink: 'shortest-path',
         icon: 'fal fa-ruler',
         label: 'Shortest Path'
+    },
+    {
+        routerLink: 'backoffice-user',
+        icon: 'fal fa-user',
+        label: 'Backoffice Users'
+    },
+    {
+        routerLink: 'user-data',
+        icon: 'fal fa-user',
+        label: 'User Data'
     }
 ];

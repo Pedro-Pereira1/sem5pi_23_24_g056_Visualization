@@ -12,6 +12,8 @@ import { ShortestPathComponent } from './shortest-path/shortest-path.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { BackofficeUserComponent } from './backoffice-user/backoffice-user.component';
+import { UserDataComponent } from './user-data/user-data.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 
 
@@ -24,6 +26,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
     SublevelMenuComponent,
     View3dComponent,
     ShortestPathComponent,
+    BackofficeUserComponent,
+    UserDataComponent,
     PrivacyComponent,
   ],
   imports: [
