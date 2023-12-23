@@ -168,6 +168,12 @@ export class View3dComponent implements OnDestroy {
 
 	@HostListener('window:newFloorMap', ['$event'])
 	onNewFloorMap(event: CustomEvent) {
+		let building = this.findBuildingCode(event.detail.floor) as Building;
+		if(building.buildingCode != this.buildingCode){
+			this.buildingCode = building.buildingCode as string;
+			this.listFloors(this.buildingCode);
+		}
+		
 		this.floorId = event.detail.floor.floorId;
 		this.initialize(event.detail.floor,this.modelFile!,event.detail.initialPosition[0],event.detail.initialPosition[1]);
 		this.animate = this.animate.bind(this);
@@ -187,6 +193,16 @@ export class View3dComponent implements OnDestroy {
 		}else{
 			window.alert("You are already on this floor");
 		}
+	}
+
+
+	findBuildingCode(floor: Floor) {
+		for(let building of this.buildings){
+			if(building.buildingFloors.includes(floor.floorId)){
+				return building;
+			}
+		}
+		return null;
 	}
 	
 
