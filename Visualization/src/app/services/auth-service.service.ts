@@ -4,6 +4,7 @@ import { RegisterUserDto } from '../domain/user/RegisterUserDto';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { UserDto } from '../domain/user/UserDto';
 import { UserSession } from '../domain/user/UserSession';
+import { CreateBackofficeUserDto } from '../domain/user/CreateBackofficeUserDto';
 
 @Injectable({
   providedIn: 'root'
@@ -45,4 +46,21 @@ export class AuthServiceService {
     return localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')!) : null
   }
 
+  createBackofficeUser(backofficeUserToCreate: CreateBackofficeUserDto): Observable<UserDto> {
+    const url = this.authUrl + "/" + "backoffice" ;
+    return this.httpClient.post<UserDto>(url, backofficeUserToCreate).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `An error occurred: ${error.error.message}`;
+          window.alert(errorMessage);
+        } else {
+          errorMessage = `An error occurred: ${error.error}`;
+          window.alert(errorMessage);
+        }
+        console.error(errorMessage);
+        return throwError(errorMessage);
+      })
+    );
+  }
 }
