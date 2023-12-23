@@ -6,6 +6,8 @@ export default class ElevatorDoor {
       this[key] = value;
     }
 
+    let leftDoor = null;
+    let rightDoor = null;
     const frameSize = { width: 1.0, height: 1.788, depth: 0.045 };
     const doorSize = { width: (1.0 - 0.186) / 2, height: 1.686, depth: 0.035, gap: 0.0165 };
     this.object = new THREE.Group();
@@ -47,12 +49,14 @@ export default class ElevatorDoor {
     const doorMaterial = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0, roughness: 0.5 });
 
     // Create the left door panel
-    const leftDoor = new THREE.Mesh(geometry, doorMaterial);
+    leftDoor = new THREE.Mesh(geometry, doorMaterial);
     leftDoor.translateX(-(doorSize.width + doorSize.gap) / 2.0);
+    this.leftDoor = leftDoor;
 
     // Create the right door panel
-    const rightDoor = new THREE.Mesh(geometry, doorMaterial);
+    rightDoor = new THREE.Mesh(geometry, doorMaterial);
     rightDoor.translateX((doorSize.width + doorSize.gap) / 2.0);
+    this.rightDoor = rightDoor;
 
     // Create a group for the elevator doors
     const elevatorDoors = new THREE.Group();
