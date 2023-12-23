@@ -12,6 +12,7 @@ import { Floor } from '../domain/floor/Floor';
 import { FloorMapRender } from '../domain/floor/FloorMapRender.js';
 import { RobotModel } from '../domain/robotModel/RobotModel.js';
 import { initial } from 'cypress/types/lodash/index.js';
+import { ElevatorService } from '../services/elevator.service';
 
 @Component({
 	selector: 'app-view3d',
@@ -29,6 +30,7 @@ export class View3dComponent implements OnDestroy {
 		private buildingService: BuildingService,
 		private floorService: FloorService,
 		private passagewayService: PassagewayService,
+		private elevatorService: ElevatorService,
 	) { }
 
 	buildings: Building[] = [];
@@ -113,6 +115,7 @@ export class View3dComponent implements OnDestroy {
 		this.thumbRaiser = new ThumbRaiser(
 			{buildingCode: this.buildingCode, floorId: this.floorId, floor: floor},
 			this.passagewayService,
+			this.elevatorService,
 			this.canvas, // Canvas
 			{}, // General Parameters
 			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor,initialPositionX,initialPositionY), elevatorDoorData: floor.floorMap.elevatorsCoords }, // Maze parameters
