@@ -37,6 +37,8 @@ export class View3dComponent implements OnDestroy {
 	buildingCode: string = "";
 	floors: Floor[] = []
 	floorId: number = 0;
+	currentFloor: number = 0;
+	elevatorID: number = 0;
 
 	initialPosition: [number, number] = [0, 0];
 
@@ -112,6 +114,7 @@ export class View3dComponent implements OnDestroy {
 
 	initialize(floor: Floor, modelFile: File,initialPositionX: Number, initialPositionY: Number) {
 		// Create the game
+		this.currentFloor = floor.floorNumber;
 		this.thumbRaiser = new ThumbRaiser(
 			{buildingCode: this.buildingCode, floorId: this.floorId, floor: floor},
 			this.passagewayService,
@@ -169,6 +172,21 @@ export class View3dComponent implements OnDestroy {
 		this.initialize(event.detail.floor,this.modelFile!,event.detail.initialPosition[0],event.detail.initialPosition[1]);
 		this.animate = this.animate.bind(this);
 		this.animate();
+	}
+
+	@HostListener('window:clickElevatorButton', ['$event'])
+	onClickElevatorButton(event: CustomEvent) {
+		this.elevatorID = event.detail.elevatorID;
+	}
+
+	clickElevatorButton(floor: Floor) {
+		if(floor.floorNumber != this.currentFloor){
+			console.log(`Button ${floor.floorNumber} was clicked. -> ${floor.floorId}`);
+			this.currentFloor = floor.floorNumber;
+			this.thumbRaiser.useElevator(this.elevatorID, floor);
+		}else{
+			window.alert("You are already on this floor");
+		}
 	}
 	
 
