@@ -773,7 +773,7 @@ export default class ThumbRaiser {
                     if (this.player.keyStates.backward) {
                         const newPosition = new THREE.Vector3(-coveredDistance * Math.sin(direction), 0.0, -coveredDistance * Math.cos(direction)).add(this.player.position);
                       
-                        if (this.collision(newPosition)||this.collisionDoor(newPosition)) {
+                        if (this.collision(newPosition) || (this.collisionDoor(newPosition) && this.maze.doorState(newPosition) === "closed")) {
                             //this.animations.fadeToAction("Death", 0.2);
                         }
                         else {
@@ -790,7 +790,7 @@ export default class ThumbRaiser {
 
                         }else{
                             if(this.collisionDoor(newPosition)){
-                                console.log("door");
+                                console.log("door -> " + this.maze.doorState(newPosition));
                                 if(this.maze.doorState(newPosition) === "closed"){
                                     this.maze.openDoor(newPosition)
                                 }else{
