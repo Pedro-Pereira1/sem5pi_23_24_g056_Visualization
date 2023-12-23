@@ -85,7 +85,7 @@ export default class Maze {
                                     doorObject = clone.object.clone();
                                     doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                                     this.object.add(doorObject);
-                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"});
+                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator", "object" : clone});
 
                                     wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, 1 + j - description.mazeData.size.height / 2.0);
                                     this.object.add(wallObject1);
@@ -104,7 +104,7 @@ export default class Maze {
                                     doorObject = clone.object.clone();
                                     doorObject.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0 + 1);
                                     this.object.add(doorObject);
-                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"});   
+                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator", "object" : clone});   
                                     
                                     wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                                     this.object.add(wallObject1);
@@ -125,7 +125,7 @@ export default class Maze {
                                     doorObject.rotateY(Math.PI / 2.0);
                                     doorObject.position.set(i - description.mazeData.size.width / 2.0, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
                                     this.object.add(doorObject);
-                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
+                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator", "object" : clone}); 
 
                                     wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                                     this.object.add(wallObject1);
@@ -144,7 +144,7 @@ export default class Maze {
                                     doorObject.rotateY(Math.PI / 2.0);
                                     doorObject.position.set(i - description.mazeData.size.width / 2.0 + 1, 0.894, j - description.mazeData.size.height / 2.0 + 0.5);
                                     this.object.add(doorObject);
-                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator"}); 
+                                    this.doors.push({"door": doorObject, "state": "closed", "type": "elevator", "object" : clone}); 
 
                                     wallObject1.position.set(i - description.mazeData.size.width / 2.0 + 0.5, 0.894, j - description.mazeData.size.height / 2.0);
                                     this.object.add(wallObject1);
@@ -580,7 +580,7 @@ export default class Maze {
     
     openDoor(position) {
         const closestDoor = this.closestDoor(position);
-    
+            
         if (closestDoor.state === "closed") {
             if(closestDoor.type == "normal"){
                 // Define the initial and target positions for the door animation
@@ -605,29 +605,43 @@ export default class Maze {
                 // Store the tween object if you want to manipulate or stop it later
                 closestDoor.tween = tween;
 
-            }else if(closestDoor.type == "elevator"){
-                // Define the initial and target positions for the door animation
-                const initialPosition = closestDoor.door.position.clone();
-                const targetPosition = initialPosition.clone();
-                targetPosition.y -= 3.0; // Adjust the target position according to your door's movement direction
+            }else if(closestDoor.type == "elevator" ){
+
+                const initialLeftPosition = closestDoor.door.children[1].children[0].position.clone();
+                const targetLeftPosition = initialLeftPosition.clone();
+
+                const initialRightPosition = closestDoor.door.children[1].children[1].position.clone();
+                const targetRightPosition = initialRightPosition.clone();
+
+                if(targetLeftPosition.x != 0.0){
+                    targetLeftPosition.x -= 0.5;
+                    targetRightPosition.x += 0.5;
+                }else if (targetLeftPosition.z != 0.0){
+                    targetLeftPosition.z -= 0.5;
+                    targetRightPosition.z += 0.5;
+                }
                 
-                // Set up a Tween animation
-                const tween = new TWEEN.Tween(initialPosition)
-                    .to(targetPosition, 1000) // Adjust the duration of the animation as needed
-                    .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
+                const tweenLeft = new TWEEN.Tween(initialLeftPosition)
+                    .to(targetLeftPosition, 1000)
+                    .easing(TWEEN.Easing.Quadratic.InOut) 
                     .onUpdate(() => {
-                        // Update the door's position during the animation
-                        closestDoor.door.position.copy(initialPosition);
+                        closestDoor.door.children[1].children[0].position.copy(initialLeftPosition);
                     })
                     .onComplete(() => {
-                        // Update the door state after the animation is complete
                         closestDoor.state = "open";
                     })
-                    .start(); // Start the animation
-                
-                // Store the tween object if you want to manipulate or stop it later
-                closestDoor.tween = tween;
+                    .start();
 
+                const tweenRight = new TWEEN.Tween(initialRightPosition)
+                    .to(targetRightPosition, 1000)
+                    .easing(TWEEN.Easing.Quadratic.InOut)
+                    .onUpdate(() => {
+                        closestDoor.door.children[1].children[1].position.copy(initialRightPosition);
+                    })
+                    .start();
+
+                tweenLeft.chain(tweenRight);
+                closestDoor.tween = tweenLeft;
             }
         }
     }
@@ -645,9 +659,8 @@ export default class Maze {
             const doorPosition = door.door.position;
             const distance = position.distanceTo(doorPosition);
             
-            if(distance > 1.5 && door.door.position.y < 0.0) {
-
-                if(door.type == "normal"){
+            if(distance > 1.0 && door.state === "open") {
+                if(door.type == "normal" && door.door.position.y < 0.0){
                     const initialPosition = door.door.position.clone();
                     const targetPosition = initialPosition.clone();
                     targetPosition.y = 0.894; // Adjust the target position according to your door's movement direction
@@ -669,54 +682,66 @@ export default class Maze {
                     // Store the tween object if you want to manipulate or stop it later
                     door.tween = tween;
                 }else if(door.type == "elevator"){
-                    const initialPosition = door.door.position.clone();
-                    const targetPosition = initialPosition.clone();
-                    targetPosition.y = 0.894; // Adjust the target position according to your door's movement direction
                     
-                    // Set up a Tween animation
-                    const tween = new TWEEN.Tween(initialPosition)
-                        .to(targetPosition, 1000) // Adjust the duration of the animation as needed
-                        .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function for a smoother effect
+                    const initialLeftPosition = door.door.children[1].children[0].position.clone();
+                    const targetLeftPosition = initialLeftPosition.clone();
+
+                    const initialRightPosition = door.door.children[1].children[1].position.clone();
+                    const targetRightPosition = initialRightPosition.clone();
+
+                    if(targetLeftPosition.x != 0.0){
+                        targetLeftPosition.x = -0.21175000000000002;   
+                        targetRightPosition.x = 0.21175000000000002;
+                    }else if (targetLeftPosition.z != 0.0){
+                        targetLeftPosition.z = -0.21175000000000002;   
+                        targetRightPosition.z = 0.21175000000000002;
+                    }
+                    
+                    const tweenLeft = new TWEEN.Tween(initialLeftPosition)
+                        .to(targetLeftPosition, 1000)
+                        .easing(TWEEN.Easing.Quadratic.InOut) 
                         .onUpdate(() => {
-                            // Update the door's position during the animation
-                            door.door.position.copy(initialPosition);
+                            door.door.children[1].children[0].position.copy(initialLeftPosition);
                         })
                         .onComplete(() => {
-                            // Update the door state after the animation is complete
                             door.state = "closed";
                         })
-                        .start(); // Start the animation
-                    
-                    // Store the tween object if you want to manipulate or stop it later
-                    door.tween = tween;           
+                        .start();
 
+                    const tweenRight = new TWEEN.Tween(initialRightPosition)
+                        .to(targetRightPosition, 1000)
+                        .easing(TWEEN.Easing.Quadratic.InOut)
+                        .onUpdate(() => {
+                            door.door.children[1].children[1].position.copy(initialRightPosition);
+                        })
+                        .start();
+
+                    tweenLeft.chain(tweenRight);
+                    door.tween = tweenLeft;
                 }
             }
         }
     }
 
-
     closestDoor(position) {
         let minDistance = Infinity;
-        let closestDoor = {
-            door: null,
-            state: null,
-            type: null
-        };
+        let i = 0;
+        let save = 0;
 
         for(const door of this.doors) {
             const doorPosition = door.door.position;
             const distance = position.distanceTo(doorPosition);
 
-            if(distance < minDistance && distance < 1.5) {
+            if(distance < minDistance && distance < 1.0) {
                 minDistance = distance;
-                closestDoor.door = door.door;
-                closestDoor.state = door.state;
-                closestDoor.type = door.type;
+                save = i;
             }
+            i++;
         }
 
-        return closestDoor;
+        return this.doors[save];
     }
+
+
 
 }
