@@ -122,3 +122,91 @@ canvas {
     background-color: rgba(255, 192, 203, 0.7); /* Pink transparent background */
     padding: 20px; /* Adjust padding as needed */
 }
+
+
+#elevatorPainel {
+    position: fixed;
+    display: block;
+    border: 2px solid black;
+    height: 350px;
+    width: 250px;
+    margin-top: 80px;
+    padding: 10px;
+    background-color: #ccc;
+    font-family: sans-serif;
+    visibility: hidden;
+    z-index: 101;
+  }
+  
+  .display-panel,
+  .number-panel {
+    width: 100%;
+    height: 50%;
+  }
+  
+  .display-panel {
+    background-color: #333;
+  }
+  
+  .number-panel {
+    background-color: #ccc;
+  }
+  
+  .floor-number {
+    color: #fff;
+    height: 100%;
+    width: 48%;
+    display: inline-block;
+    text-align: center;
+    font-size: 8em;
+  }
+  
+  .lights {
+    height: 100%;
+    width: 48%;
+    display: inline-block;
+    float: right;
+  }
+  
+  .up,
+  .down {
+    height: 50px;
+    width: 50px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+  
+  .up {
+    background-color: #0f0;
+  }
+  
+  .down {
+    background-color: #f00;
+  }
+  
+  .upper,
+  .lower {
+    width: 100%;
+    height: 50%;
+    text-align: center;
+    display: block;
+  }
+  
+  .lightOff {
+    background-color: #ccc;
+  }
+  
+  .number-button {
+    height: 48px;
+    width: 48px;
+    display: inline-block;
+    border: 2px solid black;
+    border-radius: 50%;
+    font-size: 2.25em;
+    margin: 20px;
+    /* background-color: #fff; */
+  }
+  .number-button:hover {
+    background-color: yellow
+}
