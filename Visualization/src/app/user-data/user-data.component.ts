@@ -32,7 +32,7 @@ export class UserDataComponent {
       email: this.createForm.value.email!,
       phoneNumber: Number(this.createForm.value.phoneNumber!),
       password: this.createForm.value.password!,
-      role: this.processRole(this.createForm.value.role!)
+      role: this.createForm.value.role!
     }
 
     this.authService.createBackofficeUser(user).subscribe(
@@ -41,20 +41,5 @@ export class UserDataComponent {
         this.createForm.reset();
       }
     );
-  }
-
-  processRole(role: string): number {
-    switch (role) {
-      case "Admin":
-        return 0;
-      case "Campus Manager":
-        return 1;
-      case "Fleet Manager":
-        return 2;
-      case "Task Manager":
-        return 3;
-      default:
-        return -1;
-    }
   }
 }
