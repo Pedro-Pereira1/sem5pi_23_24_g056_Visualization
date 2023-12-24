@@ -40,6 +40,10 @@ export class BackofficeUserComponent {
       (user: UserDto) => {
         window.alert('User created successfully');
         this.createForm.reset();
+      },
+      (error: any) => {
+        window.alert(error);
+        console.error(error);
       }
     );
   }
