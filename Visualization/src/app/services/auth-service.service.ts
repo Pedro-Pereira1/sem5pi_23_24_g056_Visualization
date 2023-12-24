@@ -55,10 +55,8 @@ export class AuthServiceService {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {
           errorMessage = `An error occurred: ${error.error.message}`;
-          window.alert(errorMessage);
         } else {
           errorMessage = `An error occurred: ${error.error}`;
-          window.alert(errorMessage);
         }
         console.error(errorMessage);
         return throwError(errorMessage);
