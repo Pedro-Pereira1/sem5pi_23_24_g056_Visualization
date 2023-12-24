@@ -3,5 +3,5 @@ export interface CreateBackofficeUserDto {
     email: string;
     password: string;
     phoneNumber: number;
-    role: number;
+    role: string;
 }
