@@ -3,6 +3,7 @@ import { navbarData } from './nav-data';
 import { trigger, transition, style, animate, keyframes } from '@angular/animations';
 import { INavbarData, fadeInOut } from './helper';
 import { Router } from '@angular/router';
+import { AuthServiceService } from '../services/auth-service.service';
 
 
 interface SideNavToggle{
@@ -36,6 +37,7 @@ export class SidenavComponent implements OnInit{
   screenWidth = 0;
   navData = navbarData;
   multiple:boolean = false;
+  userRole: string = '';
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any){
@@ -46,10 +48,21 @@ export class SidenavComponent implements OnInit{
     }
   }
 
-  constructor(public router: Router) { }
+  constructor(
+    public router: Router,
+    private authService: AuthServiceService
+    ) { }
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+    this.userRole = this.authService.getRoleByToken(this.authService.getToken()!);
+  }
+
+  checkPermission(data: INavbarData): boolean {
+    if(data.permission){
+      return data.permission.includes(this.userRole);
+    }
+    return true;
   }
 
   toggleCollapse(): void {
