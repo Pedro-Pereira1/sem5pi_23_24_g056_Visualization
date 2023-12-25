@@ -48,6 +48,12 @@ export class AuthServiceService {
     return localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')!) : null
   }
 
+  public getRoleByToken(token: any) {
+    let _token = token.split('.')[1];
+    let tokenParsed = JSON.parse(atob(_token));
+    return tokenParsed['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  }
+
   createBackofficeUser(backofficeUserToCreate: CreateBackofficeUserDto): Observable<UserDto> {
     const url = this.authUrl + "/" + "backoffice" ;
     return this.httpClient.post<UserDto>(url, backofficeUserToCreate).pipe(
