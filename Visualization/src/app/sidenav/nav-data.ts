@@ -10,6 +10,7 @@ export const navbarData: INavbarData[] = [
         routerLink: 'buildings',
         icon: 'fal fa-building',
         label: 'Buildings',
+        permission: ['CampusManager'],
         items: [
             {
                 routerLink: 'buildings/createBuilding',
@@ -33,6 +34,7 @@ export const navbarData: INavbarData[] = [
         routerLink: 'floors',
         icon: 'fal fa-map',
         label: 'Floors',
+        permission: ['CampusManager'],
         items: [
             {
                 routerLink: 'floors/createFloor',
@@ -60,6 +62,7 @@ export const navbarData: INavbarData[] = [
         routerLink: 'passageways',
         icon: 'fal fa-road',
         label: 'Passageways',
+        permission: ['CampusManager'],
         items: [
             {
                 routerLink: 'passageways/createPassageway',
@@ -79,6 +82,7 @@ export const navbarData: INavbarData[] = [
         routerLink: 'elevators',
         icon: 'fal fa-sort-numeric-up-alt',
         label: 'Elevators',
+        permission: ['CampusManager'],
         items: [
             {
                 routerLink: 'elevators/create',
@@ -98,6 +102,7 @@ export const navbarData: INavbarData[] = [
         routerLink: 'rooms',
         icon: 'fal fa-door-closed',
         label: 'Rooms',
+        permission: ['CampusManager'],
         items: [
             {
                 routerLink: 'rooms/createRoom',
@@ -110,6 +115,7 @@ export const navbarData: INavbarData[] = [
         routerLink: 'robot-types',
         icon: 'fal fa-wrench',
         label: 'Robot Types',
+        permission: ['FleetManager'],
         items: [
             {
                 routerLink: 'robot-types/createRobotType',
@@ -121,6 +127,7 @@ export const navbarData: INavbarData[] = [
         routerLink: 'robots',
         icon: 'fal fa-robot',
         label: 'Robots',
+        permission: ['FleetManager'],
         items: [
             {
                 routerLink: 'robots/createRobot',
@@ -149,7 +156,8 @@ export const navbarData: INavbarData[] = [
     {
         routerLink: 'backoffice-user',
         icon: 'fal fa-user',
-        label: 'Backoffice Users'
+        label: 'Backoffice Users',
+        permission: ['Admin']
     },
     {
         routerLink: 'user-data',
