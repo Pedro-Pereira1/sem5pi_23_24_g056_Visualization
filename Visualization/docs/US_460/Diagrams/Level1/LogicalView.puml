@@ -3,11 +3,12 @@
 () "UI Campus Manager" as CM
 () "UI Fleet Manager" as FM
 () "UI Admin" as SM
-() "UI User" as U
+() "UI User" as U #FF6347
 
-component RDG [
+component RDG #FF6347  [
   <<component>>
   **RobDroneGo**
+
 ]
 
 CM -d- RDG

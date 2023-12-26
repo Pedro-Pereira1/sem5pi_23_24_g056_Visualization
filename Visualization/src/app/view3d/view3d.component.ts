@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, AfterViewInit, ViewChild, OnDestroy, HostListener } from '@angular/core';
 import * as THREE from 'three';
 import Orientation from "./orientation.js"
 import ThumbRaiser from "./thumb_raiser.js"
@@ -11,6 +11,8 @@ import { Building } from '../domain/building/Building';
 import { Floor } from '../domain/floor/Floor';
 import { FloorMapRender } from '../domain/floor/FloorMapRender.js';
 import { RobotModel } from '../domain/robotModel/RobotModel.js';
+import { initial } from 'cypress/types/lodash/index.js';
+import { ElevatorService } from '../services/elevator.service';
 
 @Component({
 	selector: 'app-view3d',
@@ -28,12 +30,17 @@ export class View3dComponent implements OnDestroy {
 		private buildingService: BuildingService,
 		private floorService: FloorService,
 		private passagewayService: PassagewayService,
+		private elevatorService: ElevatorService,
 	) { }
 
 	buildings: Building[] = [];
 	buildingCode: string = "";
 	floors: Floor[] = []
 	floorId: number = 0;
+	currentFloor: number = 0;
+	elevatorID: number = 0;
+
+	initialPosition: [number, number] = [0, 0];
 
 	modelName: string = "";
 	modelFile: File | null = null;
@@ -47,7 +54,7 @@ export class View3dComponent implements OnDestroy {
 		const theModel = this.modelFile
 
 		if (theFloor?.floorMap.map.length! > 0) {
-			this.initialize(theFloor!, theModel!);
+			this.initialize(theFloor!, theModel!,0,0);
 			this.animate = this.animate.bind(this);
 			this.animate();
 		} else {
@@ -55,13 +62,18 @@ export class View3dComponent implements OnDestroy {
 		}
 	}
 
-	updateFloorFile(floor: Floor): FloorMapRender {
+	updateFloorFile(floor: Floor, initialPositionX: Number, initialPositionY: Number): FloorMapRender {
+		if(initialPositionX == null || initialPositionY == null){
+			initialPositionX = 0;
+			initialPositionY = 0;
+		}
+
 		if (this.thumbRaiser != undefined && this.thumbRaiser.userInterface != undefined) {
 			this.thumbRaiser.userInterface.gui.destroy();
 		}
 		return {
 			map: floor.floorMap.map,
-			initialPosition: [0, 0],
+			initialPosition: [initialPositionX, initialPositionY],
 			initialDirection: 0.0,
 			exitLocation: [10, 10],
 			groundTextureUrl: "./../../assets/View3D/textures/ground.jpg",
@@ -77,7 +89,6 @@ export class View3dComponent implements OnDestroy {
 
 	uploadModel(event: any) {
 		const file: File = event.target.files[0];
-
 		if (file) {
 			this.modelName = file.name
 			if (this.animationId) {
@@ -101,14 +112,16 @@ export class View3dComponent implements OnDestroy {
 		} as RobotModel
 	}
 
-	initialize(floor: Floor, modelFile: File) {
+	initialize(floor: Floor, modelFile: File,initialPositionX: Number, initialPositionY: Number) {
 		// Create the game
+		this.currentFloor = floor.floorNumber;
 		this.thumbRaiser = new ThumbRaiser(
 			{buildingCode: this.buildingCode, floorId: this.floorId, floor: floor},
 			this.passagewayService,
+			this.elevatorService,
 			this.canvas, // Canvas
 			{}, // General Parameters
-			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor) }, // Maze parameters
+			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor,initialPositionX,initialPositionY), elevatorDoorData: floor.floorMap.elevatorsCoords }, // Maze parameters
 			{ model: this.prepareModel(modelFile) }, // Player parameters
 			{ ambientLight: { intensity: 0.1 }, pointLight1: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(-3.5, 10.0, 2.5) }, pointLight2: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(3.5, 10.0, -2.5) } }, // Lights parameters
 			{}, // Fog parameters
@@ -152,5 +165,45 @@ export class View3dComponent implements OnDestroy {
 			this.floors = floors;
 		})
 	}
+
+	@HostListener('window:newFloorMap', ['$event'])
+	onNewFloorMap(event: CustomEvent) {
+		let building = this.findBuildingCode(event.detail.floor) as Building;
+		if(building.buildingCode != this.buildingCode){
+			this.buildingCode = building.buildingCode as string;
+			this.listFloors(this.buildingCode);
+		}
+		
+		this.floorId = event.detail.floor.floorId;
+		this.initialize(event.detail.floor,this.modelFile!,event.detail.initialPosition[0],event.detail.initialPosition[1]);
+		this.animate = this.animate.bind(this);
+		this.animate();
+	}
+
+	@HostListener('window:clickElevatorButton', ['$event'])
+	onClickElevatorButton(event: CustomEvent) {
+		this.elevatorID = event.detail.elevatorID;
+	}
+
+	clickElevatorButton(floor: Floor) {
+		if(floor.floorNumber != this.currentFloor){
+			console.log(`Button ${floor.floorNumber} was clicked. -> ${floor.floorId}`);
+			this.currentFloor = floor.floorNumber;
+			this.thumbRaiser.useElevator(this.elevatorID, floor);
+		}else{
+			window.alert("You are already on this floor");
+		}
+	}
+
+
+	findBuildingCode(floor: Floor) {
+		for(let building of this.buildings){
+			if(building.buildingFloors.includes(floor.floorId)){
+				return building;
+			}
+		}
+		return null;
+	}
+	
 
 }

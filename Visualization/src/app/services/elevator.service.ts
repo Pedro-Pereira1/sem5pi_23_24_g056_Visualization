@@ -67,4 +67,28 @@ export class ElevatorService {
       })
     );
   }
+
+  listFloorsByElevatorId(elevatorId: number): Observable<ElevatorList[]>{
+    const url = this.elevatorUrl + "/" + "listFloorsByElevatorId" + "/" + elevatorId;
+    return this.http.get<ElevatorList[]>(url).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `An error occurred: ${error.error.message}`;
+          window.alert(errorMessage);
+        } else {
+          errorMessage = `An error occurred: ${error.error}`;
+          window.alert(errorMessage);
+        }
+        console.error(errorMessage);
+        return throwError(errorMessage);
+      })
+    );
+  
+  
+  
+  
+  }
+
+
 }

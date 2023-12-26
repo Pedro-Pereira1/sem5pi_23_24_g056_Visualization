@@ -1,5 +1,19 @@
 <body>
     <div id="info">You found a passageway. Press k!</div>
+    <div id="elevatorPainel">
+        <div class="display-panel">
+            <div class="floor-number">{{currentFloor}}</div>
+            <div class="lights">
+              <div class="up"></div>
+              <div class="down"></div>
+            </div>
+          </div>
+          <div class="number-panel">
+            <div class="upper">
+                <div class="number-button" *ngFor="let floor of floors" (click)="clickElevatorButton(floor)">{{floor.floorNumber}}</div>
+              </div>   
+          </div>
+    </div>
     <div id="parent">
         <div id="views-panel">
             <table class="views">
