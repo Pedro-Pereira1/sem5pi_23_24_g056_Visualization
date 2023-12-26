@@ -69,4 +69,20 @@ export class AuthServiceService {
       })
     );
   }
+  
+
+  public getEmailByToken(token: any) {
+    let _token = token.split('.')[1];
+    let tokenParsed = JSON.parse(atob(_token));
+    return tokenParsed['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+  }
+
+  public getUserInfo(email: string): Observable<UserDto> {
+    const url = this.authUrl + "/" + email
+    return this.httpClient.get<UserDto>(url).pipe(
+      catchError(this.handleError<UserDto>("GetUserInfo"))
+    )
+  }
+
+
 }
