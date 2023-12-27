@@ -11,6 +11,7 @@
                     <h4>Profile Settings</h4>
                 </div>
                 <div>
+
                     <form [formGroup]="userForm">
                         <div class="form__group field">
                             <input type="text" class="form__field" id='name'  formControlName="name">
@@ -18,7 +19,7 @@
                         </div>
 
                         <div class="form__group field">
-                            <input type="text" class="form__field" id='email' formControlName="email" required/>
+                            <input type="text" class="form__field" id='email' formControlName="email" [readOnly]="true"/>
                             <label for="email" class="form__label">Email</label>
                         </div>
 
@@ -26,6 +27,11 @@
                             <input type="text" class="form__field" id='phoneNumber' formControlName="phoneNumber">
                             <label for="phoneNumber" class="form__label">Phone Number</label>
                         </div>
+
+                      <div class="form__group field">
+                        <input type="text" class="form__field" id='taxPayerNumber' formControlName="taxPayerNumber">
+                        <label for="taxPayerNumber" class="form__label">Tax Payer Number</label>
+                      </div>
 
                         <div class="form__group field" [style.visibility]="passwordVisibility ? 'visible' : 'hidden'">
                             <input type="password" class="form__field" id='password' formControlName="password">
@@ -48,6 +54,9 @@
                     <h2>Are you sure you want to delete your profile? (This action is irreversible)</h2>
                     <button (click)="confirmDeleteProfile()" style="margin-left: 10px;">Yes</button>
                     <button (click)="cancelDeleteProfile()" style="margin-left: 10px;">No</button>
+                  </div>
+                  <div *ngIf="confirmEdit">
+                    <button (click)="confirmUpdate()" style="margin-left: 10px;">Submit</button>
                   </div>
 
                 </div>
