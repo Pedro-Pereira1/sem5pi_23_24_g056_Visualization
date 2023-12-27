@@ -13,12 +13,15 @@ import { FloorMapRender } from '../domain/floor/FloorMapRender.js';
 import { RobotModel } from '../domain/robotModel/RobotModel.js';
 import { initial } from 'cypress/types/lodash/index.js';
 import { ElevatorService } from '../services/elevator.service';
+import { AuthServiceService } from '../services/auth-service.service';
+import { Router } from '@angular/router';
+
 
 @Component({
 	selector: 'app-view3d',
 	templateUrl: './view3d.component.html',
 	styleUrls: ['./view3d.component.css'],
-	providers: [BuildingService, FloorService, PassagewayService]
+	providers: [BuildingService, FloorService, PassagewayService, AuthServiceService]
 })
 export class View3dComponent implements OnDestroy {
 
@@ -31,6 +34,8 @@ export class View3dComponent implements OnDestroy {
 		private floorService: FloorService,
 		private passagewayService: PassagewayService,
 		private elevatorService: ElevatorService,
+		private authService: AuthServiceService,
+		private router: Router
 	) { }
 
 	buildings: Building[] = [];
@@ -46,7 +51,15 @@ export class View3dComponent implements OnDestroy {
 	modelFile: File | null = null;
 
 	ngOnInit(): void {
-		this.listBuildings();
+		const role = this.authService.getRoleByToken(this.authService.getToken());
+		if(role == "CampusManager" || role == "FleetManager" || role == "TaskManager"){
+			this.listBuildings();
+		}else{
+			window.alert("You don't have permission to access this page");
+			this.router.navigate(['/home']);
+			return;	
+		}
+		
 	}
 
 	renderCanvas() {
