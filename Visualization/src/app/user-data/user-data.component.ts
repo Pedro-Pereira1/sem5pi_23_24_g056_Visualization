@@ -25,6 +25,7 @@ export class UserDataComponent implements OnInit {
     email: new FormControl(""),
     phoneNumber: new FormControl(""),
     password: new FormControl(""),
+    taxPayerNumber: new FormControl(""),
     role: new FormControl("")
   });
 
@@ -35,15 +36,36 @@ export class UserDataComponent implements OnInit {
       this.userForm.controls['name'].setValue(userInfo.name)
       this.userForm.controls['email'].setValue(userEmail)
       this.userForm.controls['phoneNumber'].setValue(String(userInfo.phoneNumber))
+      this.userForm.controls['taxPayerNumber'].setValue(String(userInfo.taxPayerNumber))
     });
   }
 
   wantsToDeleteProfile = false;
+  confirmEdit = false;
 
   editProfile(){
-    this.userForm.enable();
-    this.passwordVisibility = true;
+    if(this.confirmEdit){
+      this.confirmEdit = false;
+      this.userForm.disable();
+    } else{
+      this.confirmEdit = true;
+      this.userForm.enable();
+    }
+  }
 
+  confirmUpdate(){
+    const user: UserDto = {
+      name: this.userForm.controls['name'].value ? this.userForm.controls['name'].value : "",
+      email: this.userForm.controls['email'].value ? this.userForm.controls['email'].value : "",
+      phoneNumber: Number(this.userForm.controls['phoneNumber'].value),
+      taxPayerNumber: Number(this.userForm.controls['taxPayerNumber'].value),
+      role: this.userForm.controls['role'].value ? this.userForm.controls['role'].value : ""
+    }
+    this.authService.updateUser(user).subscribe((user: UserDto) => {
+      window.alert("Profile updated");
+      this.userForm.disable();
+      this.confirmEdit = false;
+    });
   }
 
   deleteProfile(){
