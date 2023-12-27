@@ -1,0 +1,25 @@
+@startuml ProcessView
+
+autonumber
+
+participant ":HTML Template" as Template
+participant ":Component" as Component
+participant ":Service" as Service
+
+
+
+?o-> Template: See menu
+activate Template
+activate Component
+Component -> Service: (onInit) userRole = getRoleByToken(token)
+deactivate Component
+Template-> Component: checkPermission(navData)
+activate Component
+Component -> Component: compare userRole with navData permissions
+Component --> Template: true
+deactivate Component
+<-- Template: Show menu
+deactivate Template
+
+
+@enduml

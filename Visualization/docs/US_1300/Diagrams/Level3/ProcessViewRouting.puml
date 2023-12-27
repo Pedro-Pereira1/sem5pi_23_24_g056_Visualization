@@ -1,0 +1,32 @@
+@startuml ProcessViewRouting
+
+autonumber
+
+participant ":SideNav HTML Template" as Template
+participant ":SideNav Component" as Component
+participant ":app-routing-module" as Module
+participant ":Guard" as Guard
+participant ":AuthService" as Service
+participant ":New HTML Template" as NewTemplate
+
+
+
+?o-> Template: See menu
+activate Template
+Template-> Component: url
+deactivate Template
+activate Component
+Component-> Module: url
+deactivate Component
+activate Module
+Module-> Guard: canActivate
+activate Guard
+Guard-> Service: getRoleByToken(token)
+Guard -> Guard: compare userRole
+Guard --> Module: true
+deactivate Guard
+NewTemplate<- Module: Show menu
+deactivate Module
+
+
+@enduml

@@ -1,0 +1,14 @@
+@startuml ProcessView
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "User" as CM
+
+
+activate CM
+CM -> System: See menu 
+activate System
+CM <-- System: Show menu
+deactivate System
+
+@enduml
