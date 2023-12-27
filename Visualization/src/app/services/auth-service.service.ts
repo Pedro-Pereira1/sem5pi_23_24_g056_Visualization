@@ -17,7 +17,6 @@ export class AuthServiceService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      this.logout()
       console.error(error)
       console.log(`${operation} failed: ${error.message}`)
       return of (result as T)
@@ -36,7 +35,7 @@ export class AuthServiceService {
   public register(dto: RegisterUserDto) {
     const url = this.authUrl
     return this.httpClient.post<UserDto>(url, dto).pipe(
-      catchError(this.handleError<UserDto>("register"))
+      catchError(this.handleError<UserDto>("register", undefined))
     )
   }
 
