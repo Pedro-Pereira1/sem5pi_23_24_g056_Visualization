@@ -91,4 +91,10 @@ export class AuthServiceService {
     )
   }
 
+  public updateUser(dto: UserDto): Observable<UserDto> {
+    const url = this.authUrl + "/" + "edit"
+    return this.httpClient.put<UserDto>(url, dto).pipe(
+      catchError(this.handleError<UserDto>("UpdateUser"))
+    )
+  }
 }
