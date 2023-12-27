@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { CreateBackofficeUserDto } from '../domain/user/CreateBackofficeUserDto';
 import { UserDto } from '../domain/user/UserDto';
 import { AuthServiceService } from '../services/auth-service.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-data',
@@ -11,7 +12,8 @@ import { AuthServiceService } from '../services/auth-service.service';
 })
 export class UserDataComponent implements OnInit {
   constructor(
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private router: Router
   ) { }
 
 
@@ -36,6 +38,7 @@ export class UserDataComponent implements OnInit {
     });
   }
 
+  wantsToDeleteProfile = false;
 
   editProfile(){
     this.userForm.enable();
@@ -44,6 +47,21 @@ export class UserDataComponent implements OnInit {
   }
 
   deleteProfile(){
+    this.wantsToDeleteProfile = true;
+  }
+
+  cancelDeleteProfile(){
+    this.wantsToDeleteProfile = false;
+  }
+
+  confirmDeleteProfile(){
+    const userEmail = this.authService.getEmailByToken(this.authService.getToken())
+    this.authService.removeUser(userEmail).subscribe((b:boolean) =>{
+      window.alert("This account has been deleted");
+      this.authService.logout();
+      this.router.navigate(["/home"]);
+    });
+
   }
 
   dowloadData(){
@@ -68,17 +86,17 @@ export class UserDataComponent implements OnInit {
 
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      
+
       const dateTime = new Date().toLocaleString();
       const date = dateTime.split(',')[0].replaceAll('/', '');
       const time = dateTime.split(',')[1].replaceAll(':', '');
-      
+
       link.download = 'MyData_' + date +'T'+ time + '.json';
-      
+
       document.body.appendChild(link);
-      
+
       link.click();
-      
+
       document.body.removeChild(link);
     });
 

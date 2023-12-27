@@ -69,7 +69,7 @@ export class AuthServiceService {
       })
     );
   }
-  
+
 
   public getEmailByToken(token: any) {
     let _token = token.split('.')[1];
@@ -84,5 +84,11 @@ export class AuthServiceService {
     )
   }
 
+  public removeUser(email: string): Observable<boolean> {
+    const url = this.authUrl + "/" + email
+    return this.httpClient.delete<boolean>(url).pipe(
+      catchError(this.handleError<boolean>("RemoveUser"))
+    )
+  }
 
 }
