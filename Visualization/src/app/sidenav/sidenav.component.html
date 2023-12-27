@@ -39,8 +39,14 @@
                     [multiple]="multiple"
                     [expanded]="data.expanded"
                 ></app-sublevel-menu>
-            </div>            
+            </div>        
         </li>
+        <a class="btn-logout" (click)="logout()">
+            <i class="fal fa-sign-out"></i>
+            <span class="btn-logout-text" @fadeInOut *ngIf="collapsed">
+                Sign Out
+            </span>
+        </a>
         </ul>
-    </div>
+    </div>  
 </div>

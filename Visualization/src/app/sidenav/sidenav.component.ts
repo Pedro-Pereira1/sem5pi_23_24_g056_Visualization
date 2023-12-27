@@ -86,7 +86,10 @@ export class SidenavComponent implements OnInit{
     item.expanded = !item.expanded;
   }
 
-
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
 
   getActiveClass(data: INavbarData): string {
     return this.router.url.includes(data.routerLink) ? 'active' : '';
