@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "Auth" as GI
+participant "FileSystem" as FS
+
+?o-> Visualization:
+activate Visualization
+
+
+Visualization -> GI: GET userInfo
+activate GI
+
+GI -> GI: getUserInfo(id)
+
+GI --> Visualization: user info
+deactivate GI
+
+Visualization -> FS: user Info Json file
+
+<-- Visualization:
+deactivate Visualization
+
+@enduml

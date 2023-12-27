@@ -1,34 +1,66 @@
-<h1>User Data</h1>
-
-<form [formGroup]="createForm" (ngSubmit)="onSubmit()">
-    <div class="form__group field">
-        <input type="text" class="form__field" id='name'  formControlName="name">
-        <label for="name" class="form__label">Name</label>
-    </div>
-    
-    <div class="form__group field">
-        <input type="string" class="form__field" id='email' formControlName="email" required/>
-        <label for="email" class="form__label">Email</label>
-    </div>
-
-    <div class="form__group field">
-        <input type="text" class="form__field" id='phoneNumber' formControlName="phoneNumber">
-        <label for="phoneNumber" class="form__label">Phone Number</label>
-    </div>
-
-    <div class="form__group field">
-        <input type="text" class="form__field" id='password' formControlName="password">
-        <label for="password" class="form__label">Password</label>
-    </div>
-
-    <div class="form__group field">
-        <select class="form_select" formControlName="role" >
-            <option value="">--Select a role--</option>
-            <option *ngFor="let role of roleTypes" [value]="role.toString()">{{ role.toString() }}</option>
-        </select>
-    </div>
-
+<div>
     <div>
-        <button>Create</button>
+        <div >
+            <div>
+                <img width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+            </div>
+        </div>
+        <div>
+            <div>
+                <div>
+                    <h4>Profile Settings</h4>
+                </div>
+                <div>
+
+                    <form [formGroup]="userForm">
+                        <div class="form__group field">
+                            <input type="text" class="form__field" id='name'  formControlName="name">
+                            <label for="name" class="form__label">Name</label>
+                        </div>
+
+                        <div class="form__group field">
+                            <input type="text" class="form__field" id='email' formControlName="email" [readOnly]="true"/>
+                            <label for="email" class="form__label">Email</label>
+                        </div>
+
+                        <div class="form__group field">
+                            <input type="text" class="form__field" id='phoneNumber' formControlName="phoneNumber">
+                            <label for="phoneNumber" class="form__label">Phone Number</label>
+                        </div>
+
+                      <div class="form__group field">
+                        <input type="text" class="form__field" id='taxPayerNumber' formControlName="taxPayerNumber">
+                        <label for="taxPayerNumber" class="form__label">Tax Payer Number</label>
+                      </div>
+
+                        <div class="form__group field" [style.visibility]="passwordVisibility ? 'visible' : 'hidden'">
+                            <input type="password" class="form__field" id='password' formControlName="password">
+                            <label for="password" class="form__label">Password</label>
+                          </div>
+
+                        <div class="form__group field">
+                            <select class="form_select" formControlName="role" >
+                                <option value="">User</option>
+                            </select>
+                        </div>
+                    </form>
+
+                </div>
+                <div>
+                    <button (click)="editProfile()" >Edit Profile</button>
+                    <button (click)="deleteProfile()" style="margin-left: 10px;">Delete Profile</button>
+                    <button (click)="dowloadData()" style="margin-left: 10px;">Dowload My Personal Data</button>
+                  <div *ngIf="wantsToDeleteProfile">
+                    <h2>Are you sure you want to delete your profile? (This action is irreversible)</h2>
+                    <button (click)="confirmDeleteProfile()" style="margin-left: 10px;">Yes</button>
+                    <button (click)="cancelDeleteProfile()" style="margin-left: 10px;">No</button>
+                  </div>
+                  <div *ngIf="confirmEdit">
+                    <button (click)="confirmUpdate()" style="margin-left: 10px;">Submit</button>
+                  </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-</form>
+</div>

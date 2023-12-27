@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+
+skinparam actorStyle awesome
+
+actor "UI User" as FM
+
+
+package  RobDroneGo  {
+
+  usecase "Copy personal data" as UC18
+
+}
+
+FM --> UC18
+
+@enduml

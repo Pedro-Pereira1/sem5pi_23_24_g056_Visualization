@@ -1,0 +1,24 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "Auth" as GI
+
+?o-> Visualization:
+activate Visualization
+
+
+Visualization -> GI: DELETE removeUser
+activate GI
+
+GI -> GI: DeleteUser(id)
+
+GI --> Visualization: boolean
+deactivate GI
+
+
+<-- Visualization:
+deactivate Visualization
+
+@enduml
