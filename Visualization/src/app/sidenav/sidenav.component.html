@@ -32,7 +32,7 @@
                     {{data.label}}
                 </span>
             </a>
-            <div *ngIf="collapsed && data.items && data.items.length>0">
+            <div *ngIf="(collapsed && data.items && data.items.length>0) && checkPermission(data)">
                 <app-sublevel-menu
                     [data]="data"
                     [collapsed]="collapsed"

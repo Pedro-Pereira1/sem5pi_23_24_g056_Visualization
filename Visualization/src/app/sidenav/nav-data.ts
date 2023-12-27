@@ -161,11 +161,6 @@ export const navbarData: INavbarData[] = [
         permission: ['Admin']
     },
     {
-        routerLink: 'user-data',
-        icon: 'fal fa-user',
-        label: 'User Data'
-    },
-    {
         routerLink: 'tasks-backoffice',
         icon: 'fal fa-tasks',
         label: 'Tasks',
@@ -189,4 +184,9 @@ export const navbarData: INavbarData[] = [
             }
         ]
     },
+    {
+        routerLink: 'user-data',
+        icon: 'fal fa-user',
+        label: 'User Data'
+    }
 ];

@@ -12,6 +12,7 @@ import { CampusGuard } from './guard/campus.guard';
 import { RobotsGuard } from './guard/robots.guard';
 import { BackofficeGuard } from './guard/backoffice.guard';
 import { View3DGuard } from './guard/view3d.guard';
+import { TasksBackofficeGuard } from './guard/tasks-backoffice.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'auth/login', pathMatch: 'full'},
@@ -38,7 +39,7 @@ const routes: Routes = [
   {path: 'user-data', component: UserDataComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'privacy', component: PrivacyComponent},
   {path: 'tasks-backoffice', 
-  loadChildren: () => import('./tasks-backoffice/tasks-backoffice.module').then(m => m.TasksBackofficeModule), canActivate: [BackofficeGuard]},
+  loadChildren: () => import('./tasks-backoffice/tasks-backoffice.module').then(m => m.TasksBackofficeModule), canActivate: [TasksBackofficeGuard]},
 ];
 
 @NgModule({
