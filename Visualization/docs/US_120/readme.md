@@ -10,9 +10,9 @@
 
 ## 3. Analysis
 
-### Questions to the client
-
 **Regarding this requirement we understand that:**
+
+
 As an actor of the system, I want to be able to delete my account.
 When I delete my account, I want to be sure that my personal data is deleted.
 
