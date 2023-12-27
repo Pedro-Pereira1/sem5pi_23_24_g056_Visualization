@@ -207,3 +207,8 @@ select{
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+
+
+  .col-md-5 border-right{
+    margin-left: 100px;
+  }

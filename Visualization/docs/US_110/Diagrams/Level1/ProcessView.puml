@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "User" as CM
+
+CM -> System: Starts the process to copy personal data
+activate System
+System --> CM: Send a copy of personal data
+deactivate System
+
+@enduml

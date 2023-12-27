@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "User" as CM
+
+CM -> System: Starts the process to delete personal data
+activate System
+System --> CM: Informs operation success
+deactivate System
+
+@enduml

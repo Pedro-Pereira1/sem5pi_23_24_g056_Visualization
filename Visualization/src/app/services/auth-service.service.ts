@@ -17,7 +17,6 @@ export class AuthServiceService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      this.logout()
       console.error(error)
       console.log(`${operation} failed: ${error.message}`)
       return of (result as T)
@@ -36,7 +35,7 @@ export class AuthServiceService {
   public register(dto: RegisterUserDto) {
     const url = this.authUrl
     return this.httpClient.post<UserDto>(url, dto).pipe(
-      catchError(this.handleError<UserDto>("register"))
+      catchError(this.handleError<UserDto>("register", undefined))
     )
   }
 
@@ -68,5 +67,33 @@ export class AuthServiceService {
         return throwError(errorMessage);
       })
     );
+  }
+
+
+  public getEmailByToken(token: any) {
+    let _token = token.split('.')[1];
+    let tokenParsed = JSON.parse(atob(_token));
+    return tokenParsed['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+  }
+
+  public getUserInfo(email: string): Observable<UserDto> {
+    const url = this.authUrl + "/" + email
+    return this.httpClient.get<UserDto>(url).pipe(
+      catchError(this.handleError<UserDto>("GetUserInfo"))
+    )
+  }
+
+  public removeUser(email: string): Observable<boolean> {
+    const url = this.authUrl + "/" + email
+    return this.httpClient.delete<boolean>(url).pipe(
+      catchError(this.handleError<boolean>("RemoveUser"))
+    )
+  }
+
+  public updateUser(dto: UserDto): Observable<UserDto> {
+    const url = this.authUrl + "/" + "edit"
+    return this.httpClient.put<UserDto>(url, dto).pipe(
+      catchError(this.handleError<UserDto>("UpdateUser"))
+    )
   }
 }
