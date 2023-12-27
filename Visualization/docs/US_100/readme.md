@@ -12,7 +12,15 @@
 
 ### Questions to the client
 
+> Q:Que dados pessoais é que o utente pode alterar?
+> <br>A: todos à exceção do email que serve para identificar o cliente.
+
+> Q: A password do utilizador é expectável poder ser alterada neste caso de uso?
+Ou isso seria algo a fazer noutra funcionalidade do software?
+> <br>A: a alteração de password faz parte de outro conjunto de casos de uso
+
 **Regarding this requirement we understand that:**
+
 As an actor of the system, I want to be able to change my personal data.
 When I press the button to edit my account, the name, taxpayer number and phone number should be unlocked for the user to change.
 After pressing the button to save the changes, the system should validate the data and if it is correct, the data should be changed and the user should be notified that the data has been changed successfully.
