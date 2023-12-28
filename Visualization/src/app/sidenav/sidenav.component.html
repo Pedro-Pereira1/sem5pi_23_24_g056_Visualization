@@ -32,15 +32,21 @@
                     {{data.label}}
                 </span>
             </a>
-            <div *ngIf="collapsed && data.items && data.items.length>0">
+            <div *ngIf="(collapsed && data.items && data.items.length>0) && checkPermission(data)">
                 <app-sublevel-menu
                     [data]="data"
                     [collapsed]="collapsed"
                     [multiple]="multiple"
                     [expanded]="data.expanded"
                 ></app-sublevel-menu>
-            </div>            
+            </div>        
         </li>
+        <a class="btn-logout" (click)="logout()">
+            <i class="fal fa-sign-out"></i>
+            <span class="btn-logout-text" @fadeInOut *ngIf="collapsed">
+                Sign Out
+            </span>
+        </a>
         </ul>
-    </div>
+    </div>  
 </div>

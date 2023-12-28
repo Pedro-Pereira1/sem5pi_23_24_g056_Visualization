@@ -146,7 +146,8 @@ export const navbarData: INavbarData[] = [
     {
         routerLink: 'view3d',
         icon: 'fal fa-cubes',
-        label: '3D View'
+        label: '3D View',
+        permission: ['FleetManager', 'CampusManager', 'TaskManager']
     },
     {
         routerLink: 'shortest-path',
@@ -158,6 +159,30 @@ export const navbarData: INavbarData[] = [
         icon: 'fal fa-user',
         label: 'Backoffice Users',
         permission: ['Admin']
+    },
+    {
+        routerLink: 'tasks-backoffice',
+        icon: 'fal fa-tasks',
+        label: 'Tasks',
+        permission: ['TaskManager'],
+        items: [
+            {
+                routerLink: 'tasks-backoffice/requestApproval',
+                label: 'Request Approval'
+            },
+            {
+                routerLink: 'tasks-backoffice/list/notApproved',
+                label: 'List Not Approved'
+            },
+            {
+                routerLink: 'tasks-backoffice/list/requests',
+                label: 'List Requests'
+            },
+            {
+                routerLink: 'tasks-backoffice/list/approved',
+                label: 'List Approved'
+            }
+        ]
     },
     {
         routerLink: 'user-data',

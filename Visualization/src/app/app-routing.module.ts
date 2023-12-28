@@ -11,6 +11,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { CampusGuard } from './guard/campus.guard';
 import { RobotsGuard } from './guard/robots.guard';
 import { BackofficeGuard } from './guard/backoffice.guard';
+import { View3DGuard } from './guard/view3d.guard';
+import { TasksBackofficeGuard } from './guard/tasks-backoffice.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'auth/login', pathMatch: 'full'},
@@ -30,12 +32,14 @@ const routes: Routes = [
   loadChildren: () => import('./robot-types/robot-types.module').then(m => m.RobotTypesModule), canActivate: [RobotsGuard]},
   {path: 'robots', 
   loadChildren: () => import('./robots/robots.module').then(m => m.RobotsModule), canActivate: [RobotsGuard]},
-  {path: 'view3d', component: View3dComponent, canActivate: [VerifyAuthServiceService]},
+  {path: 'view3d', component: View3dComponent, canActivate: [View3DGuard]},
   {path: 'shortest-path', component: ShortestPathComponent, canActivate: [VerifyAuthServiceService]},
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
   {path: 'backoffice-user', component: BackofficeUserComponent, canActivate: [BackofficeGuard]},
   {path: 'user-data', component: UserDataComponent, canActivate: [VerifyAuthServiceService]},
-  {path: 'privacy', component: PrivacyComponent}
+  {path: 'privacy', component: PrivacyComponent},
+  {path: 'tasks-backoffice', 
+  loadChildren: () => import('./tasks-backoffice/tasks-backoffice.module').then(m => m.TasksBackofficeModule), canActivate: [TasksBackofficeGuard]},
 ];
 
 @NgModule({

@@ -1,4 +1,4 @@
-.sidenav{
+.sidenav {
     background: #263238;
     transition: all .5s ease;
     position: fixed;
@@ -9,54 +9,54 @@
     box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
 
 
-    .logo-container{
+    .logo-container {
         display: flex;
         align-items: center;
         padding: 0.938rem 0.938rem 0.938rem;
-        width: 100%;  
+        width: 100%;
     }
 
-        .logo{
-            background: #fff;
-            text-align: center;
-            width: 3rem;
-            min-width: 3rem;
-            border-radius: 0.313rem;
-            padding: 0.313rem;
-            font-size: 24px;
-            font-weight: 900;
-            cursor: pointer;
-            border: none;
-        }
+    .logo {
+        background: #fff;
+        text-align: center;
+        width: 3rem;
+        min-width: 3rem;
+        border-radius: 0.313rem;
+        padding: 0.313rem;
+        font-size: 24px;
+        font-weight: 900;
+        cursor: pointer;
+        border: none;
+    }
 
-        .logo-text{
-            margin-left: 1.5rem;
-            font-size: 24px;
-            font-weight: 700;
+    .logo-text {
+        margin-left: 1.5rem;
+        font-size: 24px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .btn-close {
+        margin-left: auto;
+        cursor: pointer;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: transparent;
+        border: none;
+
+        .fa-times {
             color: #fff;
+            font-size: 24px;
         }
-
-        .btn-close {
-            margin-left: auto;
-            cursor: pointer;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            background-color: transparent;
-            border: none;
-
-                .fa-times{
-                    color: #fff;
-                    font-size: 24px;
-                }
-        }
+    }
 }
 
-.sidenav-collapsed{
-    width: 16.5625rem;    
+.sidenav-collapsed {
+    width: 16.5625rem;
 }
 
-.sidenav-nav{
+.sidenav-nav {
     list-style: none;
     padding: 0.938rem;
     margin: 0;
@@ -65,11 +65,11 @@
     align-items: center;
     cursor: pointer;
 
-    .sidenav-nav-item{
+    .sidenav-nav-item {
         width: 100%;
         margin-bottom: 0.225rem;
 
-        .sidenav-nav-link{
+        .sidenav-nav-link {
             display: flex;
             align-items: center;
             height: 3rem;
@@ -78,7 +78,7 @@
             border-radius: 0.625rem;
             transition: color .3s ease;
 
-            .sidenav-link-icon{
+            .sidenav-link-icon {
                 font-size: 22px;
                 width: 2rem;
                 min-width: 2rem;
@@ -86,22 +86,50 @@
                 text-align: center;
             }
 
-            .sidenav-link-text{
+            .sidenav-link-text {
                 margin: 1.5rem;
             }
         }
     }
 
-    .sidenav-nav-item:hover{
-        .sidenav-nav-link{
+    .sidenav-nav-item:hover {
+        .sidenav-nav-link {
             background-color: #fff;
             color: #000;
         }
     }
 
+    .btn-logout {
+        width: 100%;
+        margin-bottom: 0.225rem;
+        display: flex;
+        align-items: center;
+        height: 3rem;
+        color: #f3f3f3;
+        text-decoration: none;
+        border-radius: 0.625rem;
+        transition: color .3s ease;
+
+        .fa-sign-out {
+            font-size: 22px;
+            width: 2rem;
+            min-width: 2rem;
+            margin: 0 0.5rem;
+            text-align: center;
+        }
+
+        .btn-logout-text {
+            margin: 1.5rem;
+        }
+    }
+    .btn-logout:hover {
+        background-color: #fff;
+        color: #000;
+    }
+
 }
 
-.active{
+.active {
     background-color: #fff;
 
     .sidenav-link-icon,
@@ -122,7 +150,7 @@
 
 .active-sublevel {
     color: #f3f3f3;
-    opacity: 1 ;
+    opacity: 1;
 }
 
 .menu-collapse-icon {

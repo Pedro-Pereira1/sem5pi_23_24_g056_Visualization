@@ -1,0 +1,15 @@
+@startuml ProcessView
+
+autonumber
+
+participant Visualization
+
+
+?o-> Visualization: See menu
+activate Visualization
+
+<-- Visualization: Show menu
+deactivate Visualization
+
+
+@enduml

@@ -24,59 +24,31 @@ As a User of the system with a specific role (Admin, Campus Manager, Fleet Manag
 
 - Task Manager: User role that manages the data of the tasks. 
 
-### 3.1. Domain Model Excerpt
-![DomainModelExcerpt](Diagrams/DomainModelExcerpt.svg)
-
-
 ## 4. Design
 
 ### 4.1. Realization
 
 ### Level1
-###### LogicalView:
-![LogicalView](Diagrams/Level1/LogicalView.svg)
-
-###### SceneryView:
-![SceneryView](Diagrams/Level1/SceneryView.svg)
 
 ###### ProcessView:
 ![ProcessView](Diagrams/Level1/ProcessView.svg)
 
 #### Level2
 
-###### LogicalView:
-
-![LogicalView](Diagrams/Level2/LogicalView.svg)
-
-###### ImplementationView:
-![ImplementationView](Diagrams/Level2/ImplementationView.svg)
-
-###### PhysicalView:
-![PhysicalView](Diagrams/Level2/PhysicalView.svg)
-
 ###### ProcessView:
 ![ProcessView](Diagrams/Level2/ProcessView.svg)
 
 #### Level3
-###### LogicalView:
-![LogicalView](Diagrams/Level3/LogicalView.svg)
 
-###### ImplementationView:
-![ImplementationView](Diagrams/Level3/ImplementationView.svg)
-
-###### ProcessView:
+###### ProcessView of Side Nav Menu Options:
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
+###### ProcessView when Routing to Menus:
+![ProcessView2](Diagrams/Level3/ProcessViewRouting.svg)
+
 ### 4.3. Applied Patterns
-* Pipe
-* Directive
+* Guard
 * Service
-
-### 4.4. Tests
-
-``` typescript
-
-```
 
 ## 5. Implementation
 
