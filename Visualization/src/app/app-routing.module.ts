@@ -13,6 +13,8 @@ import { RobotsGuard } from './guard/robots.guard';
 import { BackofficeGuard } from './guard/backoffice.guard';
 import { View3DGuard } from './guard/view3d.guard';
 import { TasksBackofficeGuard } from './guard/tasks-backoffice.guard';
+import { TasksUsersComponent } from './tasks-users/tasks-users.component';
+import { TasksUsersGuard } from './guard/tasks-users.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'auth/login', pathMatch: 'full'},
@@ -40,6 +42,7 @@ const routes: Routes = [
   {path: 'privacy', component: PrivacyComponent},
   {path: 'tasks-backoffice', 
   loadChildren: () => import('./tasks-backoffice/tasks-backoffice.module').then(m => m.TasksBackofficeModule), canActivate: [TasksBackofficeGuard]},
+  {path: 'tasks-users', component: TasksUsersComponent, canActivate: [TasksUsersGuard]}
 ];
 
 @NgModule({

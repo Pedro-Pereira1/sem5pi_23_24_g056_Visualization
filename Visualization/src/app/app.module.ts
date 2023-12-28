@@ -16,6 +16,7 @@ import { BackofficeUserComponent } from './backoffice-user/backoffice-user.compo
 import { UserDataComponent } from './user-data/user-data.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { AuthenticationInterceptorService } from './Interceptors/authentication-interceptor.service';
+import { TasksUsersComponent } from './tasks-users/tasks-users.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AuthenticationInterceptorService } from './Interceptors/authentication-
     BackofficeUserComponent,
     UserDataComponent,
     PrivacyComponent,
+    TasksUsersComponent,
   ],
   imports: [
     BrowserModule,
