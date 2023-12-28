@@ -58,7 +58,7 @@ When I delete my account, I want to be sure that my personal data is deleted.
 ### 4.2. Applied Patterns
 
 * Service
-* Guard
+* Directive
 * Repository
 
 ### 4.3. Tests
