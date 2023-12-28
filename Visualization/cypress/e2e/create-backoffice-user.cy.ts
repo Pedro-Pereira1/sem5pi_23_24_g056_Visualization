@@ -1,6 +1,21 @@
 describe('Create Backoffice User', function () {
 
     beforeEach(() => {
+        cy.visit('/auth/login')
+        cy.request({
+          method: 'POST',
+          url: 'https://localhost:7094/api/users/login',
+          body: {
+            email: 'admin@isep.ipp.pt',
+            password: '123456789aA!'
+          }
+        })
+        .then((resp) => {
+          localStorage.removeItem('token');
+          const token = JSON.stringify(resp.body.token);;
+          localStorage.setItem('token', token);
+        });
+
         cy.intercept('POST', 'https://localhost:7094/api/users/backoffice', {
             statusCode: 200,
             body:
@@ -12,8 +27,6 @@ describe('Create Backoffice User', function () {
             }
         }).as('create');
 
-
-        localStorage.setItem('token', 'something')
         cy.visit('/backoffice-user')
     });
 

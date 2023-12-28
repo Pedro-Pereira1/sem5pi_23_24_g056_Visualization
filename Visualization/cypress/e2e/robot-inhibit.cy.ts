@@ -2,6 +2,20 @@ describe('Inhibit robot', function () {
     let callCount = 0;
 
     beforeEach(() => {
+        cy.visit('/auth/login')
+        cy.request({
+          method: 'POST',
+          url: 'https://localhost:7094/api/users/login',
+          body: {
+            email: 'fleetmanager@isep.ipp.pt',
+            password: '123456789aA!'
+          }
+        })
+        .then((resp) => {
+          localStorage.removeItem('token');
+          const token = JSON.stringify(resp.body.token);;
+          localStorage.setItem('token', token);
+        });
 
         cy.intercept('GET', 'http://localhost:4000/api/robots/listAll', (req) => {
             callCount++;
@@ -65,7 +79,6 @@ describe('Inhibit robot', function () {
             }
         }).as('inhibitRobot')
 
-        localStorage.setItem('token', 'something')
         cy.visit('/robots/inhibitRobot')
     });
 
