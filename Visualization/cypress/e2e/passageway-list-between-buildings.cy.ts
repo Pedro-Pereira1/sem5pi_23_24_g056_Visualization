@@ -1,5 +1,19 @@
 describe('Passageway list between buildings', function () {
     beforeEach(() => {
+      cy.visit('/auth/login')
+        cy.request({
+          method: 'POST',
+          url: 'https://localhost:7094/api/users/login',
+          body: {
+            email: 'campusmanager@isep.ipp.pt',
+            password: '123456789aA!'
+          }
+        })
+        .then((resp) => {
+          localStorage.removeItem('token');
+          const token = JSON.stringify(resp.body.token);;
+          localStorage.setItem('token', token);
+        });
   
       cy.intercept('GET', 'http://localhost:4000/api/passageways/list/building1/A/building2/B', {
         statusCode: 200,
@@ -18,7 +32,6 @@ describe('Passageway list between buildings', function () {
       }).as('list');
   
   
-        localStorage.setItem('token', 'something')
       cy.visit('/passageways/list')
     });
   

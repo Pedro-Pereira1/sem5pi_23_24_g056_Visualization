@@ -1,5 +1,19 @@
 describe('Create Room Page Test', function() {
   beforeEach(() => {
+    cy.visit('/auth/login')
+        cy.request({
+          method: 'POST',
+          url: 'https://localhost:7094/api/users/login',
+          body: {
+            email: 'campusmanager@isep.ipp.pt',
+            password: '123456789aA!'
+          }
+        })
+        .then((resp) => {
+          localStorage.removeItem('token');
+          const token = JSON.stringify(resp.body.token);;
+          localStorage.setItem('token', token);
+        });
 
     cy.intercept('POST', 'http://localhost:4000/api/rooms/createRoom', {
       statusCode: 201,
@@ -11,7 +25,6 @@ describe('Create Room Page Test', function() {
       }
     }).as('createRoom')
 
-        localStorage.setItem('token', 'something')
     cy.visit('/rooms/createRoom')
 
   });

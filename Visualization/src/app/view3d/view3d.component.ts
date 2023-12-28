@@ -67,12 +67,28 @@ export class View3dComponent implements OnDestroy {
 		const theModel = this.modelFile
 
 		if (theFloor?.floorMap.map.length! > 0) {
-			this.initialize(theFloor!, theModel!,0,0);
-			this.animate = this.animate.bind(this);
-			this.animate();
+			if (this.modelFile == null) {
+				console.log("No model file found, using default model");
+				this.defaultModel(theFloor!);
+			} else {
+				this.initialize(theFloor!, theModel!,0,0);
+				this.animate = this.animate.bind(this);
+				this.animate();
+			}
 		} else {
 			alert("No floor map found");
 		}
+	}
+
+	defaultModel(theFloor: Floor) {
+		fetch("../../assets/View3D/models/gltf/RobotExpressive/robot1.glb")
+		.then(res => res.blob())
+		.then(blob => {
+			const file: File = new File([blob], "robot1.glb");
+			this.initialize(theFloor!, file,0,0);
+			this.animate = this.animate.bind(this);
+			this.animate();
+		})
 	}
 
 	updateFloorFile(floor: Floor, initialPositionX: Number, initialPositionY: Number): FloorMapRender {
