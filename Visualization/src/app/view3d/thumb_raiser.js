@@ -151,7 +151,12 @@ import { View3dComponent } from "./view3d.component";
  */
 
 export default class ThumbRaiser {
-    constructor(floorMapParameters,passagewayService,elevatorService, myCanvas, generalParameters, mazeParameters, playerParameters, lightsParameters, fogParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
+    constructor(floorMapParameters,passagewayService,elevatorService,
+         myCanvas, generalParameters, mazeParameters, playerParameters,
+          lightsParameters, fogParameters, fixedViewCameraParameters,
+           firstPersonViewCameraParameters, thirdPersonViewCameraParameters,
+            topViewCameraParameters, miniMapCameraParameters, autoPilot = false, path = []) {
+
         this.generalParameters = merge({}, generalData, generalParameters);
         this.mazeParameters = merge({}, mazeParameters);
         this.playerParameters = merge({}, playerParameters);
@@ -167,6 +172,10 @@ export default class ThumbRaiser {
         this.floorMapParameters = floorMapParameters
         // Create a 2D scene (the viewports frames)
         this.scene2D = new THREE.Scene();
+        this.autoPilot = autoPilot
+        this.path = path
+        this.iteration = 0
+        this.pathFloor = 0
 
         // Create a square
         let points = [new THREE.Vector3(0.0, 0.0, 0.0), new THREE.Vector3(1.0, 0.0, 0.0), new THREE.Vector3(1.0, 1.0, 0.0), new THREE.Vector3(0.0, 1.0, 0.0)];
@@ -267,10 +276,10 @@ export default class ThumbRaiser {
         window.addEventListener("resize", event => this.windowResize(event));
 
         // Register the event handler to be called on key down
-        document.addEventListener("keydown", event => this.keyChange(event, true));
+        document.addEventListener("keydown", this.keydownListener);
 
         // Register the event handler to be called on key release
-        document.addEventListener("keyup", event => this.keyChange(event, false));
+        document.addEventListener("keyup", this.keyupListener);
 
         // Register the event handler to be called on mouse down
         this.renderer.domElement.addEventListener("mousedown", event => this.mouseDown(event));
@@ -305,6 +314,9 @@ export default class ThumbRaiser {
 
         this.activeElement = document.activeElement;
     }
+
+    keydownListener = event => this.keyChange(event, true);
+    keyupListener = event => this.keyChange(event, false);
 
     buildHelpPanel() {
         const table = document.getElementById("help-table");
@@ -678,11 +690,98 @@ export default class ThumbRaiser {
                 // Create the user interface
                 this.userInterface = new UserInterface(this.scene3D, this.renderer, this.lights, this.fog, this.player.object, this.animations);
 
+                // prepares autopilot
+                if (this.autoPilot) {
+                    document.removeEventListener("keydown", this.keydownListener);
+                    document.removeEventListener("keyup", this.keyupListener);
+                }
+
                 // Start the game
                 this.gameRunning = true;
             }
-        }
-        else {
+        } else {
+            //console.log(this.maze.cartesianToCell('actual ' + this.player.position))
+            //console.log(this.player.direction)
+
+            //console.log('caminho ' + this.path)
+            //console.log('iteracao ' + this.iteration)
+            //console.log('to ' + this.path[0][this.iteration][0] + ' ' + this.path[0][this.iteration][1])
+
+            if (this.autoPilot) {
+
+                if (!this.path.length > 0) {
+                    this.autoPilot = false;
+                    document.addEventListener("keydown", this.keydownListener);
+                    document.addEventListener("keyup", this.keyupListener);
+
+                } else {
+                    let actualPos = this.maze.cartesianToCell(this.player.position);
+                    //console.log('to ' + this.path[0][0][0])
+
+                    if (actualPos[0] == this.path[this.pathFloor][this.iteration][0] &&
+                        actualPos[1] == this.path[this.pathFloor][this.iteration][1]) { // Ya == Yp && Xa == Xp
+
+                        this.player.keyStates.forward = false;
+                        this.player.keyStates.backward = false;
+                        //this.player.keyStates.left = false;
+                        //this.player.keyStates.right = false;
+                        this.iteration++
+
+                        if (this.path[this.pathFloor][this.iteration] === undefined) {
+                            this.pathFloor++
+                            this.iteration = 0
+
+                            if (this.path[this.pathFloor] === undefined) {
+                                this.autoPilot = false;
+                                document.addEventListener("keydown", this.keydownListener);
+                                document.addEventListener("keyup", this.keyupListener);
+                            }
+                        } 
+
+                    } else if (actualPos[0] == this.path[this.pathFloor][this.iteration][0]) { // Ya == Yp
+                        if (actualPos[1] < this.path[this.pathFloor][this.iteration][1]) {        // Xa < Xp
+                            this.player.direction = 90
+                            this.player.keyStates.forward = true;
+                            console.log('direita')
+                        } else {
+                            this.player.direction = 270
+                            this.player.keyStates.forward = true;
+                            console.log('esquerda')
+                        }
+                    } else if (actualPos[1] == this.path[this.pathFloor][this.iteration][1]) { //Xa == Xp
+                        if (actualPos[0] < this.path[this.pathFloor][this.iteration][0]) {        // Ya < Yp
+                            this.player.direction = 0
+                            this.player.keyStates.forward = true;
+                            console.log('frente')
+                        } else {
+                            this.player.direction = 180
+                            this.player.keyStates.forward = true;
+                            console.log('tras')
+                        }
+                    } else if (actualPos[0] < this.path[this.pathFloor][this.iteration][0]) { // Ya < Yp
+                        if (actualPos[1] < this.path[this.pathFloor][this.iteration][1]) {        // Xa < Xp
+                            this.player.direction = 90
+                            this.player.keyStates.forward = true;
+                            console.log('direita')
+                        } else {
+                            this.player.direction = 270
+                            this.player.keyStates.forward = true;
+                            console.log('esquerda')
+                        }
+                    } else if (actualPos[1] < this.path[this.pathFloor][this.iteration][1]) { //Xa < Xp
+                        if (actualPos[0] < this.path[this.pathFloor][this.iteration][0]) {        // Ya < Yp
+                            this.player.direction = 0
+                            this.player.keyStates.forward = true;
+                            console.log('frente')
+                        } else {
+                            this.player.direction = 180
+                            this.player.keyStates.forward = true;
+                            console.log('tras')
+                        }
+                    } 
+                }
+            }
+
             // Update the model animations
             const deltaT = this.clock.getDelta();
             this.animations.update(deltaT);
@@ -777,8 +876,8 @@ export default class ThumbRaiser {
                     });
                     
                     
-                }
-                else {
+                } else {
+
                     let coveredDistance = this.player.walkingSpeed * deltaT;
                     let directionIncrement = this.player.turningSpeed * deltaT;
                     if (this.player.keyStates.run) {
@@ -932,6 +1031,8 @@ export default class ThumbRaiser {
     
     }
 
+
     
 
 }
+

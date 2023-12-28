@@ -85,6 +85,7 @@ export class View3dComponent implements OnDestroy {
 		.then(res => res.blob())
 		.then(blob => {
 			const file: File = new File([blob], "robot1.glb");
+			this.modelFile = file;
 			this.initialize(theFloor!, file,0,0);
 			this.animate = this.animate.bind(this);
 			this.animate();
@@ -158,7 +159,9 @@ export class View3dComponent implements OnDestroy {
 			{ view: "first-person", multipleViewsViewport: new THREE.Vector4(1.0, 1.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -10.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0 }, // First-person view camera parameters
 			{ view: "third-person", multipleViewsViewport: new THREE.Vector4(0.0, 0.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -20.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0 }, // Third-person view camera parameters
 			{ view: "top", multipleViewsViewport: new THREE.Vector4(1.0, 0.0, 0.45, 0.5), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0 }, // Top view camera parameters
-			{ view: "mini-map", multipleViewsViewport: new THREE.Vector4(0.99, 0.02, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64 } // Mini-msp view camera parameters
+			{ view: "mini-map", multipleViewsViewport: new THREE.Vector4(0.99, 0.02, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64 }, // Mini-msp view camera parameters
+			//true,
+			//this.path 
 		);
 	}
 
@@ -234,5 +237,23 @@ export class View3dComponent implements OnDestroy {
 		return null;
 	}
 	
-
+	path = [
+		[					// floor 0
+			[0,4],
+			//[2,2],
+			//[0,2],
+			//[0,0],
+			//[2,2],
+			//[3,2],
+			[4,4],
+			[4,6],
+			[4,7],
+			[4,8],
+			[4,9],
+			[4,18],
+		],
+		//[
+		//
+		//]
+	]
 }
