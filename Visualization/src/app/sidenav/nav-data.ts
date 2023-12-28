@@ -188,5 +188,11 @@ export const navbarData: INavbarData[] = [
         routerLink: 'user-data',
         icon: 'fal fa-user',
         label: 'User Data'
+    },
+    {
+        routerLink: 'tasks-users',
+        icon: 'fal fa-tasks',
+        label: 'Request Task',
+        permission: ['Utente']
     }
 ];
