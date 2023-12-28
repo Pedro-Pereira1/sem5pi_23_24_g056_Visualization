@@ -67,6 +67,10 @@ After pressing the button to save the changes, the system should validate the da
 
 ### 4.2. Applied Patterns
 
+* Repository
+* Directive
+* Service
+
 ### 4.3. Tests
 
 **Test 1:** *Controller Test with valid user*
