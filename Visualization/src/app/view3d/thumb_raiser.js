@@ -262,7 +262,7 @@ export default class ThumbRaiser {
         this.userInterfaceCheckBox = document.getElementById("user-interface");
         this.userInterfaceCheckBox.checked = true;
         this.miniMapCheckBox = document.getElementById("mini-map");
-        this.miniMapCheckBox.checked = true;
+        this.miniMapCheckBox.checked = false;
         this.helpCheckBox = document.getElementById("help");
         this.helpCheckBox.checked = false;
         this.statisticsCheckBox = document.getElementById("statistics");
@@ -272,7 +272,7 @@ export default class ThumbRaiser {
         this.buildHelpPanel();
 
         // Set the active view camera (fixed view)
-        this.setActiveViewCamera(this.fixedViewCamera);
+        this.setActiveViewCamera(this.thirdPersonViewCamera);
 
         // Arrange viewports by view mode
         this.arrangeViewports(this.multipleViewsCheckBox.checked);
@@ -715,6 +715,7 @@ export default class ThumbRaiser {
             // Check if the player found the exit
             let infoElement = document.getElementById('info');
             let elevatorElement = document.getElementById('elevatorPainel');
+            let floorElement = document.getElementById('info2');
 
             if (this.autoPilot) {
 
@@ -746,7 +747,7 @@ export default class ThumbRaiser {
                                 document.addEventListener("keydown", this.keydownListener);
                                 document.addEventListener("keyup", this.keyupListener);
                             }
-                        } 
+                        }
 
                     } else if (actualPos[0] == this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya == Yp
                         if (actualPos[1] < this.path[this.pathFloor][this.iteration][1] + 0.5) {        // Xa < Xp
@@ -788,45 +789,68 @@ export default class ThumbRaiser {
                             this.player.keyStates.forward = true;
                             console.log('tras2')
                         }
-                    } 
+                    }
                 }
 
                 if (this.maze.foundPassageway(this.player.position) && infoElement.style.visibility != 'visible') {
                     infoElement.innerHTML = 'You found a passageway. Press k!';
                     infoElement.style.visibility = 'visible';
 
+                    const videoContainer = document.getElementById('video-container');
+                    const videoElement = document.createElement('video');
+                    videoElement.src = './../../assets/View3D/animation_videos/PassagewayVideo.mp4';
+                    videoElement.style.width = '100%';
+                    videoElement.controls = false;
+                    videoElement.style.zIndex = '102'
+
+                    videoContainer.appendChild(videoElement);
+
                     const robotCoordX = this.maze.cartesianToCell(this.player.position)[1]
                     const robotCoordY = this.maze.cartesianToCell(this.player.position)[0]
                     let passagewaysCoords = this.floorMapParameters.floor.floorMap.passagewaysCoords
+
+                  videoElement.addEventListener('ended', function () {
+                    document.getElementById('video-container').style.display = 'none';
+
                     for (let i = 0; i < passagewaysCoords.length; i++) {
-                        if((passagewaysCoords[i][1] == robotCoordX && passagewaysCoords[i][2] == robotCoordY) ||
-                        (passagewaysCoords[i][3] == robotCoordX && passagewaysCoords[i][4] == robotCoordY)){
-                            this.passagewayService.findFloorsByPassageway(passagewaysCoords[i][0]).subscribe(
-                                floors => {
-                                    if(floors[0].floorId == this.floorMapParameters.floor.floorId){
-                                        const newFloorCoords = this.newFloorCoords(floors[1],passagewaysCoords[i][0])
-                                        const eventDetail = {
-                                            floor: floors[1], 
-                                            initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])], 
-                                        };
-                            const event = new CustomEvent('newFloorMap', { detail: eventDetail});
-                                        window.dispatchEvent(event);
-                                    }else{
-                                        const newFloorCoords = this.newFloorCoords(floors[0],passagewaysCoords[i][0])
-                                        const eventDetail = {
-                                            floor: floors[0], 
-                                            initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])], 
-                                        };
-                                        const event = new CustomEvent('newFloorMap', { detail: eventDetail});
-                                        window.dispatchEvent(event);
-                                    }
-                                },error => {
-                                            console.error('Error fetching passageways:', error);
-                                        }
-                                );
-                            break;
-                        }                      
+                      if ((passagewaysCoords[i][1] == robotCoordX && passagewaysCoords[i][2] == robotCoordY) ||
+                        (passagewaysCoords[i][3] == robotCoordX && passagewaysCoords[i][4] == robotCoordY)) {
+                        this.passagewayService.findFloorsByPassageway(passagewaysCoords[i][0]).subscribe(
+                          floors => {
+                            if (floors[0].floorId == this.floorMapParameters.floor.floorId) {
+                              const newFloorCoords = this.newFloorCoords(floors[1], passagewaysCoords[i][0])
+                              const eventDetail = {
+                                floor: floors[1],
+                                initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])],
+                              };
+
+                              const event = new CustomEvent('newFloorMap', {detail: eventDetail});
+                              window.dispatchEvent(event);
+                            } else {
+                              const newFloorCoords = this.newFloorCoords(floors[0], passagewaysCoords[i][0])
+                              const eventDetail = {
+                                floor: floors[0],
+                                initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])],
+                              };
+                              const event = new CustomEvent('newFloorMap', {detail: eventDetail});
+                              window.dispatchEvent(event);
+                            }
+                          }, error => {
+                            console.error('Error fetching passageways:', error);
+                          }
+                        );
+                        break;
+                      }
                     }
+                      floorElement.innerHTML = 'The robot is now on Floor ' + this.floorMapParameters.floor.floorNumber + ' of the next building.';
+                      floorElement.style.visibility = 'visible';
+                      setTimeout(function () {
+                        floorElement.style.visibility = 'hidden';
+                      }, 5000);
+
+                  }.bind(this));
+                  videoElement.play();
+
                     this.path.shift()
                     this.pathFloor--
                 }
@@ -846,7 +870,27 @@ export default class ThumbRaiser {
                             };
                             const nextFloorId = this.inOrderFloors.shift()
                             const nextFloor = this.buildingFloors.find(floor => floor.floorId === nextFloorId)
-                            this.useElevator(eventDetail.elevatorID, nextFloor)
+
+                          const videoContainer = document.getElementById('video-container');
+                          const videoElement = document.createElement('video');
+                          videoElement.src = './../../assets/View3D/animation_videos/ElevatorVideo.mp4';
+                          videoElement.style.width = '100%';
+                          videoElement.controls = false;
+                          videoElement.style.zIndex = '102'
+
+                          videoContainer.appendChild(videoElement);
+
+                          videoElement.addEventListener('ended', function () {
+                            document.getElementById('video-container').style.display = 'none';
+                            floorElement.innerHTML = 'The robot is now on Floor ' + nextFloor.floorNumber + '.';
+                            floorElement.style.visibility = 'visible';
+                            this.useElevator(eventDetail.elevatorID, nextFloor);
+                            setTimeout(function () {
+                              floorElement.style.visibility = 'hidden';
+                            }, 5000);
+                          }.bind(this));
+
+                          videoElement.play();
                            break;
                         }
                     }
@@ -865,8 +909,8 @@ export default class ThumbRaiser {
                 // Check if the player found the exit
                 //let infoElement = document.getElementById('info');
                 //let elevatorElement = document.getElementById('elevatorPainel');
-                
-                
+
+
                 if(!this.maze.foundPassageway(this.player.position) && !this.maze.foundElevator(this.player.position) && infoElement.style.visibility === 'visible'){
                     infoElement.style.visibility = 'hidden';
                     elevatorElement.style.visibility = 'hidden';
@@ -876,7 +920,7 @@ export default class ThumbRaiser {
                 if(this.maze.foundElevator(this.player.position) && infoElement.style.visibility != 'visible'){
                     infoElement.innerHTML = 'You found an elevator. Press q!';
                     infoElement.style.visibility = 'visible';
-                    
+
 
                     window.addEventListener('keydown', (event) => {
                         if ((event.key === 'q' || event.key === 'Q') && !active) {
@@ -910,7 +954,7 @@ export default class ThumbRaiser {
                     infoElement.style.visibility = 'visible';
 
                     window.addEventListener('keydown', (event) => {
-                        
+
                         if ((event.key === 'k' || event.key === 'K') && !active) {
                             active = true;
                             const robotCoordX = this.maze.cartesianToCell(this.player.position)[1]
@@ -924,16 +968,16 @@ export default class ThumbRaiser {
                                             if(floors[0].floorId == this.floorMapParameters.floor.floorId){
                                                 const newFloorCoords = this.newFloorCoords(floors[1],passagewaysCoords[i][0])
                                                 const eventDetail = {
-                                                    floor: floors[1], 
-                                                    initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])], 
+                                                    floor: floors[1],
+                                                    initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])],
                                                 };
                                                 const event = new CustomEvent('newFloorMap', { detail: eventDetail});
                                                 window.dispatchEvent(event);
                                             }else{
                                                 const newFloorCoords = this.newFloorCoords(floors[0],passagewaysCoords[i][0])
                                                 const eventDetail = {
-                                                    floor: floors[0], 
-                                                    initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])], 
+                                                    floor: floors[0],
+                                                    initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])],
                                                 };
                                                 const event = new CustomEvent('newFloorMap', { detail: eventDetail});
                                                 window.dispatchEvent(event);
@@ -943,12 +987,12 @@ export default class ThumbRaiser {
                                                 }
                                         );
                                         break;
-                                }                      
+                                }
                             }
                         }
                     });
-                    
-                    
+
+
                 } else {
 
                     let coveredDistance = this.player.walkingSpeed * deltaT;
@@ -966,7 +1010,7 @@ export default class ThumbRaiser {
                     const direction = THREE.MathUtils.degToRad(this.player.direction);
                     if (this.player.keyStates.backward) {
                         const newPosition = new THREE.Vector3(-coveredDistance * Math.sin(direction), 0.0, -coveredDistance * Math.cos(direction)).add(this.player.position);
-                      
+
                         if (this.collision(newPosition) || (this.collisionDoor(newPosition) && this.maze.doorState(newPosition) === "closed")) {
                             //this.animations.fadeToAction("Death", 0.2);
                         }
@@ -978,7 +1022,7 @@ export default class ThumbRaiser {
                     else if (this.player.keyStates.forward) {
                         const newPosition = new THREE.Vector3(coveredDistance * Math.sin(direction), 0.0, coveredDistance * Math.cos(direction)).add(this.player.position);
                         this.maze.closeDoors(newPosition);
-                        
+
                         if (this.collision(newPosition)) {
                             //this.animations.fadeToAction("Death", 0.2);
 
@@ -993,7 +1037,7 @@ export default class ThumbRaiser {
                                 }
                             }else{
                                 this.animations.fadeToAction(this.player.keyStates.run ? "Running" : "Walking", 0.2);
-                                this.player.position = newPosition;                    
+                                this.player.position = newPosition;
                             }
                         }
                     }
@@ -1074,7 +1118,7 @@ export default class ThumbRaiser {
 
 
     newFloorCoords(floor, passagewayId) {
-        for (let i = 0; i < floor.floorMap.passagewaysCoords.length; i++) {    
+        for (let i = 0; i < floor.floorMap.passagewaysCoords.length; i++) {
             if(floor.floorMap.passagewaysCoords[i][0] == passagewayId){
                 return floor.floorMap.passagewaysCoords[i]
             }
@@ -1084,16 +1128,16 @@ export default class ThumbRaiser {
     useElevator(elevatorId,destinationFloor){
         console.log(`Elevator ${elevatorId} going to. -> ${destinationFloor.floorId}`);
         console.log(destinationFloor)
-        
+
         for(let i=0; i < destinationFloor.floorMap.elevatorsCoords.length; i++){
             if(destinationFloor.floorMap.elevatorsCoords[i][0] == elevatorId){
                 const eventDetail = {
-                    floor: destinationFloor, 
-                    initialPosition: [Number(destinationFloor.floorMap.elevatorsCoords[i][2]), Number(destinationFloor.floorMap.elevatorsCoords[i][1])], 
+                    floor: destinationFloor,
+                    initialPosition: [Number(destinationFloor.floorMap.elevatorsCoords[i][2]), Number(destinationFloor.floorMap.elevatorsCoords[i][1])],
                 };
                 const event = new CustomEvent('newFloorMap', { detail: eventDetail});
                 window.dispatchEvent(event);
-                
+
                 break;
             }
         }
