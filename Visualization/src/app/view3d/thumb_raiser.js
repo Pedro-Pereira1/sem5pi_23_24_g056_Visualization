@@ -863,8 +863,8 @@ export default class ThumbRaiser {
 
                           const videoElement = document.createElement('video');
                           videoElement.src = './../../assets/View3D/animation_videos/ElevatorVideo.mp4';
-                          videoElement.style.width = '100%'; // Set the width as needed
-                          videoElement.controls = false; // Disable controls
+                          videoElement.style.width = '100%';
+                          videoElement.controls = false;
                           videoElement.style.zIndex = '102'
 
                           videoContainer.appendChild(videoElement);
