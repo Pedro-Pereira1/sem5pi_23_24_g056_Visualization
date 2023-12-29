@@ -262,7 +262,7 @@ export default class ThumbRaiser {
         this.userInterfaceCheckBox = document.getElementById("user-interface");
         this.userInterfaceCheckBox.checked = true;
         this.miniMapCheckBox = document.getElementById("mini-map");
-        this.miniMapCheckBox.checked = true;
+        this.miniMapCheckBox.checked = false;
         this.helpCheckBox = document.getElementById("help");
         this.helpCheckBox.checked = false;
         this.statisticsCheckBox = document.getElementById("statistics");
@@ -272,7 +272,7 @@ export default class ThumbRaiser {
         this.buildHelpPanel();
 
         // Set the active view camera (fixed view)
-        this.setActiveViewCamera(this.fixedViewCamera);
+        this.setActiveViewCamera(this.thirdPersonViewCamera);
 
         // Arrange viewports by view mode
         this.arrangeViewports(this.multipleViewsCheckBox.checked);
@@ -715,6 +715,7 @@ export default class ThumbRaiser {
             // Check if the player found the exit
             let infoElement = document.getElementById('info');
             let elevatorElement = document.getElementById('elevatorPainel');
+            let floorElement = document.getElementById('info2');
 
             if (this.autoPilot) {
 
@@ -795,46 +796,61 @@ export default class ThumbRaiser {
                     infoElement.innerHTML = 'You found a passageway. Press k!';
                     infoElement.style.visibility = 'visible';
 
+                    const videoContainer = document.getElementById('video-container');
+                    const videoElement = document.createElement('video');
+                    videoElement.src = './../../assets/View3D/animation_videos/PassagewayVideo.mp4';
+                    videoElement.style.width = '100%';
+                    videoElement.controls = false;
+                    videoElement.style.zIndex = '102'
+
+                    videoContainer.appendChild(videoElement);
+
                     const robotCoordX = this.maze.cartesianToCell(this.player.position)[1]
                     const robotCoordY = this.maze.cartesianToCell(this.player.position)[0]
                     let passagewaysCoords = this.floorMapParameters.floor.floorMap.passagewaysCoords
+
+                  videoElement.addEventListener('ended', function () {
+                    document.getElementById('video-container').style.display = 'none';
+
                     for (let i = 0; i < passagewaysCoords.length; i++) {
-                        if((passagewaysCoords[i][1] == robotCoordX && passagewaysCoords[i][2] == robotCoordY) ||
-                        (passagewaysCoords[i][3] == robotCoordX && passagewaysCoords[i][4] == robotCoordY)){
-                            this.passagewayService.findFloorsByPassageway(passagewaysCoords[i][0]).subscribe(
-                                floors => {
-                                    if(floors[0].floorId == this.floorMapParameters.floor.floorId){
-                                        const newFloorCoords = this.newFloorCoords(floors[1],passagewaysCoords[i][0])
-                                        const eventDetail = {
-                                            floor: floors[1],
-                                            initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])],
-                                        };
+                      if ((passagewaysCoords[i][1] == robotCoordX && passagewaysCoords[i][2] == robotCoordY) ||
+                        (passagewaysCoords[i][3] == robotCoordX && passagewaysCoords[i][4] == robotCoordY)) {
+                        this.passagewayService.findFloorsByPassageway(passagewaysCoords[i][0]).subscribe(
+                          floors => {
+                            if (floors[0].floorId == this.floorMapParameters.floor.floorId) {
+                              const newFloorCoords = this.newFloorCoords(floors[1], passagewaysCoords[i][0])
+                              const eventDetail = {
+                                floor: floors[1],
+                                initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])],
+                              };
 
-
-
-
-                                        const event = new CustomEvent('newFloorMap', { detail: eventDetail});
-                                        window.dispatchEvent(event);
-                                    }else{
-                                        const newFloorCoords = this.newFloorCoords(floors[0],passagewaysCoords[i][0])
-                                        const eventDetail = {
-                                            floor: floors[0],
-                                            initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])],
-                                        };
-
-
-
-
-                                        const event = new CustomEvent('newFloorMap', { detail: eventDetail});
-                                        window.dispatchEvent(event);
-                                    }
-                                },error => {
-                                            console.error('Error fetching passageways:', error);
-                                        }
-                                );
-                            break;
-                        }
+                              const event = new CustomEvent('newFloorMap', {detail: eventDetail});
+                              window.dispatchEvent(event);
+                            } else {
+                              const newFloorCoords = this.newFloorCoords(floors[0], passagewaysCoords[i][0])
+                              const eventDetail = {
+                                floor: floors[0],
+                                initialPosition: [Number(newFloorCoords[2]), Number(newFloorCoords[1])],
+                              };
+                              const event = new CustomEvent('newFloorMap', {detail: eventDetail});
+                              window.dispatchEvent(event);
+                            }
+                          }, error => {
+                            console.error('Error fetching passageways:', error);
+                          }
+                        );
+                        break;
+                      }
                     }
+                      floorElement.innerHTML = 'The robot is now on Floor ' + this.floorMapParameters.floor.floorNumber + ' of the next building.';
+                      floorElement.style.visibility = 'visible';
+                      setTimeout(function () {
+                        floorElement.style.visibility = 'hidden';
+                      }, 5000);
+
+                  }.bind(this));
+                  videoElement.play();
+
                     this.path.shift()
                     this.pathFloor--
                 }
@@ -856,11 +872,6 @@ export default class ThumbRaiser {
                             const nextFloor = this.buildingFloors.find(floor => floor.floorId === nextFloorId)
 
                           const videoContainer = document.getElementById('video-container');
-                          if (!videoContainer) {
-                            console.error('#video-container not found.');
-                            return;
-                          }
-
                           const videoElement = document.createElement('video');
                           videoElement.src = './../../assets/View3D/animation_videos/ElevatorVideo.mp4';
                           videoElement.style.width = '100%';
@@ -871,12 +882,12 @@ export default class ThumbRaiser {
 
                           videoElement.addEventListener('ended', function () {
                             document.getElementById('video-container').style.display = 'none';
-                            infoElement.innerHTML = 'The robot is now on Floor ' + nextFloor.floorNumber + '.';
-                            infoElement.style.visibility = 'visible';
+                            floorElement.innerHTML = 'The robot is now on Floor ' + nextFloor.floorNumber + '.';
+                            floorElement.style.visibility = 'visible';
                             this.useElevator(eventDetail.elevatorID, nextFloor);
                             setTimeout(function () {
-                              infoElement.style.visibility = 'hidden';
-                            }, 3000);
+                              floorElement.style.visibility = 'hidden';
+                            }, 5000);
                           }.bind(this));
 
                           videoElement.play();
