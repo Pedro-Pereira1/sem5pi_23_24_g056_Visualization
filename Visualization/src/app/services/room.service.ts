@@ -33,4 +33,18 @@ export class RoomService {
       )
   }
 
+  listAllRooms(): Observable<Room[]> {
+    const url = this.roomsUrl + "/" + "listAllRooms";
+    return this.http.get<Room[]>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  listRoomsByFloor(floor: string): Observable<Room[]> {
+    const url = this.roomsUrl + "/" + "listAllFloors/" + floor;
+    return this.http.get<Room[]>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 }
