@@ -137,21 +137,21 @@ canvas {
     visibility: hidden;
     z-index: 101;
   }
-  
+
   .display-panel,
   .number-panel {
     width: 100%;
     height: 50%;
   }
-  
+
   .display-panel {
     background-color: #333;
   }
-  
+
   .number-panel {
     background-color: #ccc;
   }
-  
+
   .floor-number {
     color: #fff;
     height: 100%;
@@ -160,14 +160,14 @@ canvas {
     text-align: center;
     font-size: 8em;
   }
-  
+
   .lights {
     height: 100%;
     width: 48%;
     display: inline-block;
     float: right;
   }
-  
+
   .up,
   .down {
     height: 50px;
@@ -176,15 +176,15 @@ canvas {
     margin: 0 auto;
     margin-top: 20px;
   }
-  
+
   .up {
     background-color: #0f0;
   }
-  
+
   .down {
     background-color: #f00;
   }
-  
+
   .upper,
   .lower {
     width: 100%;
@@ -192,11 +192,11 @@ canvas {
     text-align: center;
     display: block;
   }
-  
+
   .lightOff {
     background-color: #ccc;
   }
-  
+
   .number-button {
     height: 48px;
     width: 48px;
@@ -210,3 +210,15 @@ canvas {
   .number-button:hover {
     background-color: yellow
 }
+
+#video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
