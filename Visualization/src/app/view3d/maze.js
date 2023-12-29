@@ -271,6 +271,12 @@ export default class Maze {
         return [Math.floor(position.z / this.scale.z + this.size.height / 2.0), Math.floor(position.x / this.scale.x + this.size.width / 2.0)];
     }
 
+    cartesianToCellDecimal(position) {
+        let first = position.z / this.scale.z + this.size.height / 2.0 
+        let second = position.x / this.scale.x + this.size.width / 2.0 
+        return [ first.toFixed(1), second.toFixed(1)];
+    }
+
     distanceToWestWall(position) {
         const indices = this.cartesianToCell(position);
 
