@@ -30,4 +30,12 @@ export class TaskService {
     return throwError(() => new Error(error.error.message));
   }
 
+  listAllPending(): Observable<ITaskDTO[]> {
+    const url = this.tasksUrl + "/" + "listPendingTasks";
+    return this.http.get<ITaskDTO[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
 }
