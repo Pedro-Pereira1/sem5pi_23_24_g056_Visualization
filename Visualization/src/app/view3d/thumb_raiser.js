@@ -228,6 +228,7 @@ export default class ThumbRaiser {
         }
         this.renderer.autoClear = false;
         this.renderer.shadowMap.enabled = true;
+        this.renderer.setClearColor(0xD3D3D3, 1);
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
