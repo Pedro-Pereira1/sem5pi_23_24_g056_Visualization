@@ -1,1 +1,21 @@
-<p>task-list-not-approved works!</p>
+<h1>Pending Tasks</h1>
+<div>
+  <table>
+    <thead>
+    <tr class="table100-head">
+      <th class="column1">Id</th>
+      <th class="column2">Description</th>
+      <th class="column3">Requester</th>
+      <th class="column4">Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let task of tasks">
+      <td class="column1">{{ task.id }}</td>
+      <td class="column2">{{ task.taskDescription }}</td>
+      <td class="column3">{{ task.taskRequester }}</td>
+      <td class="column4">{{ task.taskType }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
