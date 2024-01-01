@@ -172,7 +172,7 @@ export const navbarData: INavbarData[] = [
             },
             {
                 routerLink: 'tasks-backoffice/list/notApproved',
-                label: 'List Not Approved'
+                label: 'List Pending'
             },
             {
                 routerLink: 'tasks-backoffice/list/requests',

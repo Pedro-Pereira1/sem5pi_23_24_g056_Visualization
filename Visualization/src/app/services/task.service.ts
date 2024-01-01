@@ -31,4 +31,12 @@ export class TaskService {
     return this.http.get<ITaskDTO[]>(url)
   }
 
+  listAllPending(): Observable<ITaskDTO[]> {
+    const url = this.tasksUrl + "/" + "listPendingTasks";
+    return this.http.get<ITaskDTO[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
 }

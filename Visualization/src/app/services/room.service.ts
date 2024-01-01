@@ -4,6 +4,7 @@ import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {RoomCreate} from "../domain/room/RoomCreate";
 import {Room} from "../domain/room/Room";
+import RoomList from '../domain/room/RoomList';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,21 @@ export class RoomService {
     return this.http.get<Room[]>(url).pipe(
       catchError(this.handleError)
     );
+  }
+
+  listRoomsInBuilding(buildingCode: string): Observable<RoomList[]> {
+    const url = this.roomsUrl + "/" + "listAllInBuilding" + "/" + buildingCode;
+    return this.http.get<RoomList[]>(url).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `An error occurred: ${error.error.message}`;
+        } else {
+          errorMessage = `An error occurred: ${error.error}`;
+        }
+        console.error(errorMessage);
+        return throwError(errorMessage);
+      }));
   }
 
 }

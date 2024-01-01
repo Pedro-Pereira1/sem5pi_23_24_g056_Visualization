@@ -70,9 +70,6 @@ export default class UserInteraction {
         fogFolder.add(fog.object, "near", 0.01, 1.0, 0.01);
         fogFolder.add(fog.object, "far", 1.01, 20.0, 0.01);
 
-        // Create the character folder
-        const characterFolder = this.gui.addFolder("Character");
-
 
 
     //    // Create the emotes folder and add emotes
