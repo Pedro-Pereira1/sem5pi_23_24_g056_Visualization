@@ -96,4 +96,11 @@ export class AuthServiceService {
       catchError(this.handleError<UserDto>("UpdateUser"))
     )
   }
+
+  public listAllUtentes(): Observable<UserDto[]> {
+    const url = this.authUrl + "/" + "listAllUtentes"
+    return this.httpClient.get<UserDto[]>(url).pipe(
+      catchError(this.handleError<UserDto[]>("ListAllUsers"))
+    )
+  }
 }

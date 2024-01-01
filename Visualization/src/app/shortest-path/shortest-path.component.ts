@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { BuildingService } from '../services/building.service';
 import { FloorService } from '../services/floor.service';
 import { Building } from '../domain/building/Building';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Floor } from '../domain/floor/Floor';
 import { ShortestPathService } from '../services/shortest-path.service';
+import { RoomService } from '../services/room.service';
+import RoomList from '../domain/room/RoomList';
+import ShortestPath from '../domain/path/ShortestPath';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-shortest-path',
@@ -16,7 +18,7 @@ export class ShortestPathComponent {
 
   constructor(
     private buildingService: BuildingService,
-    private floorService: FloorService,
+    private roomsService: RoomService,
     private shortest_path: ShortestPathService
   ) { }
 
@@ -24,33 +26,39 @@ export class ShortestPathComponent {
   building1Code: string = ""
   building2Code: string = ""
 
-  floors1: Floor[] = []
-  floors2: Floor[] = []
-  floor1Id: number = 0
-  floor2Id: number = 0
+  roomNameOrig: string = ""
+  roomNameDest: string = ""
+  rooms1: RoomList[] = []
+  rooms2: RoomList[] = []
 
-  floor1 = new FormGroup({
-    x1: new FormControl(0),
-    y1: new FormControl(0)
-  })
+  path: ShortestPath = {} as ShortestPath
+  pathToShow: string = ""
 
-  floor2 = new FormGroup({
-    x2: new FormControl(0),
-    y2: new FormControl(0)
-  })
-
-  path: string = ''
-
-  listFloors1() {
-    this.floorService.listAllFloors(this.building1Code).subscribe((floors: Floor[]) => {
-      this.floors1 = floors
-    })
+  listRooms1() {
+    this.roomsService.listRoomsInBuilding(this.building1Code).subscribe(
+      (data: RoomList[]) => {
+        if (data) {
+          this.rooms1 = data;
+        } else {
+          window.alert('No elevators found.');
+          this.rooms1 = [];
+        }
+      }
+    );
   }
 
-  listFloors2() {
-    this.floorService.listAllFloors(this.building2Code).subscribe((floors: Floor[]) => {
-      this.floors2 = floors
-    })
+  listRooms2() {
+    this.roomsService.listRoomsInBuilding(this.building2Code).subscribe(
+      (data: RoomList[]) => {
+        if (data) {
+          this.rooms2 = data;
+        }
+      },
+      (error: HttpErrorResponse) => {
+        window.alert(error);
+        this.rooms2 = [];
+      }
+    );
   }
 
   ngOnInit() {
@@ -61,10 +69,29 @@ export class ShortestPathComponent {
 
 
   ngOnSubmit() {
-    this.shortest_path.getShortestPath(Number(this.floor1.value.x1), Number(this.floor1.value.y1), this.floor1Id, Number(this.floor2.value.x2), Number(this.floor2.value.y2), this.floor2Id).subscribe((path: string) => {
-      this.path = path
-    })
+    //window.alert("Calculating path...");
+    this.shortest_path.getShortestPath(this.roomNameOrig, this.roomNameDest).subscribe(
+      (path: ShortestPath) => {
+        if (path) {
+          this.path = path;
+          this.processPath(this.path);
+        } else {
+          window.alert("Error getting path");
+        }
+      }
+    )
   }
 
-
+  processPath(path: ShortestPath) {
+    var index = 0;
+    console.log(path);
+    for (let i = 0; i < path.cells.length; i++) {
+      this.pathToShow += "," + path.cells.at(i)!.toString()
+      if (path.accPoints.length != undefined || path.accPoints.length != 0) {
+        this.pathToShow +="," + path.accPoints.pop()!.toString();
+        index++;
+      }
+    }
+    console.log(this.pathToShow);
+  }
 }
