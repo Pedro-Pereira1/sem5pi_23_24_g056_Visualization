@@ -24,7 +24,7 @@ body {
     position: absolute;
     left: -50.0vmin;
     top: 20vh;
-    z-index: 2;
+    z-index: 1;
     width: 100.0vmin;
     font-family: Arial, sans-serif;
     font-size: 1.5vmin;
@@ -54,7 +54,7 @@ table.views {
     text-align: right;
 }
 
-table.help {
+table.help-table {
     width: 50vmin;
     background-color: #70707050;
 }
@@ -233,6 +233,18 @@ canvas {
   height: 100%;
   z-index: 1000;
   display: block;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.startMessageText {
+  position: absolute;
+  top: 150px;
+  left: 70px;
+  width: 700px;
+  z-index: 0;
+  font-size: 20px;
+
+  background-color: rgba(255, 255, 255, 0);
+
 }
 
