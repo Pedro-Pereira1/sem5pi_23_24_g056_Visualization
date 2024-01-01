@@ -842,11 +842,6 @@ export default class ThumbRaiser {
                             console.log('tras2')
                         }
                     }
-
-                    if(this.collision(this.player.position)){
-                        this.player.direction = this.player.direction + 90
-                    }
-
                 }
 
                 if (this.maze.foundPassageway(this.player.position) && infoElement.style.visibility != 'visible') {
@@ -909,12 +904,12 @@ export default class ThumbRaiser {
                   }.bind(this));
                   videoElement.play();
 
+                    this.inOrderFloors.shift()
                     this.path.shift()
                     this.pathFloor--
                 }
 
                 if (this.maze.foundElevator(this.player.position) && infoElement.style.visibility != 'visible') {
-                    console.log("ELEVADOR")
                     infoElement.innerHTML = 'You found an elevator. Press q!';
                     infoElement.style.visibility = 'visible';
 
