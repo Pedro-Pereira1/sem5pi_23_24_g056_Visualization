@@ -705,9 +705,9 @@ export default class ThumbRaiser {
                 this.gameRunning = true;
             }
         } else {
-            //console.log(this.maze.cartesianToCell('actual ' + this.player.position))
-            //console.log(this.player.direction)
+            //console.log(this.maze.cartesianToCell(this.player.position))
 
+            //console.log(this.player.direction)
             //console.log('caminho ' + this.path)
             //console.log('iteracao ' + this.iteration)
             //console.log('to ' + this.path[0][this.iteration][0] + ' ' + this.path[0][this.iteration][1])
@@ -727,7 +727,7 @@ export default class ThumbRaiser {
                 } else {
                     let actualPos = this.maze.cartesianToCellDecimal(this.player.position);
                     //console.log('to ' + this.path[0][0][0])
-                    console.log(actualPos)
+                    //console.log('actual ' + actualPos[0] + ' ' + actualPos[1])
 
                     if (actualPos[0] == this.path[this.pathFloor][this.iteration][0] + 0.5 &&
                         actualPos[1] == this.path[this.pathFloor][this.iteration][1] + 0.5) { // Ya == Yp && Xa == Xp
@@ -746,6 +746,57 @@ export default class ThumbRaiser {
                                 this.autoPilot = false;
                                 document.addEventListener("keydown", this.keydownListener);
                                 document.addEventListener("keyup", this.keyupListener);
+                            }
+                        }
+
+                    } else if (actualPos[1] != this.path[this.pathFloor][this.iteration][1] + 0.5 && // diagonals
+                         actualPos[0] != this.path[this.pathFloor][this.iteration][0] + 0.5) {
+
+                        /*
+                        if (actualPos[1] < this.path[this.pathFloor][this.iteration][1] + 0.5) { // Xa < Xp
+                            if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
+                                this.player.direction = 45
+                                this.player.keyStates.forward = true;
+                                console.log('frente3')
+                            } else {
+                                this.player.direction = 135
+                                this.player.keyStates.forward = true;
+                                console.log('tras3')
+                            }
+                        }
+                        if (actualPos[1] > this.path[this.pathFloor][this.iteration][1] + 0.5) { // Xa > Xp
+                            if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
+                                this.player.direction = 315
+                                this.player.keyStates.forward = true;
+                                console.log('frente4')
+                            } else {
+                                this.player.direction = 225
+                                this.player.keyStates.forward = true;
+                                console.log('tras4')
+                            }
+                        }
+                        if (actualPos[1] > this.path[this.pathFloor][this.iteration][1] + 0.5) { // Xa > Xp
+                            if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
+                                this.player.direction = 315
+                                this.player.keyStates.forward = true;
+                                console.log('frente4')
+                            } else {
+                                this.player.direction = 225
+                                this.player.keyStates.forward = true;
+                                console.log('tras4')
+                            }
+                        }
+                        */
+
+                        if (actualPos[0] != this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya != Yp
+                            if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
+                                this.player.direction = 0
+                                this.player.keyStates.forward = true;
+                                console.log('frente5')
+                            } else {
+                                this.player.direction = 180
+                                this.player.keyStates.forward = true;
+                                console.log('tras5')
                             }
                         }
 
@@ -790,6 +841,11 @@ export default class ThumbRaiser {
                             console.log('tras2')
                         }
                     }
+
+                    if(this.collision(this.player.position)){
+                        this.player.direction = this.player.direction + 90
+                    }
+
                 }
 
                 if (this.maze.foundPassageway(this.player.position) && infoElement.style.visibility != 'visible') {
@@ -877,18 +933,16 @@ export default class ThumbRaiser {
                           videoElement.style.width = '100%';
                           videoElement.controls = false;
                           videoElement.style.zIndex = '102'
-
                           videoContainer.appendChild(videoElement);
-
                           videoElement.addEventListener('ended', function () {
-                            document.getElementById('video-container').style.display = 'none';
+                          document.getElementById('video-container').style.display = 'none';
                             floorElement.innerHTML = 'The robot is now on Floor ' + nextFloor.floorNumber + '.';
                             floorElement.style.visibility = 'visible';
                             this.useElevator(eventDetail.elevatorID, nextFloor);
                             setTimeout(function () {
                               floorElement.style.visibility = 'hidden';
                             }, 5000);
-                          }.bind(this));
+                            }.bind(this));
 
                           videoElement.play();
                            break;
