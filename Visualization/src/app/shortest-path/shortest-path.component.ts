@@ -83,6 +83,7 @@ export class ShortestPathComponent {
   }
 
   processPath(path: ShortestPath) {
+    this.pathToShow = ""
     var index = 0;
     console.log(path);
     for (let i = 0; i < path.cells.length; i++) {
