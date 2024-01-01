@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import ITaskDTO from '../domain/task/TaskDTO';
 import ICreateTaskDTO from '../domain/task/CreateTaskDTO';
 import { Observable, catchError, throwError } from 'rxjs';
+import ITaskSearchDTO from '../domain/task/TaskSearchDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +17,18 @@ export class TaskService {
     const url = this.tasksUrl + "/" + "createTask";
     console.log(taskCreate);
     return this.http.post<ITaskDTO>(url, taskCreate)
-      .pipe(
-        catchError(this.handleError)
-      )
+
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      window.alert('An error occurred: ' + error.error.message);
-    } else {
-      window.alert('Backend returned code ' + error.status + ', body was: ' + error.error.message);
-    }
-    return throwError(() => new Error(error.error.message));
+  listAllTasks(): Observable<ITaskDTO[]> {
+    const url = this.tasksUrl + "/" + "listAllTasks";
+    return this.http.get<ITaskDTO[]>(url)
+
+  }
+
+  searchTask(taskForm: ITaskSearchDTO ): Observable<ITaskDTO[]> {
+    const url = this.tasksUrl + "/" + "searchTask" + "/" + taskForm.robotTypeID + "/" + taskForm.taskState + "/" + taskForm.user + "/" + taskForm.initialDate + "/" + taskForm.finalDate;
+    return this.http.get<ITaskDTO[]>(url)
   }
 
 }
