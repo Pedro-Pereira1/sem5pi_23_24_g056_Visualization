@@ -134,7 +134,7 @@ export class View3dComponent implements OnDestroy {
 			model: robotModel,
 			eyeHeight: 0.8,
 			scale: new  THREE.Vector3(0.1, 0.1, 0.1),
-			walkingSpeed: 0.75,
+			walkingSpeed: 3,
 			initialDirection: 0.0,
 			turningSpeed: 75.0,
 			runningFactor: 2.0,
@@ -252,15 +252,22 @@ export class View3dComponent implements OnDestroy {
 		],
 		[
 			[1,18],
+			//[2,18],
+			//[1,18],
+			//[0,18]
 			[2,17],
 			[3,18],
 			[4,19],
-		]
+		],
+		//[
+		//	[0,18],
+		//	[1,18]
+		//]
 	]
 
 	pathFloors = [
-		1,
-		2
+		2,
+		1
 	]
 
 	//path = [

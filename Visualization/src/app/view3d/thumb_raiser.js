@@ -180,8 +180,6 @@ export default class ThumbRaiser {
         this.buildingFloors = buildingFloors
         this.inOrderFloors = inOrderFloors
 
-        this.inOrderFloors.shift()
-
         // Create a square
         let points = [new THREE.Vector3(0.0, 0.0, 0.0), new THREE.Vector3(1.0, 0.0, 0.0), new THREE.Vector3(1.0, 1.0, 0.0), new THREE.Vector3(0.0, 1.0, 0.0)];
         let geometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -909,6 +907,8 @@ export default class ThumbRaiser {
                     this.path.shift()
                     this.pathFloor--
                 }
+
+                console.log(this.inOrderFloors)
 
                 if (this.maze.foundElevator(this.player.position) && infoElement.style.visibility != 'visible') {
                     infoElement.innerHTML = 'You found an elevator. Press q!';
