@@ -4,6 +4,7 @@ import ITaskDTO from '../domain/task/TaskDTO';
 import ICreateTaskDTO from '../domain/task/CreateTaskDTO';
 import { Observable, catchError, throwError } from 'rxjs';
 import ITaskSearchDTO from '../domain/task/TaskSearchDTO';
+import { AcceptDenyTaskDTO } from '../domain/task/AcceptDenyTaskDto';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,16 @@ export class TaskService {
   listAllPending(): Observable<ITaskDTO[]> {
     const url = this.tasksUrl + "/" + "listPendingTasks";
     return this.http.get<ITaskDTO[]>(url)
+  }
+
+  acceptTask(dto: AcceptDenyTaskDTO): Observable<boolean> {
+    const url = this.tasksUrl + "/" + "acceptRejectTask"
+    return this.http.patch<boolean>(url, dto)
+  }
+
+  denyTask(dto: AcceptDenyTaskDTO): Observable<boolean> {
+    const url = this.tasksUrl + "/" + "acceptRejectTask"
+    return this.http.patch<boolean>(url, dto)
   }
 
 }

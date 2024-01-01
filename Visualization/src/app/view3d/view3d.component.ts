@@ -160,7 +160,7 @@ export class View3dComponent implements OnDestroy {
 			{ view: "third-person", multipleViewsViewport: new THREE.Vector4(0.0, 0.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -20.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0 }, // Third-person view camera parameters
 			{ view: "top", multipleViewsViewport: new THREE.Vector4(1.0, 0.0, 0.45, 0.5), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0 }, // Top view camera parameters
 			{ view: "mini-map", multipleViewsViewport: new THREE.Vector4(0.99, 0.02, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64 }, // Mini-msp view camera parameters
-			false,
+			true,
 			this.path,
 			this.floors,
 			this.pathFloors
@@ -238,44 +238,44 @@ export class View3dComponent implements OnDestroy {
 		return null;
 	}
 	
-	//path = [
-	//	[					// floor 0
-	//		//[0,0],
-	//		//[2,2]
-	//		[2,14],
-	//		[3,15],
-	//		[2,16],
-	//		[2,17],
-	//		[2,18],
-	//		[1,18],
-	//		[0,18],
-	//	],
-	//	[
-	//		[1,18],
-	//		[2,17],
-	//		[3,18],
-	//		[4,19],
-	//	]
-	//]
+	path = [
+		[					// floor 0
+			//[0,0],
+			//[2,2]
+			[2,14],
+			[3,15],
+			[2,16],
+			[2,17],
+			[2,18],
+			[1,18],
+			[0,18],
+		],
+		[
+			[1,18],
+			[2,17],
+			[3,18],
+			[4,19],
+		]
+	]
 
 	pathFloors = [
 		1,
 		2
 	]
 
-	path = [
-		[					// floor 1
-			[3,0],
-			[3,18],
-			[4,18],
-			[4,19],
-		],
-		[
-			[5, 1],
-			[6, 1],
-			[6, 4],
-		]
-	]
+	//path = [
+	//	[					// floor 1
+	//		[3,0],
+	//		[3,18],
+	//		[4,18],
+	//		[4,19],
+	//	],
+	//	[
+	//		[5, 1],
+	//		[6, 1],
+	//		[6, 4],
+	//	]
+	//]
 
 	//[
     //            14,
