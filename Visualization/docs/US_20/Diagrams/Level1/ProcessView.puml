@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "User" as CM
+
+CM -> System: Sends request to register in the system
+activate System
+System --> CM: Operation confirmation
+deactivate System
+
+@enduml

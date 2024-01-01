@@ -7,6 +7,8 @@
       <th class="column2">Description</th>
       <th class="column3">Requester</th>
       <th class="column4">Type</th>
+      <th class="column5"></th>
+      <th class="column6"></th>
     </tr>
     </thead>
     <tbody>
@@ -15,6 +17,8 @@
       <td class="column2">{{ task.taskDescription }}</td>
       <td class="column3">{{ task.taskRequester }}</td>
       <td class="column4">{{ task.taskType }}</td>
+      <td><button class="accept-button" (click)="acceptTask(task.id)">Accept</button></td>
+      <td><button class="deny-button" (click)="denyTask(task.id)">Deny</button></td>
     </tr>
     </tbody>
   </table>

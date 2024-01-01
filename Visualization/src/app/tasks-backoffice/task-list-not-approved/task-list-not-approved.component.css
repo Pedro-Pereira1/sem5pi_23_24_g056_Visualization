@@ -117,10 +117,80 @@ tbody tr:hover {
 }
 
 .column4 {
-  width: 100px;
+  width: 150px;
   text-align: right;
 }
 
+.column5 {
+  width: 50px;
+  text-align: right;
+}
+
+.column6 {
+  width: 50px;
+  text-align: right;
+}
+
+.accept-button {
+  border: 0.125em solid #1A1A1A;
+}
+
+.accept-button:hover {
+  background-color: #1A1A1A;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+}
+
+.deny-button {
+  border: 0.125em solid #f66262;
+}
+
+.deny-button:hover {
+  background-color: #f66262;
+  color: #fff;
+  box-shadow: rgba(249, 68, 68, 0.25) 0 8px 15px;
+}
+
+.accept-button, .deny-button {
+  color: #3B3B3B;
+  appearance: none;
+  background-color: transparent;
+  border-radius: 0.9375em;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 0em;
+  min-width: 0;
+  outline: none;
+  height: 40px;
+  padding: 0em 2.3em;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.accept-button:disabled, .deny-button:disabled {
+  pointer-events: none;
+}
+
+.accept-button:hover, .deny-button:hover {
+  transform: translateY(-2px);
+}
+
+.accept-button:active, .deny-button:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
 
 @media screen and (max-width: 992px) {
   table {

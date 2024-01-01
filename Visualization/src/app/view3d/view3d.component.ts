@@ -86,7 +86,7 @@ export class View3dComponent implements OnDestroy {
 		.then(blob => {
 			const file: File = new File([blob], "robot1.glb");
 			this.modelFile = file;
-			this.initialize(theFloor!, file,0,0);
+			this.initialize(theFloor!, file,1,14);
 			this.animate = this.animate.bind(this);
 			this.animate();
 		})
@@ -134,7 +134,7 @@ export class View3dComponent implements OnDestroy {
 			model: robotModel,
 			eyeHeight: 0.8,
 			scale: new  THREE.Vector3(0.1, 0.1, 0.1),
-			walkingSpeed: 0.75,
+			walkingSpeed: 3,
 			initialDirection: 0.0,
 			turningSpeed: 75.0,
 			runningFactor: 2.0,
@@ -240,20 +240,34 @@ export class View3dComponent implements OnDestroy {
 	
 	path = [
 		[					// floor 0
-			[0,4],
-			[4,4],
-			[4,6],
-			[4,7],
-			[4,8],
-			[4,9],
-			[4,18],
+			//[0,0],
+			//[2,2]
+			[2,14],
+			[3,15],
+			[2,16],
+			[2,17],
+			[2,18],
+			[1,18],
 			[0,18],
 		],
+		[
+			[1,18],
+			//[2,18],
+			//[1,18],
+			//[0,18]
+			[2,17],
+			[3,18],
+			[4,19],
+		],
+		//[
+		//	[0,18],
+		//	[1,18]
+		//]
 	]
 
 	pathFloors = [
-		1,
-		2
+		2,
+		1
 	]
 
 	//path = [
@@ -269,4 +283,71 @@ export class View3dComponent implements OnDestroy {
 	//		[6, 4],
 	//	]
 	//]
+
+	//[
+    //            14,
+    //            1
+    //        ],
+    //        [
+    //            14,
+    //            2
+    //        ],
+    //        [
+    //            15,
+    //            3
+    //        ],
+    //        [
+    //            16,
+    //            2
+    //        ],
+    //        [
+    //            17,
+    //            2
+    //        ],
+    //        [
+    //            18,
+    //            1
+    //        ],
+    //        [
+    //            18,
+    //            0
+    //        ]
+    //    ],
+    //    [
+    //        [
+    //            18,
+    //            0
+    //        ],
+    //        [
+    //            18,
+    //            1
+    //        ],
+    //        [
+    //            17,
+    //            2
+    //        ],
+    //        [
+    //            18,
+    //            3
+    //        ],
+    //        [
+    //            19,
+    //            4
+    //        ]
+    //    ],
+    //    [
+    //        [
+    //            0,
+	//          5
+	//      ],
+	//      [
+	//          1,
+	//          5
+	//      ],
+	//      [
+	//          1,
+	//          4
+	//      ]
+	//  ]
+
 }

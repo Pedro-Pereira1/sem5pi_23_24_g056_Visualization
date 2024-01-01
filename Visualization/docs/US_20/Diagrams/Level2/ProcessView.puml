@@ -1,0 +1,20 @@
+@startuml ProcessView
+
+autonumber
+participant Visualization
+participant Auth
+
+?o-> Visualization: register user
+activate Visualization
+
+Visualization->Auth: POST /api/users
+activate Auth
+
+Auth-->Visualization
+deactivate Auth
+
+<--Visualization: Confirmation
+
+deactivate Visualization
+
+@enduml

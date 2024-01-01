@@ -1,0 +1,37 @@
+@startuml ProcessView
+
+autonumber
+
+participant Template
+participant Component
+participant Service
+participant HTTPDriver
+
+
+?o->Template: Register
+activate Template
+
+Template->Component: Register
+activate Component
+
+Component->Service: Register
+activate Service
+
+Service->HTTPDriver: HTTP POST
+activate HTTPDriver
+
+HTTPDriver -> : HTTP POST
+
+HTTPDriver --> Service: Confirmation
+deactivate HTTPDriver
+
+Service --> Component: Confirmation
+deactivate Service
+
+Component --> Template: Confirmation
+deactivate Component
+
+<-- Template: Confirmation
+
+deactivate Template
+@enduml

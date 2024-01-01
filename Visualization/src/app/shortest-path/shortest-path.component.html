@@ -22,14 +22,14 @@
         <option value="">Select destination room</option>
         <option *ngFor="let room of rooms2" [value]="room.roomName">{{ room.roomName }}</option>
     </select>
-</div>
-<div>
-  <button (click)="ngOnSubmit()">Submit</button>
-</div>
 
-<div class="display-path">
-    <h2>Path</h2>
-    <p>{{pathToShow}}</p>
+    <div>
+        <button (click)="ngOnSubmit()">Submit</button>
+    </div>
 
+    <div class="display-path">
+        <h2 class="path-title">Path</h2>
+        <p class="pathToShow">{{pathToShow}}</p>
+
+    </div>
 </div>
-

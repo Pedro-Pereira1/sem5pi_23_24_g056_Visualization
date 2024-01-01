@@ -1,13 +1,3 @@
-input{
-    padding: 0;
-    margin: 0;
-    outline: none;
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 18px;
-    color: #263238;
-    margin-top: 5px;
-}
-
 select{
   width: 25%;
   padding: 5px;
@@ -46,7 +36,7 @@ button {
     touch-action: manipulation;
     will-change: transform;
     margin-left: 5px;
-    margin-top: 100px;
+    margin-top: 50px;
    }
 
    button:disabled {
@@ -70,56 +60,29 @@ button {
     margin: 0 auto;
 }
 
-.selectCoords {
-  position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
-  margin: 10px;
-  width: 60%;
-}
-
-.form__field {
-  font-family: inherit;
-  width: 25%;
-  margin: 60px;
-  border: 0;
-  border-bottom: 2px solid #9b9b9b;
-  outline: 0;
-  font-size: 20px;
-  color: #000000;
-  padding: 7px 0;
-  background: transparent;
-  transition: border-color 0.2s;
-}
-.form__field::placeholder {
-  color: transparent;
-}
-.form__field:placeholder-shown ~ .form__label {
-  font-size: 1.3rem;
-  cursor: text;
-  top: 20px;
-}
-
-
-
-.form__field:focus {
-  padding-bottom: 6px;
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, #263238, #263238);
-  border-image-slice: 1;
-}
-
-
-/* reset input */
-.form__field:required, .form__field:invalid {
-  box-shadow: none;
-}
 
 .display-path {
+  position: relative;
+  margin-top: 75px;
   display: flex;
   background-color: #ffffff;
   padding: 10px;
   border-radius: 25px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
+  .pathToShow {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 18px;
+    color: #263238;
+    margin-top: 20px;
+    border-radius: 10px;
+  }
+  
 }
