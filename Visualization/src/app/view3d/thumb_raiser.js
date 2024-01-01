@@ -854,7 +854,7 @@ export default class ThumbRaiser {
                     videoElement.style.width = '100%';
                     videoElement.controls = false;
                     videoElement.style.zIndex = '102'
-                  videoContainer.style.display = 'block';
+                    videoContainer.style.display = 'block';
 
                     videoContainer.appendChild(videoElement);
 
@@ -864,6 +864,7 @@ export default class ThumbRaiser {
 
                   videoElement.addEventListener('ended', function () {
                     document.getElementById('video-container').style.display = 'none';
+                    videoElement.remove();
 
                     for (let i = 0; i < passagewaysCoords.length; i++) {
                       if ((passagewaysCoords[i][1] == robotCoordX && passagewaysCoords[i][2] == robotCoordY) ||
@@ -934,6 +935,7 @@ export default class ThumbRaiser {
                           videoContainer.appendChild(videoElement);
                           videoElement.addEventListener('ended', function () {
                           document.getElementById('video-container').style.display = 'none';
+                          videoElement.remove();
                             floorElement.innerHTML = 'The robot is now on Floor ' + nextFloor.floorNumber + '.';
                             floorElement.style.visibility = 'visible';
                             this.useElevator(eventDetail.elevatorID, nextFloor);
