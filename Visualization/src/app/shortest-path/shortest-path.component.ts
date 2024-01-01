@@ -70,6 +70,7 @@ export class ShortestPathComponent {
 
   ngOnSubmit() {
     //window.alert("Calculating path...");
+    this.pathToShow = "";
     this.shortest_path.getShortestPath(this.roomNameOrig, this.roomNameDest).subscribe(
       (path: ShortestPath) => {
         if (path) {
@@ -87,12 +88,25 @@ export class ShortestPathComponent {
     var index = 0;
     console.log(path);
     for (let i = 0; i < path.cells.length; i++) {
-      this.pathToShow += "," + path.cells.at(i)!.toString()
-      if (path.accPoints.length != undefined || path.accPoints.length != 0) {
-        this.pathToShow +="," + path.accPoints.pop()!.toString();
-        index++;
+      if (path.floorIds.length != 0) {
+        if (path.floorIds.at(index) !== undefined) {
+          this.pathToShow += "FLOOR " + path.floorIds.at(index)! + " : ";
+        }
+      }
+      this.pathToShow += "[";
+      for (let j = 0; j < path.cells.at(i)!.length; j++) {
+        this.pathToShow += "[" + path.cells[i][j]!.toString() + "]";
+        if (j !== path.cells.at(i)!.length - 1) {
+          this.pathToShow += ", ";
+        }
+      }
+      this.pathToShow += "]";
+      if (path.accPoints.length != 0) {
+        if (path.accPoints.at(index) !== undefined) {
+          this.pathToShow += "  --> [" + path.accPoints.at(index)! + "] --> ";
+          index++;
+        }
       }
     }
-    console.log(this.pathToShow);
   }
 }
