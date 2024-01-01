@@ -859,6 +859,7 @@ export default class ThumbRaiser {
                     videoElement.style.width = '100%';
                     videoElement.controls = false;
                     videoElement.style.zIndex = '102'
+                  videoContainer.style.display = 'block';
 
                     videoContainer.appendChild(videoElement);
 
@@ -934,6 +935,7 @@ export default class ThumbRaiser {
                           videoElement.style.width = '100%';
                           videoElement.controls = false;
                           videoElement.style.zIndex = '102'
+                          videoContainer.style.display = 'block';
                           videoContainer.appendChild(videoElement);
                           videoElement.addEventListener('ended', function () {
                           document.getElementById('video-container').style.display = 'none';
