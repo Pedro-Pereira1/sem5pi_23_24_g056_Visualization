@@ -90,10 +90,12 @@ export class TaskListApprovedComponent {
         const floorIds = data.floorIds;
         console.log("hello")
 
+        localStorage.removeItem('building')
         localStorage.removeItem('pathArray');
         localStorage.removeItem('floorIds');
         localStorage.removeItem('autoPilot');
 
+        localStorage.setItem('building', task?.taskBuilding!);
         localStorage.setItem('pathArray', JSON.stringify(pathArray));
         localStorage.setItem('floorIds', JSON.stringify(floorIds));
         localStorage.setItem('autoPilot', "true")
