@@ -15,13 +15,15 @@ import { initial } from 'cypress/types/lodash/index.js';
 import { ElevatorService } from '../services/elevator.service';
 import { AuthServiceService } from '../services/auth-service.service';
 import { Router } from '@angular/router';
+import { RoomService } from '../services/room.service';
+import RoomList from '../domain/room/RoomList.js';
 
 
 @Component({
 	selector: 'app-view3d',
 	templateUrl: './view3d.component.html',
 	styleUrls: ['./view3d.component.css'],
-	providers: [BuildingService, FloorService, PassagewayService, AuthServiceService]
+	providers: [BuildingService, FloorService, PassagewayService, AuthServiceService, RoomService]
 })
 export class View3dComponent implements OnDestroy {
 
@@ -35,6 +37,7 @@ export class View3dComponent implements OnDestroy {
 		private passagewayService: PassagewayService,
 		private elevatorService: ElevatorService,
 		private authService: AuthServiceService,
+		private roomService: RoomService,
 		private router: Router
 	) { }
 
@@ -54,20 +57,58 @@ export class View3dComponent implements OnDestroy {
 	initialY: number = 0;
 	path: number[][][] = [];
 	pathFloors: number[] = [];
+	loaded: boolean = false;
+	running: number = 0;
 
 	ngOnInit(): void {
+		//console.log(this.path2)
 		const role = this.authService.getRoleByToken(this.authService.getToken());
 		if (role == "CampusManager" || role == "FleetManager" || role == "TaskManager") {
 			if (localStorage.getItem("autoPilot") == "true") {
+				this.buildingService.listAll().subscribe((allBuildings: Building[]) => {
+					this.buildings = allBuildings
 
-				this.buildingService.listAll().subscribe((buildings: Building[]) => {
-					this.buildings = buildings
-					this.buildingCode = localStorage.getItem("building")!
-					this.floorId = parseInt(localStorage.getItem("initialFloor")!)
+					if (localStorage.getItem("floorIds")) {
+						const theFloor = parseInt(localStorage.getItem("floorOfBuilding")!)
+						const theBuilding = allBuildings.find((building: Building) => building.buildingFloors.includes(theFloor))
+						this.buildingCode = theBuilding!.buildingCode
+						let floorAux = localStorage.getItem("floorIds")!
+						floorAux = floorAux.slice(1, -1);
+						let aux = floorAux.split(",")
 
-					if (localStorage.getItem("floorsIds") != null) {
-						this.pathFloors = localStorage.getItem("floorsIds")!.split(",").map(Number)
+						for (const floor of aux) {
+							this.pathFloors.push(parseInt(floor))
+						}
+
+						this.floorId = this.pathFloors.shift()!
+						this.loaded = true
+						this.floorService.listAllFloors(this.buildingCode).subscribe((floors: Floor[]) => {
+							this.floors = floors;
+							this.loadRest()
+						})
+
+					} else {
+						this.pathFloors = []
+						const initialFloor = localStorage.getItem("initialRoom")!
+
+						for (const building of allBuildings) {
+							this.floorService.listAllFloors(building.buildingCode).subscribe((floors: Floor[]) => {
+								for (const floor of floors) {
+									if (floor.floorMap.rooms.includes(initialFloor)) {
+										this.floors = floors;
+										this.buildingCode = building.buildingCode
+										this.floorId = floor.floorId
+										this.loaded = true
+										break
+									}
+								}
+								this.loadRest()
+							})
+						}
 					}
+
+
+					/*
 
 					this.floorService.listAllFloors(this.buildingCode).subscribe((floors: Floor[]) => {
 						this.floors = floors;
@@ -87,20 +128,16 @@ export class View3dComponent implements OnDestroy {
 							this.path[0].push([y, x])
 						}
 
-						console.log(this.path)
 						this.initialX = this.path[0][0][1]
 						this.initialY = this.path[0][0][0]
-						console.log(this.floors)
+						console.log(this.initialY)
+						console.log(this.initialX)
 
 						this.renderCanvas()
 
-						localStorage.removeItem('building')
-						localStorage.removeItem('initialFloor')
-						localStorage.removeItem('pathArray');
-						localStorage.removeItem('floorIds');
-						localStorage.removeItem('initialFloor');
-						localStorage.removeItem('autoPilot');
+
 					})
+				*/
 				})
 			} else {
 				this.listBuildings();
@@ -114,6 +151,57 @@ export class View3dComponent implements OnDestroy {
 		}
 
 	}
+
+	private loadRest() {
+		if (this.loaded && this.running == 0) {
+			this.running = 1
+			this.autopilot = true;
+			let unprocessed = localStorage.getItem("pathArray")!
+
+			unprocessed = unprocessed.slice(3, -3);
+
+			let coords = unprocessed.split("]],[[")
+			let i = 0
+			let j = 0
+			for (const coord of coords) {
+				this.path[i] = []
+				let aux = coord.split("],[")
+				for (const aux2 of aux) {
+					let aux4 = aux2.split(",")
+					let x = parseInt(aux4[0])
+					let y = parseInt(aux4[1])
+
+					if (j == 0) {
+						this.initialX = x
+						this.initialY = y
+					} else {
+						this.path[i].push([y, x])
+					}
+
+					//this.path[i].push([y, x])
+					j++
+				}
+				i++
+				j = 0
+			}
+
+			this.initialX = this.path[0][0][1]
+			this.initialY = this.path[0][0][0]
+
+			localStorage.removeItem('floorOfBuilding')
+			localStorage.removeItem('initialFloor')
+			localStorage.removeItem('pathArray');
+			localStorage.removeItem('floorIds');
+			localStorage.removeItem('initialFloor');
+			localStorage.removeItem('autoPilot');
+			localStorage.removeItem('initialRoom')
+			localStorage.removeItem('finalRoom')
+
+			this.renderCanvas()
+		}
+	}
+
+
 
 	renderCanvas() {
 		const theFloor = this.floors.find((floor: Floor) => floor.floorId == this.floorId);
@@ -139,7 +227,7 @@ export class View3dComponent implements OnDestroy {
 			.then(blob => {
 				const file: File = new File([blob], "robot1.glb");
 				this.modelFile = file;
-				this.initialize(theFloor!, file, 1, 14);
+				this.initialize(theFloor!, file, this.initialY, this.initialX);
 				this.animate = this.animate.bind(this);
 				this.animate();
 			})
@@ -214,6 +302,7 @@ export class View3dComponent implements OnDestroy {
 			{ view: "top", multipleViewsViewport: new THREE.Vector4(1.0, 0.0, 0.45, 0.5), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0 }, // Top view camera parameters
 			{ view: "mini-map", multipleViewsViewport: new THREE.Vector4(0.99, 0.02, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64 }, // Mini-msp view camera parameters
 			this.autopilot,
+			//false,
 			this.path,
 			this.floors,
 			this.pathFloors
@@ -291,37 +380,45 @@ export class View3dComponent implements OnDestroy {
 		return null;
 	}
 
-	//path = [
-	//	[					// floor 0
-	//		//[0,0],
-	//		//[2,2]
-	//		[2,14],
-	//		[3,15],
-	//		[2,16],
-	//		[2,17],
-	//		[2,18],
-	//		[1,18],
-	//		[0,18],
-	//	],
-	//	[
-	//		[1,18],
-	//		//[2,18],
-	//		//[1,18],
-	//		//[0,18]
-	//		[2,17],
-	//		[3,18],
-	//		[4,19],
-	//	],
-	//	//[
-	//	//	[0,18],
-	//	//	[1,18]
-	//	//]
-	//]
-	//
-	//	pathFloors = [
-	//		2,
-	//		1
-	//	]
+	path2: number[][][] = [
+		[					// floor 0
+			//[0,0],
+			//[2,2]
+			[2, 14],
+			[3, 15],
+			[2, 16],
+			[2, 17],
+			[2, 18],
+			[1, 18],
+			[0, 18],
+		],
+		[
+			[1, 18],
+			//[2,18],
+			//[1,18],
+			//[0,18]
+			[2, 18],
+			[3, 18],
+			[4, 18],
+			[5, 18],
+			[5, 19],
+		],
+		[
+			[5,1],
+			[6,1],
+			[6,2],
+			[6,3],
+			[6,4],
+			[6,5],
+			[5,5],
+			[5,4],
+		]
+	]
+
+	pathFloors2 = [
+		2,
+		1
+	]
 
 	//path = [
 	//	[					// floor 1

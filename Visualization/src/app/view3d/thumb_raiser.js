@@ -704,12 +704,7 @@ export default class ThumbRaiser {
                 this.gameRunning = true;
             }
         } else {
-            //console.log(this.maze.cartesianToCell(this.player.position))
-
-            //console.log(this.player.direction)
-            //console.log('caminho ' + this.path)
-            //console.log('iteracao ' + this.iteration)
-            //console.log('to ' + this.path[0][this.iteration][0] + ' ' + this.path[0][this.iteration][1])
+            let actualPos = this.maze.cartesianToCellDecimal(this.player.position);
 
             // Check if the player found the exit
             let infoElement = document.getElementById('info');
@@ -725,16 +720,12 @@ export default class ThumbRaiser {
 
                 } else {
                     let actualPos = this.maze.cartesianToCellDecimal(this.player.position);
-                    //console.log('to ' + this.path[0][0][0])
-                    //console.log('actual ' + actualPos[0] + ' ' + actualPos[1])
 
                     if (actualPos[0] == this.path[this.pathFloor][this.iteration][0] + 0.5 &&
                         actualPos[1] == this.path[this.pathFloor][this.iteration][1] + 0.5) { // Ya == Yp && Xa == Xp
 
                         this.player.keyStates.forward = false;
                         this.player.keyStates.backward = false;
-                        //this.player.keyStates.left = false;
-                        //this.player.keyStates.right = false;
                         this.iteration++
 
                         if (this.path[this.pathFloor][this.iteration] === undefined) {
@@ -748,54 +739,31 @@ export default class ThumbRaiser {
                             }
                         }
 
+                    } else if (this.collision(this.player.position)) {
+                        this.player.direction = 180
+                        this.player.keyStates.forward = true;
+
                     } else if (actualPos[1] != this.path[this.pathFloor][this.iteration][1] + 0.5 && // diagonals
                          actualPos[0] != this.path[this.pathFloor][this.iteration][0] + 0.5) {
-
-                        /*
-                        if (actualPos[1] < this.path[this.pathFloor][this.iteration][1] + 0.5) { // Xa < Xp
-                            if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
-                                this.player.direction = 45
-                                this.player.keyStates.forward = true;
-                                console.log('frente3')
-                            } else {
-                                this.player.direction = 135
-                                this.player.keyStates.forward = true;
-                                console.log('tras3')
-                            }
-                        }
-                        if (actualPos[1] > this.path[this.pathFloor][this.iteration][1] + 0.5) { // Xa > Xp
-                            if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
-                                this.player.direction = 315
-                                this.player.keyStates.forward = true;
-                                console.log('frente4')
-                            } else {
-                                this.player.direction = 225
-                                this.player.keyStates.forward = true;
-                                console.log('tras4')
-                            }
-                        }
-                        if (actualPos[1] > this.path[this.pathFloor][this.iteration][1] + 0.5) { // Xa > Xp
-                            if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
-                                this.player.direction = 315
-                                this.player.keyStates.forward = true;
-                                console.log('frente4')
-                            } else {
-                                this.player.direction = 225
-                                this.player.keyStates.forward = true;
-                                console.log('tras4')
-                            }
-                        }
-                        */
 
                         if (actualPos[0] != this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya != Yp
                             if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
                                 this.player.direction = 0
                                 this.player.keyStates.forward = true;
-                                console.log('frente5')
                             } else {
                                 this.player.direction = 180
                                 this.player.keyStates.forward = true;
-                                console.log('tras5')
+                            }
+                        }
+
+
+                        if (actualPos[1] != this.path[this.pathFloor][this.iteration][1] + 0.5) { //Xa != Xp
+                            if (actualPos[1] < this.path[this.pathFloor][this.iteration][1] + 0.5) { // Xa < Xp
+                                this.player.direction = 90
+                                this.player.keyStates.forward = true;
+                            } else {
+                                this.player.direction = 270
+                                this.player.keyStates.forward = true;
                             }
                         }
 
@@ -803,41 +771,33 @@ export default class ThumbRaiser {
                         if (actualPos[1] < this.path[this.pathFloor][this.iteration][1] + 0.5) {        // Xa < Xp
                             this.player.direction = 90
                             this.player.keyStates.forward = true;
-                            console.log('direita1')
                         } else {
                             this.player.direction = 270
                             this.player.keyStates.forward = true;
-                            console.log('esquerda1')
                         }
                     } else if (actualPos[1] == this.path[this.pathFloor][this.iteration][1] + 0.5) { //Xa == Xp
                         if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) {        // Ya < Yp
                             this.player.direction = 0
                             this.player.keyStates.forward = true;
-                            console.log('frente1')
                         } else {
                             this.player.direction = 180
                             this.player.keyStates.forward = true;
-                            console.log('tras1')
                         }
                     } else if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) { // Ya < Yp
                         if (actualPos[1] < this.path[this.pathFloor][this.iteration][1] + 0.5) {        // Xa < Xp
                             this.player.direction = 90
                             this.player.keyStates.forward = true;
-                            console.log('direita2')
                         } else {
                             this.player.direction = 270
                             this.player.keyStates.forward = true;
-                            console.log('esquerda2')
                         }
                     } else if (actualPos[1] < this.path[this.pathFloor][this.iteration][1] + 0.5) { //Xa < Xp
                         if (actualPos[0] < this.path[this.pathFloor][this.iteration][0] + 0.5) {        // Ya < Yp
                             this.player.direction = 0
                             this.player.keyStates.forward = true;
-                            console.log('frente2')
                         } else {
                             this.player.direction = 180
                             this.player.keyStates.forward = true;
-                            console.log('tras2')
                         }
                     }
                 }

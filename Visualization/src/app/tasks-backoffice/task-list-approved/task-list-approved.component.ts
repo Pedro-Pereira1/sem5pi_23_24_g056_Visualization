@@ -1,7 +1,9 @@
+import { core } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import ShortestPath from 'src/app/domain/path/ShortestPath';
 import ITaskDTO from 'src/app/domain/task/TaskDTO';
+import { RoomService } from 'src/app/services/room.service';
 import { ShortestPathService } from 'src/app/services/shortest-path.service';
 import { TaskService } from 'src/app/services/task.service';
 
@@ -33,73 +35,74 @@ export class TaskListApprovedComponent {
     let pathToShow = ""
     var index = 0;
     for (let i = 0; i < path.cells.length; i++) {
-      if (path.floorIds.length != 0) {
-        if (path.floorIds.at(index) !== undefined) {
-          pathToShow += "FLOOR " + path.floorIds.at(index)! + " : ";
-        }
-      }
-      pathToShow += "[";
       for (let j = 0; j < path.cells.at(i)!.length; j++) {
         pathToShow += "[" + path.cells[i][j]!.toString() + "]";
         if (j !== path.cells.at(i)!.length - 1) {
           pathToShow += ", ";
         }
       }
-      pathToShow += "]";
-      if (path.accPoints.length != 0) {
-        if (path.accPoints.at(index) !== undefined) {
-          pathToShow += "  --> [" + path.accPoints.at(index)! + "] --> ";
-          index++;
-        }
-      }
+      pathToShow += ";";
     }
     return pathToShow;
   }
 
   private convertPathStringToArray(path: ShortestPath): number[][][] {
     let processedPath: string = this.processPath(path);
-    processedPath = processedPath.slice(1, -1);
-    let coords: string[] = processedPath.split("], [");
-    coords.forEach((coord, index) => {
-      coords[index] = coord.replace("[", "").replace("]", "");
-    })
+    processedPath = processedPath.slice(0, -2);
+    let paths: string[] = []
 
-    let pathArray: number[][][] = [];
-
-    for (const coord of coords) {
-      let coordArray: number[][] = [];
-      let coordArrayString: string[] = coord.split(", ");
-      for (const coordString of coordArrayString) {
-        let coordStringArray: string[] = coordString.split(",");
-        let coordArrayNumber: number[] = coordStringArray.map((coordString) => {
-          return Number(coordString);
-        })
-        coordArray.push(coordArrayNumber);
-      }
-      pathArray.push(coordArray);
+    if (processedPath.includes('];[')) {
+      paths = processedPath.split('];');
+    } else {
+      paths.push(processedPath);
     }
 
-    return pathArray;
+    let coordString: string[][] = [];
+    for (const coords of paths) {
+      let pathString = coords.slice(1);
+      coordString.push(pathString.split('], ['))
+    }
+
+    let pathArray: number[][][] = [];
+    let i = 0
+    for (const coord of coordString) {
+      pathArray[i] = [];
+      for (const aux of coord) {
+        const numbers: string[] = aux.split(',');
+        const x = parseInt(numbers[0]);
+        const y = parseInt(numbers[1]);
+        pathArray[i].push([x, y])
+      }
+      i++
+    }
+    return pathArray
   }
 
   previewPath(pathId: string) {
-    const task = this.tasks.find(task => task.id === pathId)
+    localStorage.removeItem('floorOfBuilding')
+    localStorage.removeItem('initialFloor')
+    localStorage.removeItem('pathArray');
+    localStorage.removeItem('floorIds');
+    localStorage.removeItem('initialFloor');
+    localStorage.removeItem('autoPilot');
+    localStorage.removeItem('initialRoom')
+    localStorage.removeItem('finalRoom')
+
+    const task: ITaskDTO = this.tasks.find(task => task.id === pathId)!
+
     this.shortestPath.getShortestPath(task?.taskPickupRoom!, task?.taskDeliveryRoom!).subscribe(
       (data: ShortestPath) => {
         const pathArray = this.convertPathStringToArray(data);
         const floorIds = data.floorIds;
 
-        localStorage.removeItem('building')
-        localStorage.removeItem('initialFloor')
-        localStorage.removeItem('pathArray');
-        localStorage.removeItem('floorIds');
-        localStorage.removeItem('initialFloor');
-        localStorage.removeItem('autoPilot');
+        if (floorIds.length > 0) {
+          localStorage.setItem('floorIds', JSON.stringify(floorIds));
+          localStorage.setItem('floorOfBuilding', floorIds[0].toString());
+        }
 
-        localStorage.setItem('building', task?.taskBuilding!);
-        localStorage.setItem('initialFloor', task?.taskFloor!.toString()!);
+        localStorage.setItem('initialRoom', task?.taskPickupRoom!);
+        localStorage.setItem('finalRoom', task?.taskDeliveryRoom!);
         localStorage.setItem('pathArray', JSON.stringify(pathArray));
-        localStorage.setItem('floorIds', JSON.stringify(floorIds));
         localStorage.setItem('autoPilot', "true")
 
         this.router.navigate(['/view3d']);
