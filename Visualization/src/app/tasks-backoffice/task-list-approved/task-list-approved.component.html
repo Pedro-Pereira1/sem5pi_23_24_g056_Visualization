@@ -1,1 +1,24 @@
-<p>task-list-approved works!</p>
+<h1>testing</h1>
+
+<div>
+  <table>
+    <thead>
+    <tr class="table100-head">
+      <th class="column1">Id</th>
+      <th class="column2">Start</th>
+      <th class="column3">End</th>
+      <th class="column4"> Path </th>
+      <th class="column5"> Path </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let task of tasks">
+      <td class="column1">{{ task.id }}</td>
+      <td class="column2">{{ task.taskPickupRoom }}</td>
+      <td class="column3">{{ task.taskDeliveryRoom }}</td>
+      <td class="column4">{{ task.taskPath }}</td>
+      <td class="preview"><button (click)="previewPath(task.id)">Preview</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
