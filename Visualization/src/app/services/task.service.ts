@@ -47,4 +47,9 @@ export class TaskService {
     return this.http.patch<boolean>(url, dto)
   }
 
+  listAccepted(): Observable<ITaskDTO[]> {
+    const url = this.tasksUrl + "/" + "listAcceptedTasks";
+    return this.http.get<ITaskDTO[]>(url)
+  }
+
 }
