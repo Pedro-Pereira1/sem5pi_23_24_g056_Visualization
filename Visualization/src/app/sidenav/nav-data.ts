@@ -168,7 +168,7 @@ export const navbarData: INavbarData[] = [
         items: [
             {
                 routerLink: 'tasks-backoffice/requestApproval',
-                label: 'Request Approval'
+                label: 'Execution Sequence'
             },
             {
                 routerLink: 'tasks-backoffice/list/notApproved',
