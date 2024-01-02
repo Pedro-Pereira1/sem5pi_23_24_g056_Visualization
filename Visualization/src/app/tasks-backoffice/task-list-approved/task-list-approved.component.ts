@@ -88,14 +88,16 @@ export class TaskListApprovedComponent {
       (data: ShortestPath) => {
         const pathArray = this.convertPathStringToArray(data);
         const floorIds = data.floorIds;
-        console.log("hello")
 
         localStorage.removeItem('building')
+        localStorage.removeItem('initialFloor')
         localStorage.removeItem('pathArray');
         localStorage.removeItem('floorIds');
+        localStorage.removeItem('initialFloor');
         localStorage.removeItem('autoPilot');
 
         localStorage.setItem('building', task?.taskBuilding!);
+        localStorage.setItem('initialFloor', task?.taskFloor!.toString()!);
         localStorage.setItem('pathArray', JSON.stringify(pathArray));
         localStorage.setItem('floorIds', JSON.stringify(floorIds));
         localStorage.setItem('autoPilot', "true")

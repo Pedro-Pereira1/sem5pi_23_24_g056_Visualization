@@ -49,17 +49,70 @@ export class View3dComponent implements OnDestroy {
 
 	modelName: string = "";
 	modelFile: File | null = null;
+	autopilot: boolean = false;
+	initialX: number = 0;
+	initialY: number = 0;
+	path: number[][][] = [];
+	pathFloors: number[] = [];
 
 	ngOnInit(): void {
 		const role = this.authService.getRoleByToken(this.authService.getToken());
-		if(role == "CampusManager" || role == "FleetManager" || role == "TaskManager"){
-			this.listBuildings();
-		}else{
+		if (role == "CampusManager" || role == "FleetManager" || role == "TaskManager") {
+			if (localStorage.getItem("autoPilot") == "true") {
+
+				this.buildingService.listAll().subscribe((buildings: Building[]) => {
+					this.buildings = buildings
+					this.buildingCode = localStorage.getItem("building")!
+					this.floorId = parseInt(localStorage.getItem("initialFloor")!)
+
+					if (localStorage.getItem("floorsIds") != null) {
+						this.pathFloors = localStorage.getItem("floorsIds")!.split(",").map(Number)
+					}
+
+					this.floorService.listAllFloors(this.buildingCode).subscribe((floors: Floor[]) => {
+						this.floors = floors;
+						this.autopilot = true;
+						let unprocessed = localStorage.getItem("pathArray")!
+
+						unprocessed = unprocessed.slice(2, -2);
+						let coords = unprocessed.split("],[")
+
+						this.path[0] = []
+
+						for (const coord of coords) {
+							let aux = coord.slice(1, -1)
+							let aux2 = aux.split(",")
+							let x = parseInt(aux2[0])
+							let y = parseInt(aux2[1])
+							this.path[0].push([y, x])
+						}
+
+						console.log(this.path)
+						this.initialX = this.path[0][0][1]
+						this.initialY = this.path[0][0][0]
+						console.log(this.floors)
+
+						this.renderCanvas()
+
+						localStorage.removeItem('building')
+						localStorage.removeItem('initialFloor')
+						localStorage.removeItem('pathArray');
+						localStorage.removeItem('floorIds');
+						localStorage.removeItem('initialFloor');
+						localStorage.removeItem('autoPilot');
+					})
+				})
+			} else {
+				this.listBuildings();
+			}
+
+
+		} else {
 			window.alert("You don't have permission to access this page");
 			this.router.navigate(['/home']);
-			return;	
+			return;
 		}
-		
+
 	}
 
 	renderCanvas() {
@@ -71,7 +124,7 @@ export class View3dComponent implements OnDestroy {
 				console.log("No model file found, using default model");
 				this.defaultModel(theFloor!);
 			} else {
-				this.initialize(theFloor!, theModel!,0,0);
+				this.initialize(theFloor!, theModel!, this.initialY, this.initialX);
 				this.animate = this.animate.bind(this);
 				this.animate();
 			}
@@ -82,18 +135,18 @@ export class View3dComponent implements OnDestroy {
 
 	defaultModel(theFloor: Floor) {
 		fetch("../../assets/View3D/models/gltf/RobotExpressive/robot1.glb")
-		.then(res => res.blob())
-		.then(blob => {
-			const file: File = new File([blob], "robot1.glb");
-			this.modelFile = file;
-			this.initialize(theFloor!, file,1,14);
-			this.animate = this.animate.bind(this);
-			this.animate();
-		})
+			.then(res => res.blob())
+			.then(blob => {
+				const file: File = new File([blob], "robot1.glb");
+				this.modelFile = file;
+				this.initialize(theFloor!, file, 1, 14);
+				this.animate = this.animate.bind(this);
+				this.animate();
+			})
 	}
 
 	updateFloorFile(floor: Floor, initialPositionX: Number, initialPositionY: Number): FloorMapRender {
-		if(initialPositionX == null || initialPositionY == null){
+		if (initialPositionX == null || initialPositionY == null) {
 			initialPositionX = 0;
 			initialPositionY = 0;
 		}
@@ -133,8 +186,8 @@ export class View3dComponent implements OnDestroy {
 		return {
 			model: robotModel,
 			eyeHeight: 0.8,
-			scale: new  THREE.Vector3(0.1, 0.1, 0.1),
-			walkingSpeed: 3,
+			scale: new THREE.Vector3(0.1, 0.1, 0.1),
+			walkingSpeed: 1,
 			initialDirection: 0.0,
 			turningSpeed: 75.0,
 			runningFactor: 2.0,
@@ -142,16 +195,16 @@ export class View3dComponent implements OnDestroy {
 		} as RobotModel
 	}
 
-	initialize(floor: Floor, modelFile: File,initialPositionX: Number, initialPositionY: Number) {
+	initialize(floor: Floor, modelFile: File, initialPositionX: Number, initialPositionY: Number) {
 		// Create the game
 		this.currentFloor = floor.floorNumber;
 		this.thumbRaiser = new ThumbRaiser(
-			{buildingCode: this.buildingCode, floorId: this.floorId, floor: floor},
+			{ buildingCode: this.buildingCode, floorId: this.floorId, floor: floor },
 			this.passagewayService,
 			this.elevatorService,
 			this.canvas, // Canvas
 			{}, // General Parameters
-			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor,initialPositionX,initialPositionY), elevatorDoorData: floor.floorMap.elevatorsCoords }, // Maze parameters
+			{ scale: new THREE.Vector3(1.0, 0.5, 1.0), mazeData: this.updateFloorFile(floor, initialPositionX, initialPositionY), elevatorDoorData: floor.floorMap.elevatorsCoords }, // Maze parameters
 			{ model: this.prepareModel(modelFile) }, // Player parameters
 			{ ambientLight: { intensity: 0.1 }, pointLight1: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(-3.5, 10.0, 2.5) }, pointLight2: { intensity: 50.0, distance: 20.0, position: new THREE.Vector3(3.5, 10.0, -2.5) } }, // Lights parameters
 			{}, // Fog parameters
@@ -160,7 +213,7 @@ export class View3dComponent implements OnDestroy {
 			{ view: "third-person", multipleViewsViewport: new THREE.Vector4(0.0, 0.0, 0.55, 0.5), initialOrientation: new Orientation(0.0, -20.0), initialDistance: 2.0, distanceMin: 1.0, distanceMax: 4.0 }, // Third-person view camera parameters
 			{ view: "top", multipleViewsViewport: new THREE.Vector4(1.0, 0.0, 0.45, 0.5), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0 }, // Top view camera parameters
 			{ view: "mini-map", multipleViewsViewport: new THREE.Vector4(0.99, 0.02, 0.3, 0.3), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.64 }, // Mini-msp view camera parameters
-			false,
+			this.autopilot,
 			this.path,
 			this.floors,
 			this.pathFloors
@@ -203,13 +256,13 @@ export class View3dComponent implements OnDestroy {
 	@HostListener('window:newFloorMap', ['$event'])
 	onNewFloorMap(event: CustomEvent) {
 		let building = this.findBuildingCode(event.detail.floor) as Building;
-		if(building.buildingCode != this.buildingCode){
+		if (building.buildingCode != this.buildingCode) {
 			this.buildingCode = building.buildingCode as string;
 			this.listFloors(this.buildingCode);
 		}
-		
+
 		this.floorId = event.detail.floor.floorId;
-		this.initialize(event.detail.floor,this.modelFile!,event.detail.initialPosition[0],event.detail.initialPosition[1]);
+		this.initialize(event.detail.floor, this.modelFile!, event.detail.initialPosition[0], event.detail.initialPosition[1]);
 		this.animate = this.animate.bind(this);
 		this.animate();
 	}
@@ -220,55 +273,55 @@ export class View3dComponent implements OnDestroy {
 	}
 
 	clickElevatorButton(floor: Floor) {
-		if(floor.floorNumber != this.currentFloor){
+		if (floor.floorNumber != this.currentFloor) {
 			console.log(`Button ${floor.floorNumber} was clicked. -> ${floor.floorId}`);
 			this.currentFloor = floor.floorNumber;
 			this.thumbRaiser.useElevator(this.elevatorID, floor);
-		}else{
+		} else {
 			window.alert("You are already on this floor");
 		}
 	}
 
 	findBuildingCode(floor: Floor) {
-		for(let building of this.buildings){
-			if(building.buildingFloors.includes(floor.floorId)){
+		for (let building of this.buildings) {
+			if (building.buildingFloors.includes(floor.floorId)) {
 				return building;
 			}
 		}
 		return null;
 	}
-	
-	path = [
-		[					// floor 0
-			//[0,0],
-			//[2,2]
-			[2,14],
-			[3,15],
-			[2,16],
-			[2,17],
-			[2,18],
-			[1,18],
-			[0,18],
-		],
-		[
-			[1,18],
-			//[2,18],
-			//[1,18],
-			//[0,18]
-			[2,17],
-			[3,18],
-			[4,19],
-		],
-		//[
-		//	[0,18],
-		//	[1,18]
-		//]
-	]
 
-	pathFloors = [
-		2,
-		1
-	]
+	//path = [
+	//	[					// floor 0
+	//		//[0,0],
+	//		//[2,2]
+	//		[2,14],
+	//		[3,15],
+	//		[2,16],
+	//		[2,17],
+	//		[2,18],
+	//		[1,18],
+	//		[0,18],
+	//	],
+	//	[
+	//		[1,18],
+	//		//[2,18],
+	//		//[1,18],
+	//		//[0,18]
+	//		[2,17],
+	//		[3,18],
+	//		[4,19],
+	//	],
+	//	//[
+	//	//	[0,18],
+	//	//	[1,18]
+	//	//]
+	//]
+	//
+	//	pathFloors = [
+	//		2,
+	//		1
+	//	]
 
 	//path = [
 	//	[					// floor 1
@@ -285,59 +338,59 @@ export class View3dComponent implements OnDestroy {
 	//]
 
 	//[
-    //            14,
-    //            1
-    //        ],
-    //        [
-    //            14,
-    //            2
-    //        ],
-    //        [
-    //            15,
-    //            3
-    //        ],
-    //        [
-    //            16,
-    //            2
-    //        ],
-    //        [
-    //            17,
-    //            2
-    //        ],
-    //        [
-    //            18,
-    //            1
-    //        ],
-    //        [
-    //            18,
-    //            0
-    //        ]
-    //    ],
-    //    [
-    //        [
-    //            18,
-    //            0
-    //        ],
-    //        [
-    //            18,
-    //            1
-    //        ],
-    //        [
-    //            17,
-    //            2
-    //        ],
-    //        [
-    //            18,
-    //            3
-    //        ],
-    //        [
-    //            19,
-    //            4
-    //        ]
-    //    ],
-    //    [
-    //        [
-    //            0,
+	//            14,
+	//            1
+	//        ],
+	//        [
+	//            14,
+	//            2
+	//        ],
+	//        [
+	//            15,
+	//            3
+	//        ],
+	//        [
+	//            16,
+	//            2
+	//        ],
+	//        [
+	//            17,
+	//            2
+	//        ],
+	//        [
+	//            18,
+	//            1
+	//        ],
+	//        [
+	//            18,
+	//            0
+	//        ]
+	//    ],
+	//    [
+	//        [
+	//            18,
+	//            0
+	//        ],
+	//        [
+	//            18,
+	//            1
+	//        ],
+	//        [
+	//            17,
+	//            2
+	//        ],
+	//        [
+	//            18,
+	//            3
+	//        ],
+	//        [
+	//            19,
+	//            4
+	//        ]
+	//    ],
+	//    [
+	//        [
+	//            0,
 	//          5
 	//      ],
 	//      [
